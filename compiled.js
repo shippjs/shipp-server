@@ -21,7 +21,6 @@ module.exports = function(options) {
   Utils.eachFile(options.path, options, function(file) {
 
     var ext      = file.ext.replace(/^\./, ""),
-        isBundle = (options.bundleFolders && Utils.isIndexFile(file)),
         compiler = compilers(ext),
         bundler,
         compile;
@@ -33,7 +32,7 @@ module.exports = function(options) {
     if (-1 === exts.indexOf(ext)) exts.push(ext);
 
     // Begin watching bundle if necessary
-    if (isBundle) {
+    if (file.bundle) {
       file.folder = "";
       file.name = file.dir.replace(Utils.makePathAbsolute(options.path), "").slice(1);
       bundler = new Bundler({
