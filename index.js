@@ -5,9 +5,6 @@
 
 */
 
-// Set up globals
-require("./server/globals")();
-
 module.exports = function() {
 
   var server = require("./server/main");
