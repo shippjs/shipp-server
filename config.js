@@ -7,7 +7,7 @@
 
 var assign = require("lodash/assign"),
     Utils  = require("./utils"),
-    fs     = require("fs");
+    config = require(Utils.makePathAbsolute("sneakers.config.js"));
 
 
 // Things like extensions and mime types should be automated
@@ -30,13 +30,6 @@ var defaults = {
 
 
 module.exports = function() {
-
-  // Eventually defaults go here!
-  var config = {};
-
-  try {
-    config = JSON.parse(fs.readFileSync(Utils.makePathAbsolute("sneakers.json"), "utf8"));
-  } catch (err) {}
 
   // Copy defaults and attach to globals
   config = assign(defaults, config);
