@@ -7,7 +7,7 @@
 
 module.exports = function() {
 
-  var server = require("./server/main");
+  var server = require("./server");
 
   // Start the server
   server();
