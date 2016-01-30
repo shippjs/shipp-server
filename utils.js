@@ -105,7 +105,7 @@ Utils.eachFile = function(p, options, fn) {
         }
       }
 
-    // Remove files in subdirectorie of indices
+    // Remove files in subdirectories of indices
     i = files.length;
     while (i-- > 0)
       for (var j = 0, n = indices.length; j < n; j++)
@@ -113,6 +113,9 @@ Utils.eachFile = function(p, options, fn) {
           files.splice(i, 1);
           break;
         }
+
+    // Denote indices as bundles
+    indices.forEach(function(file) { file.bundle = true });
 
     // Rejoin indices back into files
     files = files.concat(indices);
