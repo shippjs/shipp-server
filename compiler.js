@@ -13,11 +13,6 @@ var _         = require("lodash"),
     Motors    = global.engines;
 
 
-// !!! WHAT IF EXTENSION DOESN'T EXIST
-function addEngine(ext, chain) {
-  if (!Motors.hasEngine(ext)) Motors.addEngine(ext, chain);
-}
-
 
 function makeDataQuery(queries, context) {
 
@@ -55,7 +50,7 @@ function addFile(router, route, file, type, basePath) {
         metadata = {};
 
     // Add to list of extensions if not present
-    addEngine(ext);
+    if (!Motors.hasEngine(ext)) Motors.addEngine(ext);
 
     // Extract metadata
     metadata = ("html" === type) ? Metadata.extract(Utils.readFileHead(file.path, 500)) : {};
