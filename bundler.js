@@ -7,12 +7,7 @@
 
 var utils       = require("./utils"),
     path        = require("path"),
-    webpack     = require("webpack"),
-    superloader = require("superloader");
-
-
-// Set install directory to relative to execution path
-superloader.engines.dir = process.cwd();
+    webpack     = require("webpack");
 
 
 function Bundler(options) {
