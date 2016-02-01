@@ -46,21 +46,12 @@ function makeDataQuery(queries, context) {
 }
 
 
-function getType(type) {
-  if ("js" === type)
-    return "application/javascript";
-  else if ("css" === type)
-    return "text/css";
-  return "text/html";
-}
-
 function addFile(router, route, file, type, basePath) {
 
     var ext = file.ext.replace(/^\./, ""),
         handler,
         compiler,
         fetcher,
-        mimeType = getType(type),
         metadata = {};
 
     // Add to list of extensions if not present
@@ -103,7 +94,7 @@ function addFile(router, route, file, type, basePath) {
         if (err) return res.sendStatus(500);
         compiler(data, function(err, compiled) {
           if (err) return res.sendStatus(500);
-          res.type(mimeType).send(compiled);
+          res.type(type).send(compiled);
         });
       });
     };
