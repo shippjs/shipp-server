@@ -15,30 +15,13 @@ var _           = require("lodash"),
     compileFile = _.curry(_.bind(Motors.compileFile, Motors));
 
 
+function createDataQuery(queries) {
+  return function(context) {
+    data = (queries) ? global.db.queries(queries, context) : {};
+    return Promise.resolve(_.assign({}, global.vars, context, data));
+  }
+}
 
-function makeDataQuery(queries, context) {
-
-  if (queries) {
-
-    var key,
-        keys = _.keys(context),
-        re   = new RegExp("<(" + keys.join("|") + ")>", "gi"),
-        match;
-
-    queries = _.cloneDeep(queries);
-
-    queries.forEach(function(query) {
-      for (key in query.filters || {}) {
-        if (_.isString(query.filters[key]) && (match = query.filters[key].match(re))) {
-          match = match[0];
-          query.filters[key] = query.filters[key].replace(new RegExp(match, "g"), context[match.slice(1, match.length-1)]);
-        }
-      }
-    });
-
-    return function() { return global.db.queries(queries); }
-  } else
-    return _.constant({});
 
 function sequence(tasks, initial) {
   return Promise.reduce(tasks || [], function(val, task) {
@@ -59,7 +42,7 @@ function addFile(router, route, file, type, basePath) {
     // Extract metadata
     if ("html" === type) {
       metadata = Metadata.extract(Utils.readFileHead(file.path, 500));
-      tasks.push(makeDataQuery(metadata.data));
+      tasks.push(createDataQuery(metadata.data));
     }
 
     // File compilation function
