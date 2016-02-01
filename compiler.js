@@ -5,13 +5,14 @@
 
 */
 
-    Motors    = global.engines;
 var _           = require("lodash"),
     Utils       = require("./utils"),
     Bundler     = require("./bundler"),
     Promise     = require("bluebird"),
     express     = require("express"),
     Metadata    = require("./metadata"),
+    Motors      = global.engines,
+    compileFile = _.curry(_.bind(Motors.compileFile, Motors));
 
 
 
