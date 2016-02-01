@@ -47,6 +47,8 @@ var Bundler = module.exports = function(options) {
 
   // Bind functions
   this.get = _.bind(this.get, this);
+  this.compile = Promise.promisify(_.bind(this.bundler.run, this.bundler));
+
   // Optionally compile
   if (options.compile) this.compile();
 
@@ -68,12 +70,6 @@ Bundler.fromFile = function(file, type) {
   return new Bundler({ entry : file.path, filename : file.name + "." + type });
 }
 
-
-Bundler.prototype.compile = function(next) {
-  next = next || function() {};
-  this.bundler.run(next);
-  return this;
-}
 
 Bundler.prototype.get = function() {
   return readFile(this.path, "utf8");
