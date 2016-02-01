@@ -10,8 +10,7 @@ var _         = require("lodash"),
     Bundler   = require("./bundler"),
     express   = require("express"),
     Metadata  = require("./metadata"),
-    Motors    = require("superloader").engines;   // !!! CHANGE THIS TO GLOBAL WHEN AVAILABLE
-
+    Motors    = global.engines;
 
 
 // !!! WHAT IF EXTENSION DOESN'T EXIST
@@ -121,11 +120,6 @@ module.exports = function(options) {
 
   var router = express(),
       files = Utils.mapFiles(options.path, options);
-
-  // !!! REMOVE THIS LATER
-  _.each(global.engines, function(val, key) {
-    addEngine(key, val);
-  });
 
   // !!! CHANGE options.url to options.route
   files.forEach(function(file) { addFile(router, options.url, file, options.ext, options.path) });
