@@ -14,33 +14,21 @@ var Utils       = require("./utils"),
 
 var Bundler = module.exports = function(options) {
 
-  var self = this;
-
-  options = options || {};
-  options.compile = ("undefined" === typeof options.compile) ? true: options.compile;
-  options.watch = ("undefined" === typeof options.watch) ? true: options.watch;
+  // Set up defaults
+  options = Object.assign({ compile: true, watch : true, path : "/scripts/" }, options);
 
   // Configure
   this.config = {
-    entry: options.entry,
-    output: {
-      path: options.path || "/scripts/",
-      filename: options.filename,
-    },
-    module: {
-      loaders: [
-       { test: /.+/, loader: "superloader" }
-      ]
-    },
-    resolve: {
-      extensions: ["", ".coffee", ".js"]
-    }
+    entry     : options.entry,
+    output    : { path : options.path, filename : options.filename },
+    module    : { loaders : [ { test: /.+/, loader: "superloader" } ] },
+    resolve   : { extensions: ["", ".coffee", ".js"] }
   };
 
   // Store path
   this.path = path.join(this.config.output.path, options.filename);
 
-  // Set up bundler
+  // Set up bundler with in-memory file sysstem
   this.bundler = webpack(this.config);
   this.bundler.outputFileSystem = global.fs;
 
@@ -53,11 +41,8 @@ var Bundler = module.exports = function(options) {
 
   // Set up watch (it already updates)
   if (options.watch) this.bundler.watch({}, function(err, stats) {
-    global.server.reload(self.path);
-  });
-
-
-  return this;
+    global.server.reload(this.path);
+  }.bind(this));
 
 }
 
