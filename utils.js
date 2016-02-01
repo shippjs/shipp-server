@@ -119,8 +119,11 @@ Utils.mapFiles = function(p, options) {
 
 
   files.forEach(function(file) {
-    file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
-    if (!options.filter || options.filter.indexOf(file.ext) > -1) results.push(file);
+    if (!options.filter || options.filter.indexOf(file.ext) > -1) {
+      file.basePath = p;
+      file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
+      results.push(file);
+    }
   });
 
   return results;
