@@ -13,9 +13,8 @@ module.exports = function() {
       server   = express(),
       cookies  = require("cookie-parser"),
       sessions = require("express-session"),
-      compiled = require("./compiled"),
-      statics  = require("./statics"),
-      views    = require("./views");
+      compiler = require("./compiler"),
+      statics  = require("./statics");
 
   // Set up sensible logging defaults, etc.
   server.use(cookies());
@@ -27,11 +26,11 @@ module.exports = function() {
   }
 
   // Add routers
-  server.use(require("./views.js")());
+  iterateMiddleware(global.config.views, compiler);
 
-  // Add compiled
-  iterateMiddleware(global.config.styles, compiled);
-  iterateMiddleware(global.config.scripts, compiled);
+  // Add compile
+  iterateMiddleware(global.config.styles, compiler);
+  iterateMiddleware(global.config.scripts, compiler);
 
   // Add statics
   iterateMiddleware(global.config.fonts, statics);
