@@ -68,7 +68,7 @@ function addFile(router, route, file, type, basePath) {
     }
 
     // Add routes to router
-    Utils.makeRoutes(route, file, { type : type, query : metadata.query, bundle : file.bundle }).forEach(function(r) {
+    Utils.makeRoutes(route, file, { type : type, query : metadata.query }).forEach(function(r) {
       router.get(r, handler);
     });
 
