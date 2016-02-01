@@ -57,6 +57,8 @@ Utils.isIndexFile = function(file) {
 
   function mapFiles
 
+  Note that we remove leading "." from file extension
+
 */
 
 Utils.mapFiles = function(p, options) {
@@ -120,6 +122,7 @@ Utils.mapFiles = function(p, options) {
 
   files.forEach(function(file) {
     if (!options.filter || options.filter.indexOf(file.ext) > -1) {
+      file.ext = file.ext.replace(/^\./, "");
       file.basePath = p;
       file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
       results.push(file);
