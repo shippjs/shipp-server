@@ -38,9 +38,6 @@ module.exports = function() {
   // Copy defaults and attach to globals
   config = assign(defaults, config);
 
-  // Store engines
-  global.engines = config.engines || {};
-
   // Store global variables
   global.vars = config.globals || {};
   if (/^prod/.test(process.env.NODE_ENV))
