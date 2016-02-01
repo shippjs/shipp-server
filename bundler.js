@@ -7,8 +7,10 @@
 
 var utils       = require("./utils"),
     _           = require("lodash"),
+    Promise     = require("bluebird"),
     path        = require("path"),
-    webpack     = require("webpack");
+    webpack     = require("webpack"),
+    readFile    = Promise.promisify(_.bind(global.fs.readFile, global.fs));
 
 
 var Bundler = module.exports = function(options) {
@@ -73,8 +75,6 @@ Bundler.prototype.compile = function(next) {
   return this;
 }
 
-
-Bundler.prototype.get = function(next) {
-  next = next || function() {};
-  global.fs.readFile(this.path, "utf8", next);
+Bundler.prototype.get = function() {
+  return readFile(this.path, "utf8");
 }
