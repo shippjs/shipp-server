@@ -5,8 +5,7 @@
 
 */
 
-var _           = require("lodash"),
-    Bundler     = require("./bundler"),
+var Bundler     = require("./bundler"),
     express     = require("express"),
     Metadata    = require("./metadata"),
     Motors      = global.engines,
@@ -17,7 +16,7 @@ var _           = require("lodash"),
 function createDataQuery(queries) {
   return function(context) {
     data = (queries) ? global.db.queries(queries, context) : {};
-    return Promise.resolve(_.assign({}, global.vars, context, data));
+    return Promise.resolve(Object.assign({}, global.vars, context, data));
   }
 }
 
