@@ -20,12 +20,13 @@ var defaults = {
   ],
   scripts: [
     { path : "./scripts", url : "/scripts", ext : "js", bundleFolders : true },
-    { path : "./vendor",  url : "/vendor",  ext : "js", bundleFolders : true }
   ],
   styles: [
     { path : "./styles",  url : "/styles",  ext : "css" }
   ],
-  statics: []
+  statics: [
+    { path : "./vendor",  url : "/vendor" }
+  ]
 };
 
 
