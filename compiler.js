@@ -50,55 +50,41 @@ function sequence(tasks, initial) {
 function addFile(router, route, file, type, basePath) {
 
     var ext = file.ext.replace(/^\./, ""),
-        handler,
-        compiler,
-        fetcher,
+        tasks = [],
         metadata = {};
 
     // Add to list of extensions if not present
     if (!Motors.hasEngine(ext)) Motors.addEngine(ext);
 
     // Extract metadata
-    metadata = ("html" === type) ? Metadata.extract(Utils.readFileHead(file.path, 500)) : {};
-
-    // Data fetching function
     if ("html" === type) {
-      fetcher = function(context, next) {
-        next(null, _.assign({}, global.vars, context, makeDataQuery(metadata.data, context)()));
-      };
-    } else
-      fetcher = function(context, next) { next(null, {}) };
+      metadata = Metadata.extract(Utils.readFileHead(file.path, 500));
+      tasks.push(makeDataQuery(metadata.data));
+    }
 
     // File compilation function
-    if (file.bundle) {
-      file.folder = "";
-      file.name = file.dir.replace(Utils.makePathAbsolute(basePath), "").slice(1);
-      bundler = new Bundler({ entry : file.path, filename : file.name + "." + type });
-      compiler = function(data, next) { return bundler.get(next); }
-    } else
-      compiler = function(data, next) { Motors.compileFile(file.path, data, next); };
-
-    /*
-    // Set cookies
-    for (var key in metadata.cookies || {})
-      res.cookie(key, metadata.cookies[key]);
-
-    // Set session
-    for (var key in metadata.session || {})
-      req.session[key] = metadata.session[key];
-    */
+    if (file.bundle)
+      tasks.push(Bundler.fromFile(file, type).get);
+    else
+      tasks.push(Promise.promisify(compileFile(file.path)));
 
     // Route handling function
-    handler = function(req, res) {
-      var context = _.assign({}, req.params);
-      fetcher(context, function(err, data) {
-        if (err) return res.sendStatus(500);
-        compiler(data, function(err, compiled) {
-          if (err) return res.sendStatus(500);
-          res.type(type).send(compiled);
-        });
-      });
-    };
+    function handler(req, res) {
+
+      // Set cookies
+      for (var key in metadata.cookies || {})
+        res.cookie(key, metadata.cookies[key]);
+
+      // Set session
+      for (var key in metadata.session || {})
+        req.session[key] = metadata.session[key];
+
+      sequence(tasks, req.params)
+      .bind(res)
+      .then(res.type(type).send)
+      .catch(function(err) { console.log(err); res.sendStatus(500); });
+
+    }
 
     // Add routes to router
     Utils.makeRoutes(route, file, { type : type, query : metadata.query, bundle : file.bundle }).forEach(function(r) {
