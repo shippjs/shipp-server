@@ -40,6 +40,10 @@ function makeDataQuery(queries, context) {
   } else
     return _.constant({});
 
+function sequence(tasks, initial) {
+  return Promise.reduce(tasks || [], function(val, task) {
+    return task(val);
+  }, initial);
 }
 
 
