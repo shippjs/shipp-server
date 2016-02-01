@@ -10,7 +10,7 @@ var utils       = require("./utils"),
     webpack     = require("webpack");
 
 
-function Bundler(options) {
+var Bundler = module.exports = function(options) {
 
   var self = this;
 
@@ -50,6 +50,7 @@ function Bundler(options) {
     global.server.reload(self.path);
   });
 
+
   return this;
 
 }
@@ -74,6 +75,3 @@ Bundler.prototype.get = function(next) {
   next = next || function() {};
   global.fs.readFile(this.path, "utf8", next);
 }
-
-
-module.exports = Bundler;
