@@ -25,10 +25,15 @@ var Bundler = module.exports = function(options) {
 
   // Configure
   this.config = {
-    entry     : options.entry,
-    output    : { path : options.path, filename : options.filename },
-    module    : { loaders : [ { test: /.+/, loader: "superloader" } ] },
-    resolve   : { extensions: ["", ".coffee", ".js"] }
+    entry      : options.entry,
+    output     : {
+      path     : options.path,
+      filename : options.filename
+    },
+    module     : {
+      loaders  : [ { test: /.+/, loader: "superloader" } ]
+    },
+    resolve    : { extensions: exts }
   };
 
   // Store path
