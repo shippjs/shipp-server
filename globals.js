@@ -27,4 +27,12 @@ module.exports = (function() {
   // Server
   global.server = require("browser-sync").create();
 
+  // Engines
+  global.engines = require("superloader").engines;
+  global.engines.dir = process.cwd();
+
+  // Add engines in config
+  for (var ext in global.config.engines)
+    global.engines.addEngine(ext, global.config.engines[ext]);
+
 });
