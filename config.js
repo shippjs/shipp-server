@@ -12,22 +12,22 @@ var Utils  = require("./utils"),
 // Things like extensions and mime types should be automated
 var defaults = {
   fonts: [
-    { path : "./fonts",   route : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] }
+    { path : "./fonts",   url : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] }
   ],
   images: [
-    { path : "./images",  route : "/images"  }
+    { path : "./images",  url : "/images"  }
   ],
   scripts: [
-    { path : "./scripts", route : "/scripts", ext : "js", bundleFolders : true },
+    { path : "./scripts", url : "/scripts", ext : "js", bundleFolders : true },
   ],
   styles: [
-    { path : "./styles",  route : "/styles",  ext : "css" }
+    { path : "./styles",  url : "/styles",  ext : "css" }
   ],
   statics: [
-    { path : "./vendor",  route : "/vendor" }
+    { path : "./vendor",  url : "/vendor" }
   ],
   views: [
-    { path : "./views", route : "/", ext : "html" }
+    { path : "./views",   url : "/", ext : "html" }
   ]
 };
 

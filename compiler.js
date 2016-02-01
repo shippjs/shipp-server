@@ -80,7 +80,7 @@ module.exports = function(options) {
       exts   = {};
 
   files.forEach(function(file) {
-    addFile(router, options.route, file, options.ext);
+    addFile(router, options.url, file, options.ext);
     if (!exts[file.ext]) exts[file.ext] = Utils.watch(options.path, file.ext, options.ext);
   });
 
