@@ -55,6 +55,14 @@ function Bundler(options) {
 }
 
 
+// Modifies file
+Bundler.fromFile = function(file, type) {
+  file.folder = "";
+  file.name = file.dir.replace(utils.makePathAbsolute(file.basePath), "").slice(1);
+  return new Bundler({ entry : file.path, filename : file.name + "." + type });
+}
+
+
 Bundler.prototype.compile = function(next) {
   next = next || function() {};
   this.bundler.run(next);
