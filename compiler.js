@@ -31,12 +31,11 @@ function sequence(tasks, initial) {
 
 function addFile(router, route, file, type, basePath) {
 
-    var ext = file.ext.replace(/^\./, ""),
-        tasks = [],
+    var tasks = [],
         metadata = {};
 
     // Add to list of extensions if not present
-    if (!Motors.hasEngine(ext)) Motors.addEngine(ext);
+    if (!Motors.hasEngine(file.ext)) Motors.addEngine(file.ext);
 
     // Extract metadata
     if ("html" === type) {
