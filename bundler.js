@@ -6,6 +6,7 @@
 */
 
 var utils       = require("./utils"),
+    _           = require("lodash"),
     path        = require("path"),
     webpack     = require("webpack");
 
@@ -42,6 +43,8 @@ var Bundler = module.exports = function(options) {
   this.bundler = webpack(this.config);
   this.bundler.outputFileSystem = global.fs;
 
+  // Bind functions
+  this.get = _.bind(this.get, this);
   // Optionally compile
   if (options.compile) this.compile();
 
