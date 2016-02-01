@@ -69,12 +69,12 @@ module.exports = function(options) {
       val;
 
   // Set defaults
-  options = _.extend({ path : "./data", url : "/" }, options);
+  options = _.extend({ path : "./data", route : "/" }, options);
 
   Utils.mapFiles(options.path).forEach(function(file) {
 
     var json = JSON.parse(fs.readFileSync(file.path, "utf8")),
-        slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0]
+        slug = Utils.makeRoutes(options.route, { folder : file.folder, name : "" })[0]
 
     // If array, use file name as key. Otherwise, parse keys
     if (Array.isArray(json)) {

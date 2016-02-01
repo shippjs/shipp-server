@@ -13,22 +13,22 @@ var assign = require("lodash/assign"),
 // Things like extensions and mime types should be automated
 var defaults = {
   fonts: [
-    { path : "./fonts",   url : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] }
+    { path : "./fonts",   route : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] }
   ],
   images: [
-    { path : "./images",  url : "/images"  }
+    { path : "./images",  route : "/images"  }
   ],
   scripts: [
-    { path : "./scripts", url : "/scripts", ext : "js", bundleFolders : true },
+    { path : "./scripts", route : "/scripts", ext : "js", bundleFolders : true },
   ],
   styles: [
-    { path : "./styles",  url : "/styles",  ext : "css" }
+    { path : "./styles",  route : "/styles",  ext : "css" }
   ],
   statics: [
-    { path : "./vendor",  url : "/vendor" }
+    { path : "./vendor",  route : "/vendor" }
   ],
   views: [
-    { path : "./views", url : "/", ext : "html" }
+    { path : "./views", route : "/", ext : "html" }
   ]
 };
 

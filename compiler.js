@@ -107,8 +107,7 @@ module.exports = function(options) {
   var router = express(),
       files = Utils.mapFiles(options.path, options);
 
-  // !!! CHANGE options.url to options.route
-  files.forEach(function(file) { addFile(router, options.url, file, options.ext, options.path) });
+  files.forEach(function(file) { addFile(router, options.route, file, options.ext, options.path) });
 
   // Set up Browsersync
   _(files).filter(function(x) { return !x.bundle }).forEach(function(file) {
