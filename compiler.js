@@ -6,12 +6,12 @@
 */
 
 var _           = require("lodash"),
-    Utils       = require("./utils"),
     Bundler     = require("./bundler"),
-    Promise     = require("bluebird"),
     express     = require("express"),
     Metadata    = require("./metadata"),
-    Motors      = global.engines;
+    Motors      = global.engines,
+    Promise     = require("bluebird"),
+    Utils       = require("./utils");
 
 
 function createDataQuery(queries) {
