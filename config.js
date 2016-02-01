@@ -5,8 +5,7 @@
 
 */
 
-var assign = require("lodash/assign"),
-    Utils  = require("./utils"),
+var Utils  = require("./utils"),
     config = require(Utils.makePathAbsolute("sneakers.config.js"));
 
 
@@ -36,12 +35,12 @@ var defaults = {
 module.exports = function() {
 
   // Copy defaults and attach to globals
-  config = assign(defaults, config);
+  config = Object.assign(defaults, config);
 
   // Store global variables
   global.vars = config.globals || {};
   if (/^prod/.test(process.env.NODE_ENV))
-    global.vars = assign(global.vars, config["globals:production"] || {});
+    global.vars = Object.assign(global.vars, config["globals:production"] || {});
 
   return config;
 
