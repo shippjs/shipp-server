@@ -62,8 +62,7 @@ function addFile(router, route, file, type, basePath) {
         req.session[key] = metadata.session[key];
 
       sequence(tasks, req.params)
-      .bind(res)
-      .then(res.type(type).send)
+      .then(res.type(type).send.bind(res))
       .catch(function(err) { console.log(err); res.sendStatus(500); });
 
     }
