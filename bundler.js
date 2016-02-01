@@ -5,9 +5,14 @@
 
 */
 
-var utils    = require("./utils"),
-    path     = require("path"),
-    webpack  = require("webpack");
+var utils       = require("./utils"),
+    path        = require("path"),
+    webpack     = require("webpack"),
+    superloader = require("superloader");
+
+
+// Set install directory to relative to execution path
+superloader.engines.dir = process.cwd();
 
 
 function Bundler(options) {
@@ -27,7 +32,7 @@ function Bundler(options) {
     },
     module: {
       loaders: [
-       { test: /\.coffee$/, loader: "coffee-loader" },
+       { test: /.+/, loader: "superloader" }
       ]
     },
     resolve: {
