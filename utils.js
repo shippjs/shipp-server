@@ -55,19 +55,14 @@ Utils.isIndexFile = function(file) {
 
 /*
 
-  function eachFile
+  function mapFiles
 
 */
 
-Utils.eachFile = function(p, options, fn) {
+Utils.mapFiles = function(p, options) {
 
-  var files, i, indices;
-
-  // Allow polymorphism
-  if ("function" == typeof options) {
-    fn = options;
-    options = {};
-  }
+  var files, i, indices, results = [];
+  options = options || {};
 
   // Make path absolute before call (for comparison after)
   p = Utils.makePathAbsolute(p);
@@ -122,12 +117,16 @@ Utils.eachFile = function(p, options, fn) {
 
   }
 
+
   files.forEach(function(file) {
     file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
-    if (!options.filter || options.filter.indexOf(file.ext) > -1) fn(file);
+    if (!options.filter || options.filter.indexOf(file.ext) > -1) results.push(file);
   });
 
+  return results;
+
 }
+
 
 
 
