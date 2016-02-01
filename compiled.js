@@ -8,8 +8,8 @@
 var Utils     = require("./utils"),
     fs        = require("fs"),
     Bundler   = require("./bundler"),
-    compilers = require("./compilers"),
-    express   = require("express");
+    express   = require("express"),
+    Motors    = require("superloader").engines;
 
 
 module.exports = function(options) {
@@ -20,13 +20,9 @@ module.exports = function(options) {
   // Walk through each file
   Utils.eachFile(options.path, options, function(file) {
 
-    var ext      = file.ext.replace(/^\./, ""),
-        compiler = compilers(ext),
+    var ext = file.ext.replace(/^\./, ""),
         bundler,
         compile;
-
-    // Error message
-    if (!compiler || !compiler.isOk()) console.log("Warning: Package missing to compile", ext, "files. Make sure to `npm install` it.");
 
     // Add to list of extensions if not present
     if (-1 === exts.indexOf(ext)) exts.push(ext);
@@ -41,7 +37,7 @@ module.exports = function(options) {
       });
       compile = function(next) { return bundler.get(next); }
     } else {
-      compile = function(next) { return compiler.compile(fs.readFileSync(file.path, "utf8"), next); };
+      compile = function(next) { return Motors.compileFile(file.path, {}, next); };
     }
 
     router.get(Utils.makeUrls(options.url, file, options.ext)[0], function(req, res) {
@@ -53,7 +49,8 @@ module.exports = function(options) {
   });
 
   // Set up Browsersync
-  Object.keys(exts).forEach(function(ext) {
+  exts.forEach(function(ext) {
+    if (!Motors.hasEngine(ext)) Motors.addEngine(ext);
     Utils.watch(options.path, ext, options.ext);
   });
 
