@@ -77,15 +77,12 @@ function addFile(router, route, file, type, basePath) {
 module.exports = function(options) {
 
   var router = express(),
-      files = Utils.mapFiles(options.path, options);
+      files  = Utils.mapFiles(options.path, options),
+      exts   = {};
 
-  files.forEach(function(file) { addFile(router, options.route, file, options.ext) });
-
-  // Set up Browsersync
-  _(files).filter(function(x) { return !x.bundle }).forEach(function(file) {
-    var ext = file.ext.replace(/^\./, "");
-    if (!Motors.hasEngine(ext)) Motors.addEngine(ext);
-    Utils.watch(options.path, ext, options.ext);
+  files.forEach(function(file) {
+    addFile(router, options.route, file, options.ext);
+    if (!exts[file.ext]) exts[file.ext] = Utils.watch(options.path, file.ext, options.ext);
   });
 
   return router;
