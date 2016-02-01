@@ -11,8 +11,7 @@ var _           = require("lodash"),
     Promise     = require("bluebird"),
     express     = require("express"),
     Metadata    = require("./metadata"),
-    Motors      = global.engines,
-    compileFile = _.curry(_.bind(Motors.compileFile, Motors));
+    Motors      = global.engines;
 
 
 function createDataQuery(queries) {
@@ -49,7 +48,7 @@ function addFile(router, route, file, type, basePath) {
     if (file.bundle)
       tasks.push(Bundler.fromFile(file, type).get);
     else
-      tasks.push(Promise.promisify(compileFile(file.path)));
+      tasks.push(Promise.promisify(Motors.compileFile.bind(Motors, file.path)));
 
     // Route handling function
     function handler(req, res) {
