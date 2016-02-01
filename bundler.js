@@ -5,7 +5,7 @@
 
 */
 
-var utils       = require("./utils"),
+var Utils       = require("./utils"),
     Promise     = require("bluebird"),
     path        = require("path"),
     webpack     = require("webpack"),
@@ -65,7 +65,7 @@ var Bundler = module.exports = function(options) {
 // Modifies file
 Bundler.fromFile = function(file, type) {
   file.folder = "";
-  file.name = file.dir.replace(utils.makePathAbsolute(file.basePath), "").slice(1);
+  file.name = file.dir.replace(Utils.makePathAbsolute(file.basePath), "").slice(1);
   return new Bundler({ entry : file.path, filename : file.name + "." + type });
 }
 
