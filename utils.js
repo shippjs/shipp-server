@@ -132,27 +132,36 @@ Utils.mapFiles = function(p, options) {
 
 /*
 
-  function makeUrls
+  function makeRoutes
 
 */
 
-Utils.makeUrls = function(route, file, type) {
+Utils.makeRoutes = function(route, file, options) {
 
-  var base, slugs;
+  var base,
+      routes,
+      ext,
+      options = options || {};
 
-  type  = ("undefined" == typeof type) ? "" : ("." + type).replace(/\.+/, ".");
-  base  = (url.resolve((route + "/").replace(/\/\/$/, "/"), file.folder) + "/").replace(/\/\/$/, "/"),
-  slugs = [url.resolve(base, file.name + type)];
+  // !!! WHAT TO DO ABOUT EXTENSIONLESS FILES?
+  ext = options.type || file.ext;
+  ext = ("undefined" == typeof ext) ? "" : ext.replace(/^\./, "");
+  base = (url.resolve((route + "/").replace(/\/\/$/, "/"), file.folder) + "/").replace(/\/\/$/, "/");
 
-  // HTML files are special cases: we allow the original extension, the "html"
-  // extension, and if the file is named "index", we allow it to function as the folder.
-  // Finally, we want the extensionless version as the first return entry (for templating).
-  if (/\.?html$/.test(type)) {
-    slugs.unshift(url.resolve(base, file.name));
-    if (Utils.isIndexFile(file)) slugs.push(base)
+  // Wildcard directories
+  if ("html" === ext && options.query) {
+    // If name starts with @, look for parent directory;
+    if ("@" === file.name[0]) base = base.split("/").slice(0, -1).join("/")
+    return [base + "/:slug"];
   }
 
-  return slugs;
+  // Add file and default extension
+  routes = [url.resolve(base, file.name + "." + ext)];
+
+  // If the file is named "index", we allow it to function as the folder.
+  if ("html" === ext && Utils.isIndexFile(file)) routes.push(base);
+
+  return routes;
 
 }
 
