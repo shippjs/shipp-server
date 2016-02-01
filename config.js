@@ -26,6 +26,9 @@ var defaults = {
   ],
   statics: [
     { path : "./vendor",  url : "/vendor" }
+  ],
+  views: [
+    { path : "./views", url : "/", ext : "html" }
   ]
 };
 
