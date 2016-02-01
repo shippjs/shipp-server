@@ -6,11 +6,10 @@
 */
 
 var utils       = require("./utils"),
-    _           = require("lodash"),
     Promise     = require("bluebird"),
     path        = require("path"),
     webpack     = require("webpack"),
-    readFile    = Promise.promisify(_.bind(global.fs.readFile, global.fs));
+    readFile    = Promise.promisify(global.fs.readFile.bind(global.fs));
 
 
 var Bundler = module.exports = function(options) {
@@ -46,8 +45,8 @@ var Bundler = module.exports = function(options) {
   this.bundler.outputFileSystem = global.fs;
 
   // Bind functions
-  this.get = _.bind(this.get, this);
-  this.compile = Promise.promisify(_.bind(this.bundler.run, this.bundler));
+  this.get = this.get.bind(this);
+  this.compile = Promise.promisify(this.bundler.run.bind(this.bundler));
 
   // Optionally compile
   if (options.compile) this.compile();
