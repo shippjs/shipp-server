@@ -5,14 +5,13 @@
 
 */
 
-var assign     = require("lodash/assign"),
-    jsonServer = require("json-server");
+var jsonServer = require("json-server");
 
 
 module.exports = function(options) {
 
   // Set defaults
-  options = assign({}, options);
+  options = Object.assign({}, options);
 
   return jsonServer.router(global.db.object);
 
