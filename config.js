@@ -39,7 +39,7 @@ module.exports = function() {
 
   // Store global variables
   global.vars = config.globals || {};
-  if (/^prod/.test(process.env.NODE_ENV))
+  if (/^prod/i.test(process.env.NODE_ENV))
     global.vars = Object.assign(global.vars, config["globals:production"] || {});
 
   return config;
