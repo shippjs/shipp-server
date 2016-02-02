@@ -1,16 +1,46 @@
-
-/*
+/**
 
   Bundler.js
 
-*/
+  Wrapper for module bundling: currently uses webpack.
 
-var Utils       = require("./utils"),
-    Promise     = require("bluebird"),
-    path        = require("path"),
-    webpack     = require("webpack"),
-    readFile    = Promise.promisify(global.fs.readFile.bind(global.fs));
+  Statics
+  • fromFile
 
+  Class
+  • construtor
+  • get
+
+**/
+
+
+//
+//  Dependencies
+//
+
+var Utils        = require("./utils"),
+    Promise      = require("bluebird"),
+    path         = require("path"),
+    webpack      = require("webpack"),
+    readFile     = Promise.promisify(global.fs.readFile.bind(global.fs));
+
+
+
+/**
+
+  Wraps a webpack instance, writing to in-memory file system.
+
+  options
+  • <String>  entry              : input file
+  • <String>  filename           : output filename
+  • <Boolean> [compile=true]     : compile upon instantiation
+  • <Boolean> [watch=true]       : watch for recompilation
+  • <String>  [path="/scripts"]  : in-memory path
+
+  @param {Object} options
+  @returns {Bundler} Instance of this class
+
+**/
 
 var Bundler = module.exports = function(options) {
 
@@ -55,17 +85,35 @@ var Bundler = module.exports = function(options) {
     global.server.reload(this.path);
   }.bind(this));
 
-}
+};
 
 
-// Modifies file
+
+/**
+
+  Reads the most recently compiled version of a file from in-memory file system.
+
+  @returns {String} Compiled file.
+
+**/
+
+Bundler.prototype.get = function() {
+  return readFile(this.path, "utf8");
+};
+
+
+
+/**
+
+  Creates a bundler from a file, modifies file for proper routing.
+
+  @param {File} file Modified file object, as returned by Utils#mapFiles
+  @param {String} type Type of the output file
+
+**/
+
 Bundler.fromFile = function(file, type) {
   file.folder = "";
   file.name = file.dir.replace(Utils.makePathAbsolute(file.basePath), "").slice(1);
   return new Bundler({ entry : file.path, filename : file.name + "." + type });
-}
-
-
-Bundler.prototype.get = function() {
-  return readFile(this.path, "utf8");
-}
+};
