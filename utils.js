@@ -52,6 +52,13 @@ Utils.isIndexFile = function(file) {
 }
 
 
+Utils.uniqueExtensions = function(p) {
+  return Utils.readDirectory(p).reduce(function(arr, file) {
+    if (-1 === arr.indexOf(file.ext)) arr.push(file.ext);
+    return arr;
+  }, []);
+};
+
 
 /*
 
@@ -285,4 +292,3 @@ Utils.watch = function(sourceDir, sourceExt, destExt) {
   });
 
 }
-
