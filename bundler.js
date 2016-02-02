@@ -45,10 +45,7 @@ var Utils        = require("./utils"),
 var Bundler = module.exports = function(options) {
 
   // Determine which extensions to look for
-  var exts = Utils.readDirectory(path.join(options.entry, "..")).reduce(function(arr, file) {
-    if (-1 === arr.indexOf(file.ext)) arr.push(file.ext);
-    return arr;
-  }, []).concat([""]);
+  var exts = Utils.uniqueExtensions(path.join(options.entry, "..")).concat([""]);
 
   // Set up defaults
   options = Object.assign({ compile: true, watch : true, path : "/scripts/" }, options);
