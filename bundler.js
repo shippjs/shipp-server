@@ -7,7 +7,7 @@
   Statics
   • fromFile
 
-  Class
+  Instance
   • construtor
   • get
 
