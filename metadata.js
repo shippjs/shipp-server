@@ -26,7 +26,7 @@ module.exports = Metadata;
 Metadata.extract = function(str) {
 
   var names = ["QUERY", "DATA", "COOKIES", "SESSION"],
-      re    = new RegExp("(\\b(?:" + names.join("|") + ")\\=[^\\s\\n\\r]+)", "g"),
+      re    = new RegExp("(\\b(?:" + names.join("|") + ")\\=[^\\n\\r]+)", "g"),
       meta  = {};
 
   Utils.getRegExpMatches(str, re).map(Metadata.parse).forEach(function(metadata) {
