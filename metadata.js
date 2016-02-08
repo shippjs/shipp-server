@@ -104,36 +104,5 @@ Metadata.parseQuery = function(str) {
 }
 
 
-/*
-
-  function parseFilters
-
-*/
-
-Metadata.parseFilters = function(str) {
-
-  var results = {},
-      parts,
-      part;
-
-  str.split("&").forEach(function(filter) {
-
-    parts = filter.split("=");
-    part  = parts[1];
-
-    // Cast to types
-    if ("false" === part)
-      part = false;
-    else if ("true" === part)
-      part = true;
-    else if (isNumeric(part))
-      part = parseFloat(part);
-
-    results[parts[0]] = part;
-
-  });
-
-  return results;
 
 }
-
