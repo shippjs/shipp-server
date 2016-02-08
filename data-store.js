@@ -30,25 +30,23 @@ function extendDatabase(db) {
   }
 
   // Runs a database query
-  db.query = function(query, context) {
-
-    var query = _.isEmpty(context) ? query : insertVariables(query, context),
-        chain = _(db.get(query.route).value());
-
-    // Filters
-    if (query.filters) chain = chain.filter(query.filters);
-
-    // Fields (if single field, return array)
-    if (query.fields) {
-      if (Array.isArray(query.fields))
-        chain = chain.map(function(x) { return _.pick(x, query.fields) });
-      else
-        chain = chain.map(query.fields);
-    }
-
-    return chain.value();
-
+  db.query = function(query, context, next) {
+    query.run(db.get(query.query.table).value(), context, next);
   }
+
+  // Executes multiple queries and combines into a single object
+  db.queries = function(queries, context, next) {
+
+    var results = {},
+        remaining;
+
+    // Ensure that queries is an array
+    queries = queries || [];
+    if (!Array.isArray(queries)) queries = [queries];
+
+    remaining = queries.length;
+    if (!remaining) return next(null, {});
+
 
   // Executes multiple queries and combines into a single object
   db.queries = function(queries, context) {
