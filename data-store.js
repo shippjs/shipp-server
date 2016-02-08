@@ -12,34 +12,6 @@ var fs    = require("fs"),
     pair  = require("lodash/fromPairs");
 
 
-/*
-
-  function insertVariables
-
-*/
-
-function insertVariables(query, context) {
-
-  if (!query.filters) return query;
-
-  var query = _.clone(query),
-      key,
-      keys = _.keys(context),
-      re   = new RegExp("<(" + keys.join("|") + ")>", "gi"),
-      match;
-
-  for (key in query.filters || {}) {
-    if (_.isString(query.filters[key]) && (match = query.filters[key].match(re))) {
-      match = match[0];
-      query.filters[key] = query.filters[key].replace(new RegExp(match, "g"), context[match.slice(1, match.length-1)]);
-    }
-  }
-
-  return query;
-
-}
-
-
 
 /*
 
