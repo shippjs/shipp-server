@@ -8,8 +8,9 @@
 
 */
 
-var Utils    = require("./utils"),
-    Metadata = {};
+var Utils     = require("./utils"),
+    Universql = require("universql"),
+    Metadata  = {};
 
 
 module.exports = Metadata;
@@ -85,6 +86,9 @@ Metadata.parse = function(str) {
   Parses a specific metadata query.
 
 */
+
+Universql.addAdapter(require("universql-json"));
+var queryCache = {};
 
 Metadata.parseQuery = function(str) {
 
