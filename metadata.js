@@ -92,21 +92,25 @@ var queryCache = {};
 
 Metadata.parseQuery = function(str) {
 
-  var query = {},
-      parts = /^(?:([^:]+):)?([^\{?]+)(?:\{([^\}]+)\})?(?:\?([^\[]*))?(?:\[(\d+)\])?$/g.exec(str);
+  var key, idx;
 
-  if (parts) {
-    if (parts[1]) query.key     = parts[1];
-    if (parts[2]) query.route   = parts[2].replace(/^\//, "");
-    if (parts[3]) query.fields  = parts[3].split(",");
-    if (parts[4]) query.filters = Metadata.parseFilters(parts[4]);
-    if (parts[5]) query.idx     = parseInt(parts[5]);
+  // Remove index if possible
+  if (idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g)[0])
+    str = str.replace(/\[\d+\]$/, "");
+
+  // Allow assignment to key
+  if (/^[a-zA-Z_$][0-9a-zA-Z_$]*:["']/.test(str)) {
+    str = str.split(":");
+    key = str.shift();
+    str = str.join(":");
   }
 
-  return query;
+  // Remove quotes
+  if (str.length > 1 && str[0] === str[str.length-1] && ("'" === str[0] || '"' === str[0]))
+    str = str.slice(1, -1);
 
-}
+  query = queryCache[str] || (queryCache[str] = new Universql(str));
 
-
+  return { idx : idx, key : key, query : query }
 
 }
