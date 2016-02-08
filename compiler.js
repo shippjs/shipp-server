@@ -11,12 +11,13 @@ var Bundler     = require("./bundler"),
     Motors      = global.engines,
     Promise     = require("bluebird"),
     Utils       = require("./utils");
-
+    makeQuery   = Promise.promisify(global.db.queries);
 
 function createDataQuery(queries) {
   return function(context) {
-    data = (queries) ? global.db.queries(queries, context) : {};
-    return Promise.resolve(Object.assign({}, global.vars, context, data));
+    return makeQuery(queries, context).then(function(data) {
+      return Promise.resolve(Object.assign({}, global.vars, context, data));
+    });
   }
 }
 
@@ -87,5 +88,3 @@ module.exports = function(options) {
   return router;
 
 };
-
-
