@@ -44,24 +44,18 @@ Metadata.extract = function(str) {
 
   function parse
 
-  Converts command into multiple querys
-  e.g. DATA=<query1>,<query2>
+  Parse query string
 
 */
 
 Metadata.parse = function(str) {
 
-  var re = /([^\{,]*\{[^\}]*\}[^,]*|[^\{\},]+),*/g,
-      matches = str.split(/\=(.*)/),
-      name = matches[0].toLowerCase(),
+  var matches = str.trim().split(/\=/),
+      name = matches.shift().toLowerCase(),
       value;
 
   // Handle different types of metadata differently
   switch (name) {
-    case "query":
-      value = Utils.getRegExpMatches(matches[1], re).map(Metadata.parseQuery)[0];
-      if (Array.isArray(value.fields)) value.fields = value.fields[0];
-      break;
     case "cookies":
       value = JSON.parse("{" + matches[1] + "}");
       break;
@@ -69,11 +63,11 @@ Metadata.parse = function(str) {
       value = JSON.parse("{" + matches[1] + "}");
       break;
     default:
-      value = Utils.getRegExpMatches(matches[1], re).map(Metadata.parseQuery)
+      value = Metadata.parseQuery(matches.join("="));
       break;
   }
 
-  return { name : name, value : value }
+  return { name : name, value : value };
 
 }
 
