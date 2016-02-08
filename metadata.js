@@ -30,8 +30,10 @@ Metadata.extract = function(str) {
       re    = new RegExp("(\\b(?:" + names.join("|") + ")\\=[^\\n\\r]+)", "g"),
       meta  = {};
 
+
   Utils.getRegExpMatches(str, re).map(Metadata.parse).forEach(function(metadata) {
-    meta[metadata["name"]] = metadata.value;
+    meta[metadata["name"]] = meta[metadata["name"]] || [];
+    meta[metadata["name"]].push(metadata.value);
   });
 
   return meta;
