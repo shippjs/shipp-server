@@ -47,15 +47,13 @@ function extendDatabase(db) {
     remaining = queries.length;
     if (!remaining) return next(null, {});
 
+    _.each(queries, function(query) {
+      db.query(query.query, context, function(err, result) {
+        results = _.extend(results, (query.key) ? pair([[query.key, result]]) : result);
+        if (--remaining === 0) next(err, results);
+      });
+    });
 
-  // Executes multiple queries and combines into a single object
-  db.queries = function(queries, context) {
-    if (!Array.isArray(queries)) queries = [queries];
-    return _.reduce(queries, function(results, query) {
-      var result = db.query(query, context);
-      if ("undefined" !== typeof query.idx) result = result[query.idx];
-      return _.extend(results, (query.key) ? pair([[query.key, result]]) : result);
-    }, {});
   }
 
   return db;
