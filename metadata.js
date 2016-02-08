@@ -15,11 +15,6 @@ var Utils    = require("./utils"),
 module.exports = Metadata;
 
 
-function isNumeric(x) {
-    return !isNaN(parseFloat(x)) && isFinite(x);
-}
-
-
 /*
 
   function extract
