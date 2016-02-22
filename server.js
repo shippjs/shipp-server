@@ -19,6 +19,7 @@ module.exports = function() {
   // Set up sensible logging defaults, etc.
   server.use(cookies());
   server.use(sessions({ secret : "password123", resave : false, saveUninitialized : true }));
+  server.use(require("morgan")("dev"));
 
   // Middleware helper
   function iterateMiddleware(arr, middleware) {
