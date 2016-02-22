@@ -13,6 +13,6 @@ module.exports = function() {
   server();
 
   // Start browser sync and proxy
-  global.server.init({ proxy : "localhost:27182" });
+  global.server.init({ proxy : "localhost:" + global.ports.proxy });
 
 };

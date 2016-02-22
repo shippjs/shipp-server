@@ -7,7 +7,7 @@
 
 module.exports = function() {
 
-  var PORT     = 27182,
+  var PORT     = global.ports.proxy,
       path     = require("path"),
       express  = require("express"),
       server   = express(),

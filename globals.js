@@ -31,6 +31,9 @@ module.exports = (function() {
   global.engines = require("superloader").engines;
   global.engines.dir = process.cwd();
 
+  // Add internal port (proxy of BrowserSync)
+  global.ports = { proxy : 27182 };
+
   // Add engines in config
   for (var ext in global.config.engines)
     global.engines.addEngine(ext, global.config.engines[ext]);
