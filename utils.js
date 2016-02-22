@@ -121,7 +121,10 @@ Utils.mapFiles = function(p, options) {
     // Denote indices as bundles
     indices.forEach(function(file) {
       file.bundle = true;
-      file.ignored = [path.join(file.dir, "/*"), file.dir + "." + options.ext];
+      file.ignored = [
+        path.relative(process.cwd(), path.join(file.dir, "*")),
+        path.relative(process.cwd(), file.dir + "." + options.ext)
+      ];
     });
 
     // Rejoin indices back into files
