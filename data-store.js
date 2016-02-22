@@ -1,9 +1,16 @@
 
-/*
+/**
 
   data-store.js
 
-*/
+  Abstracts querying of lowdb.
+
+**/
+
+
+//
+//  Dependencies
+//
 
 var fs    = require("fs"),
     low   = require("lowdb"),
@@ -13,13 +20,11 @@ var fs    = require("fs"),
 
 
 
-/*
+/**
 
-  function extendDatabase
+  Gives lowdb additional functionality
 
-  Adds a "get" function so that lowdb can handle key/values.
-
-*/
+**/
 
 function extendDatabase(db) {
 
