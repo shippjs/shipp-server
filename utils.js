@@ -162,7 +162,7 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   route = (url.resolve((route + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
 
   // Wildcard directories
-  if ("html" === ext && options.query) {
+  if (/^html?$/.test(ext) && options.query) {
     // If name starts with @, look for parent directory;
     if ("@" === file.name[0]) base = base.split("/").slice(0, -1).join("/")
     return [base + "/:slug"];
