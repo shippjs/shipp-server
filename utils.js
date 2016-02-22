@@ -171,8 +171,12 @@ Utils.makeRoutes = function(route, file, options) {
   // Add file and default extension
   routes = [url.resolve(base, file.name + "." + ext)];
 
-  // If the file is named "index", we allow it to function as the folder.
-  if ("html" === ext && Utils.isIndexFile(file)) routes.push(base);
+  // HTML files are special: not only can they be accessed sans extension, if they are named
+  // "index", we allow access via a folder.
+  if ("html" === ext) {
+    routes.push(url.resolve(base, file.name));
+    if (Utils.isIndexFile(file)) routes.push(base);
+  }
 
   return routes;
 
