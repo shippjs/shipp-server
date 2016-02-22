@@ -157,8 +157,8 @@ Utils.makeRoutes = function(baseRoute, file, options) {
       options = options || {};
 
   // !!! WHAT TO DO ABOUT EXTENSIONLESS FILES?
-  ext = options.type || file.ext;
-  ext = ("undefined" == typeof ext) ? "" : ext.replace(/^\./, "");
+  ext = options.type || file.ext || "";
+  ext = ext.replace(/^\./, "");
   route = (url.resolve((route + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
 
   // Wildcard directories
