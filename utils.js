@@ -148,9 +148,10 @@ Utils.mapFiles = function(p, options) {
 
 */
 
-Utils.makeRoutes = function(route, file, options) {
+Utils.makeRoutes = function(baseRoute, file, options) {
 
-  var base,
+  var re = /\/\/+$/,
+      route,
       routes,
       ext,
       options = options || {};
@@ -158,7 +159,7 @@ Utils.makeRoutes = function(route, file, options) {
   // !!! WHAT TO DO ABOUT EXTENSIONLESS FILES?
   ext = options.type || file.ext;
   ext = ("undefined" == typeof ext) ? "" : ext.replace(/^\./, "");
-  base = (url.resolve((route + "/").replace(/\/\/$/, "/"), file.folder) + "/").replace(/\/\/$/, "/");
+  route = (url.resolve((route + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
 
   // Wildcard directories
   if ("html" === ext && options.query) {
