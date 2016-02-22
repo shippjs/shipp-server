@@ -19,6 +19,9 @@ var fs    = require("fs"),
     pair  = require("lodash/fromPairs");
 
 
+// Database instance
+Database = extendDatabase(low());
+
 
 /**
 
@@ -69,8 +72,7 @@ function extendDatabase(db) {
 
 module.exports = function(options) {
 
-  var db = extendDatabase(low()),
-      val;
+  var val;
 
   Utils.mapFiles(options.path).forEach(function(file) {
 
@@ -81,7 +83,7 @@ module.exports = function(options) {
     if (Array.isArray(json)) {
 
       key = (slug + "/" + file.name).replace(/\/+/g, "/").replace(/^\/+/, "");
-      db.object[key] = json;
+      Database.object[key] = json;
 
     } else {
 
@@ -91,13 +93,13 @@ module.exports = function(options) {
         // Remove leading "/" and make db key-friendly
         val = json[key];
         key = (slug + "/" + key).replace(/\/+/g, "/").replace(/^\/+/, "");
-        db.object[key] = val;
+        Database.object[key] = val;
 
       }
     }
 
   });
 
-  return db;
+  return Database;
 
 }
