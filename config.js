@@ -14,6 +14,10 @@ var Utils = require("./utils"),
 
 var defaults = {
 
+  data: [
+    { path : "./data", route : "/" }
+  ],
+
   // Fonts are treated as statics, the extensions help to keep our "watch" efficient
   fonts: [
     { path : "./fonts",   url : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] }
