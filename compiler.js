@@ -130,7 +130,7 @@ function addFile(router, route, file, type, basePath) {
         handler  = createHandler(type, compiler, metadata);
 
     // Add routes to router
-    Utils.makeRoutes(route, file, { type : type, query : metadata.query }).forEach(function(r) {
+    Utils.makeRoutes(route, file, { type : type }).forEach(function(r) {
       router.get(r, handler);
     });
 
