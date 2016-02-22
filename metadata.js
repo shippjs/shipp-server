@@ -90,21 +90,33 @@ Metadata.parseQuery = function(str) {
 
   var key, idx;
 
-  // Remove index if possible
-  if (idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g, 1)[0])
-    str = str.replace(/\[\d+\]$/, "");
+  if (!str || !str.length) throw new Error("No query string provided");
 
-  // Allow assignment to key
-  if (/^[a-zA-Z_$][0-9a-zA-Z_$]*:["']/.test(str)) {
+  // Allow assignment to key: QUERY=key:"query..." or QUERY=key:'query...'
+  // Final portion allows for index selection
+  if (/^[a-zA-Z_$][0-9a-zA-Z_$]*:".+"(\[(\d+)\])?$/.test(str) || /^[a-zA-Z_$][0-9a-zA-Z_$]*:'.+'(\[(\d+)\])?$/.test(str)) {
     str = str.split(":");
     key = str.shift();
     str = str.join(":");
   }
 
-  // Remove quotes
-  if (str.length > 1 && str[0] === str[str.length-1] && ("'" === str[0] || '"' === str[0]))
+  // If quotes...
+  if ("'" === str[0] || '"' === str[0]) {
+
+    // But not before removing index...
+    if (idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g, 1)[0])
+      str = str.replace(/\[\d+\]$/, "");
+
+    // Check to see properly formed
+    if (str[0] !== str[str.length-1])
+      throw new Error("Query quotes are mismatched");
+
+    // Finally, remove the quotes...
     str = str.slice(1, -1);
 
+  }
+
+  // Queries can be cached as we are simply storing translation
   query = queryCache[str] || (queryCache[str] = new Universql(str));
 
   return { idx : idx, key : key, query : query }
