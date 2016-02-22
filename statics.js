@@ -3,7 +3,7 @@
 
   static.js
 
-  Creates static server
+  Creates static server: see https://github.com/isaacs/st
 
 */
 
