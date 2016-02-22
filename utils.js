@@ -5,8 +5,7 @@
 
 */
 
-var __rootDir = process.cwd(),
-    fs        = require("fs"),
+var fs        = require("fs"),
     url       = require("url"),
     path      = require("path"),
     chokidar  = require("chokidar"),
@@ -14,17 +13,6 @@ var __rootDir = process.cwd(),
 
 
 module.exports = Utils = {};
-
-
-/*
-
-  function getRootPath
-
-*/
-
-Utils.getRootPath = function() {
-  return __rootDir;
-}
 
 
 
@@ -36,7 +24,7 @@ Utils.getRootPath = function() {
 
 Utils.makePathAbsolute = function(p) {
 
-  return path.resolve(Utils.getRootPath(), p || "");
+  return path.resolve(process.cwd(), p || "");
 
 }
 
