@@ -29,6 +29,12 @@ function sequence(tasks, initial) {
 }
 
 
+/**
+
+  @returns <String> Directory to ignore (if exists)
+
+**/
+
 function addFile(router, route, file, type, basePath) {
 
     var tasks = [],
@@ -71,19 +77,33 @@ function addFile(router, route, file, type, basePath) {
       router.get(r, handler);
     });
 
+    // If we have a bundle, return the path (we won't "watch" as this happens
+    // already in Bundler.
+    if (file.bundle) return file.dir;
+    return;
+
 }
 
 
 module.exports = function(options) {
 
-  var router = express(),
-      files  = Utils.mapFiles(options.path, options),
-      exts   = {};
+  var router  = express(),
+      ignore,
+      ignored = [],
+      files   = Utils.mapFiles(options.path, options),
+      exts    = {};
 
   files.forEach(function(file) {
-    addFile(router, options.url, file, options.ext);
-    if (!exts[file.ext]) exts[file.ext] = Utils.watch(options.path, file.ext, options.ext);
+
+    ignore = addFile(router, options.url, file, options.ext);
+    if (ignore) ignored.push(ignore);
+
+    exts[file.ext] = 1;
+
   });
+
+  for (var key in exts)
+    Utils.watch(options.path, key, options.ext, { ignored : ignored });
 
   return router;
 
