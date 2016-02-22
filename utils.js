@@ -305,3 +305,8 @@ Utils.watch = function(sourceDir, sourceExt, destExt, options) {
   });
 
 }
+
+
+Utils.isProduction = function() {
+  return /^prod/i.test(process.env.NODE_ENV);
+};
