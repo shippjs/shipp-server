@@ -9,6 +9,7 @@ var __rootDir = process.cwd(),
     fs        = require("fs"),
     url       = require("url"),
     path      = require("path"),
+    chokidar  = require("chokidar"),
     Utils;
 
 
@@ -299,8 +300,8 @@ Utils.watch = function(sourceDir, sourceExt, destExt, options) {
 
   options = options || {};
 
-  global.server.watch(path.join(sourceDir, "**", sourceExt), options, function(event, file) {
-    if ("change" === event) global.server.reload(destExt);
+  chokidar.watch(path.join(sourceDir, "**", sourceExt), options).on("change", function(file) {
+    global.server.reload(file);
   });
 
 }
