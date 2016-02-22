@@ -45,7 +45,8 @@ var Utils        = require("./utils"),
 var Bundler = module.exports = function(options) {
 
   // Determine which extensions to look for
-  var exts = Utils.uniqueExtensions(path.join(options.entry, "..")).concat([""]);
+  var self = this,
+      exts = Utils.uniqueExtensions(path.join(options.entry, "..")).concat([""]);
 
   // Set up defaults
   options = Object.assign({ compile: true, watch : true, path : "/scripts/" }, options);
@@ -77,10 +78,14 @@ var Bundler = module.exports = function(options) {
   // Optionally compile
   if (options.compile) this.compile();
 
-  // Set up watch (it already updates)
-  if (options.watch) this.bundler.watch({}, function(err, stats) {
-    global.server.reload(this.path);
-  }.bind(this));
+  if (options.watch) {
+    // Only watch directory with index file: breaks outside watchers otherwise
+    global.server.watch(path.join(path.dirname(options.entry), "**", "*"), function(event, file) {
+      self.compile(function(err, stats) {
+        global.server.reload(self.path);
+      });
+    });
+  }
 
 };
 
