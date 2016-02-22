@@ -200,11 +200,12 @@ Utils.mapFiles = function(p, options) {
   Creates appropriate routes for a file: for example, /about/index.html needs
   /about/, /about/index, and /about/index.html.
 
+  Files named "template" are special cases and serve as wildcard route handlers.
+
   @param {String} baseRoute Base route from which to build
   @param {Stat} file File object (as returned from fs.lStat)
   @param {Object} options Options
   @param {String} [options.type] Default file type (e.g. js for coffee)
-  @param {Boolean} [options.query] Whether file contains data query
   @returns {Array} Array of route strings
 
 **/
@@ -226,11 +227,11 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   // process is prone to double "//", which must be removed.
   route = (url.resolve((baseRoute + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
 
-  // HTML-like files with data queries allow for server-side templating
-  if (/^html?$/.test(ext) && options.query) {
-    // If name starts with @, look for parent directory;
-    if ("@" === file.name[0]) route = route.split("/").slice(0, -1).join("/")
-    return [route + "/:slug"];
+  // HTML-like files named "template" pull their route from the parent directory
+  // and pass the subsequent URL on as a "query" parameter
+  if (/^html?$/.test(ext) && ("template" === file.name)) {
+    route = route.split("/").slice(0, -1).join("/");
+    return [route + "/:query"];
   }
 
   // Add file and default extension
