@@ -1,25 +1,26 @@
 
-/*
+/**
 
   Server.js
 
-*/
+  The backbone of the server module. In development, this runs proxied through
+  BrowserSync server.
+
+**/
 
 module.exports = function() {
 
-  var PORT     = global.ports.proxy,
-      path     = require("path"),
-      express  = require("express"),
-      server   = express(),
-      cookies  = require("cookie-parser"),
-      sessions = require("express-session"),
+  var path     = require("path"),
+      server   = require("express")(),
       compiler = require("./compiler"),
-      statics  = require("./statics");
+      statics  = require("./statics"),
+      PORT;
 
-  // Set up sensible logging defaults, etc.
-  server.use(cookies());
-  server.use(sessions({ secret : "password123", resave : false, saveUninitialized : true }));
+  // Set up sensible logging defaults, etc. These will change with production environments
+  PORT = global.ports.proxy;
   server.use(require("morgan")("dev"));
+  server.use(require("cookie-parser")());
+  server.use(require("express-session")({ secret : "password123", resave : false, saveUninitialized : true }));
 
   // Middleware helper
   function iterateMiddleware(arr, middleware) {
