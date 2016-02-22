@@ -86,7 +86,7 @@ var Bundler = module.exports = function(options) {
     // and again a second time when the file is called (e.g. from HTML)
 
     chokidar.watch(path.join(path.dirname(options.entry), "**", "*")).on("all", function(event, file) {
-      self.compile(function(err, stats) {
+      self.bundler.run(function(err, stats) {
         global.server.reload(self.path);
       });
     });
