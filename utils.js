@@ -55,6 +55,47 @@ Utils.uniqueExtensions = function(p) {
 
 /*
 
+  var indices = [];
+
+  // Filter out index files (outside of master directory)
+  i = files.length;
+  while (i-- > 0)
+    if ((p !== files[i].dir) && Utils.isIndexFile(files[i]))
+      indices.push(files.splice(i, 1)[0]);
+
+  // Remove indices that are subdirectories of each other
+  i = indices.length;
+  while (i-- > 0)
+    for (var j = 0, n = indices.length; j < n; j++)
+      if (i !== j && 0 === indices[i].path.indexOf(indices[j].dir)) {
+        indices.splice(i, 1);
+        break;
+      }
+
+  // Remove files in subdirectories of indices
+  i = files.length;
+  while (i-- > 0)
+    for (var j = 0, n = indices.length; j < n; j++)
+      if (0 === files[i].path.indexOf(indices[j].dir)) {
+        files.splice(i, 1);
+        break;
+      }
+
+  // Denote indices as bundles
+  indices.forEach(function(file) {
+    file.bundle = true;
+    file.ignored = [
+      path.join(file.dir, "*"),
+      file.dir + "." + ext
+    ];
+  });
+
+  // Rejoin indices back into files
+  return files.concat(indices);
+
+};
+
+
   function mapFiles
 
   Note that we remove leading "." from file extension
