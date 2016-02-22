@@ -159,23 +159,22 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   // !!! WHAT TO DO ABOUT EXTENSIONLESS FILES?
   ext = options.type || file.ext || "";
   ext = ext.replace(/^\./, "");
-  route = (url.resolve((route + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
 
   // Wildcard directories
   if (/^html?$/.test(ext) && options.query) {
     // If name starts with @, look for parent directory;
-    if ("@" === file.name[0]) base = base.split("/").slice(0, -1).join("/")
-    return [base + "/:slug"];
+    if ("@" === file.name[0]) route = route.split("/").slice(0, -1).join("/")
+    return [route + "/:slug"];
   }
 
   // Add file and default extension
-  routes = [url.resolve(base, file.name + "." + ext)];
+  routes = [url.resolve(route, file.name + "." + ext)];
 
   // HTML files are special: not only can they be accessed sans extension, if they are named
   // "index", we allow access via a folder.
   if ("html" === ext) {
-    routes.push(url.resolve(base, file.name));
-    if (Utils.isIndexFile(file)) routes.push(base);
+    routes.push(url.resolve(route, file.name));
+    if (Utils.isIndexFile(file)) routes.push(route);
   }
 
   return routes;
