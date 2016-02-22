@@ -1,14 +1,32 @@
 
-/*
+/**
 
   Utils.js
 
-*/
+  Various helper functions.
 
-var fs        = require("fs"),
-    url       = require("url"),
-    path      = require("path"),
-    chokidar  = require("chokidar"),
+  • getRegExpMatches
+  • isIndexFile
+  • isProduction
+  • makePathAbsolute
+  • makeRoutes
+  • mapFiles
+  • readDirectory
+  • readFileHead
+  • uniqueExtensions
+  • watch
+
+**/
+
+
+//
+//  Dependencies
+//
+
+var fs       = require("fs"),
+    url      = require("url"),
+    path     = require("path"),
+    chokidar = require("chokidar"),
     Utils;
 
 
@@ -16,11 +34,14 @@ module.exports = Utils = {};
 
 
 
-/*
+/**
 
-  function makePathAbsolute
+  Makes a path absolute (if not already)
 
-*/
+  @param {String} p Path
+  @returns {String} Absolute path version of a string
+
+**/
 
 Utils.makePathAbsolute = function(p) {
 
@@ -33,9 +54,12 @@ Utils.makePathAbsolute = function(p) {
 
 
 
-/*
+/**
 
-  function isIndexFile
+  Tests to see if a file is of form "index*"
+
+  @param {Stats} file File as returned by fs.lstat
+  @returns {Boolean} true if a file is index-like
 
 */
 
@@ -43,6 +67,16 @@ Utils.isIndexFile = function(file) {
   return /^index[^\/]*$/i.test(file.name);
 }
 
+
+
+/**
+
+  Retrieves all unique file extensions from a directory
+
+  @param {String} p Directory path
+  @returns {Array} Array of strings of extensions
+
+**/
 
 Utils.uniqueExtensions = function(p) {
   var exts = {}
@@ -53,7 +87,19 @@ Utils.uniqueExtensions = function(p) {
 };
 
 
-/*
+
+
+/**
+
+  Finds index files and marks as "bundles", then removes sibling and
+  sub-diretories
+
+  @param {String} p Absolute path
+  @param {Array} files Array of file stats
+
+**/
+
+Utils.flagBundles = function(p, files, ext) {
 
   var indices = [];
 
@@ -96,11 +142,15 @@ Utils.uniqueExtensions = function(p) {
 };
 
 
-  function mapFiles
 
-  Note that we remove leading "." from file extension
+/**
 
-*/
+  Sorts and preprocesses files in a directory. Adds absolute and relative paths.
+
+  @param {String} p Path to map
+  @param {Object} [options.recursive] If true, processes recursively
+
+**/
 
 Utils.mapFiles = function(p, options) {
 
@@ -143,12 +193,19 @@ Utils.mapFiles = function(p, options) {
 
 
 
+/**
 
-/*
+  Creates appropriate routes for a file: for example, /about/index.html needs
+  /about/, /about/index, and /about/index.html.
 
-  function makeRoutes
+  @param {String} baseRoute Base route from which to build
+  @param {Stat} file File object (as returned from fs.lStat)
+  @param {Object} options Options
+  @param {String} [options.type] Default file type (e.g. js for coffee)
+  @param {Boolean} [options.query] Whether file contains data query
+  @returns {Array} Array of route strings
 
-*/
+**/
 
 Utils.makeRoutes = function(baseRoute, file, options) {
 
@@ -158,11 +215,16 @@ Utils.makeRoutes = function(baseRoute, file, options) {
       ext,
       options = options || {};
 
-  // !!! WHAT TO DO ABOUT EXTENSIONLESS FILES?
+  // By defaulting to file type, we address templating and transpiling. We can
+  // resolve coffee files to js, etc. We also remove leading dot.
   ext = options.type || file.ext || "";
   ext = ext.replace(/^\./, "");
 
-  // Wildcard directories
+  // Create the file's route by appending the folder to the base route. This
+  // process is prone to double "//", which must be removed.
+  route = (url.resolve((baseRoute + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
+
+  // HTML-like files with data queries allow for server-side templating
   if (/^html?$/.test(ext) && options.query) {
     // If name starts with @, look for parent directory;
     if ("@" === file.name[0]) route = route.split("/").slice(0, -1).join("/")
@@ -172,8 +234,8 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   // Add file and default extension
   routes = [url.resolve(route, file.name + "." + ext)];
 
-  // HTML files are special: not only can they be accessed sans extension, if they are named
-  // "index", we allow access via a folder.
+  // HTML files are special: not only can they be accessed sans extension, if
+  // they are named "index", we allow access via a folder.
   if ("html" === ext) {
     routes.push(url.resolve(route, file.name));
     if (Utils.isIndexFile(file)) routes.push(route);
@@ -185,11 +247,14 @@ Utils.makeRoutes = function(baseRoute, file, options) {
 
 
 
-/*
+/**
 
-  function readDirectory
+  Reads all files in a directory
 
-*/
+  @param {String} p Path to read
+  @param {Boolean} recursive Whether to read recursively (default: true)
+
+**/
 
 Utils.readDirectory = function(p, recursive) {
 
@@ -233,13 +298,15 @@ Utils.readDirectory = function(p, recursive) {
 
 
 
-/*
-
- function readFileHead
+/**
 
  Reads a limited number of characters from a file.
 
-*/
+ @param {String} path Path to file
+ @param {Number} chars Number of chars (defaults to 500)
+ @returns {String} First characters for a file
+
+**/
 
 Utils.readFileHead = function(path, chars) {
 
@@ -261,11 +328,16 @@ Utils.readFileHead = function(path, chars) {
 
 
 
-/*
+/**
 
-  function getRegExpMatches
+  Returns all regex matches for an expression
 
-*/
+  @param {String} str String to search
+  @param {RegExp} pattern Pattern to search with
+  @param {Number} [idx] Search component to use
+  @returns {Array} Array of strings with matches
+
+**/
 
 Utils.getRegExpMatches = function(str, pattern, idx) {
 
@@ -288,11 +360,15 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
 
 
-/*
+/**
 
-  function watch
+  Watches a directory for an extension, with options
 
-*/
+  @param {String} sourceDir The source directory (without wildcards)
+  @param {String} sourceExt The source extension (defaults to "*")
+  @param {Object} options The object options to pass to chokidar
+
+**/
 
 Utils.watch = function(sourceDir, sourceExt, options) {
 
@@ -320,6 +396,14 @@ Utils.watch = function(sourceDir, sourceExt, options) {
 
 }
 
+
+/**
+
+  Determines whether environment is production
+
+  @returns {Boolean} True if is a production environment
+
+**/
 
 Utils.isProduction = function() {
   return /^prod/i.test(process.env.NODE_ENV);
