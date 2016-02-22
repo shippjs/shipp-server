@@ -1,28 +1,44 @@
 
-/*
+/**
 
   Metadata.js
 
   Metadata is stored as comments near the beginning of an HTML file.
-  e.g. DATA=recipes:/api/recipes{slug,url}?recipe.key=<slug>,/users
 
-*/
+  Examples:
+
+  Find status and store key/values are copied into templating data:
+  QUERY=/api/status
+
+  Find albums and store results as `albums` key of templating data:
+  QUERY=albums:"/api/albums"
+
+  Find single album using query
+  QUERY="/api/albums?id={{query}}"[0]
+
+**/
+
+
+//
+//  Dependencies
+//
 
 var Utils     = require("./utils"),
-    Universql = require("universql"),
-    Metadata  = {};
+    Universql = require("universql");
 
 
-module.exports = Metadata;
+var Metadata = module.exports = {};
 
 
-/*
+/**
 
-  function extract
+  Extracts pertinent metadata for querying (fully parsed).
+  The regex looks for <KEYWORD>=... (until end of line).
 
-  Extracts pertinent metadata for querying.
+  @param {String} str The text to search
+  @returns {Object} Metadata in form { query, cookies, session }
 
-*/
+**/
 
 Metadata.extract = function(str) {
 
@@ -30,10 +46,14 @@ Metadata.extract = function(str) {
       re    = new RegExp("(\\b(?:" + names.join("|") + ")\\=[^\\n\\r]+)", "g"),
       meta  = {};
 
-
   Utils.getRegExpMatches(str, re, 1).map(Metadata.parse).forEach(function(metadata) {
+
+    // Ensure exists...
     meta[metadata["name"]] = meta[metadata["name"]] || [];
+
+    // Add value
     meta[metadata["name"]].push(metadata.value);
+
   });
 
   return meta;
@@ -42,13 +62,15 @@ Metadata.extract = function(str) {
 
 
 
-/*
+/**
 
-  function parse
+  Parses a single query string. This differentiates between cookies, session,
+  and standard queries.
 
-  Parse query string
+  @param {String} str String to parse
+  @returns {Object} Object containing name and value of query.
 
-*/
+**/
 
 Metadata.parse = function(str) {
 
@@ -75,13 +97,14 @@ Metadata.parse = function(str) {
 
 
 
-/*
+/**
 
-  function parseQuery
+  Parses a Universql-style query.
 
-  Parses a specific metadata query.
+  @param {String} str String to be parsed
+  @returns {Object} Object with query, optional idx and optional key
 
-*/
+**/
 
 Universql.addAdapter(require("universql-json"));
 var queryCache = {};
