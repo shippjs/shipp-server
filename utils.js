@@ -109,71 +109,32 @@ Utils.mapFiles = function(p, options) {
 
   // Make path absolute before call (for comparison after)
   p = Utils.makePathAbsolute(p);
-
   files = Utils.readDirectory(p, options.recursive);
 
-  // Sort in reverse order so that directory calls come last. Then move "index" to end.
-  if (options.sort) {
-    files.sort(function(a, b) { return (a.path < b.path) ? -1 : (a.path > b.path) ? 1 : 0; }).reverse();
-    i = files.length;
-    while (i-- > 0)
-      if (Utils.isIndexFile(files[i]))
-        Array.prototype.push.apply(files, files.splice(i, 1));
-  }
+  // Sort in reverse order so that directory calls come last
+  files.sort(function(a, b) { return (a.path < b.path) ? -1 : (a.path > b.path) ? 1 : 0; }).reverse();
+
+  // Move "index" to end so that routes are from specific to unspecific
+  i = files.length;
+  while (i-- > 0)
+    if (Utils.isIndexFile(files[i]))
+      Array.prototype.push.apply(files, files.splice(i, 1));
 
   // Remove subdirectory files if index.* is encountered
-  if (options.bundleFolders) {
-
-    indices = [];
-
-    // Filter out index files (outside of master directory)
-    i = files.length;
-    while (i-- > 0) {
-      if (Utils.isIndexFile(files[i]) && (p !== files[i].dir))
-        Array.prototype.push.apply(indices, files.splice(i, 1));
-    }
-
-    // Remove indices that are subdirectories of each other
-    i = indices.length;
-    while (i-- > 0)
-      for (var j = 0, n = indices.length; j < n; j++) {
-        if (i !== j && 0 === indices[i].path.indexOf(indices[j].dir)) {
-          indices.splice(i, 1);
-          break;
-        }
-      }
-
-    // Remove files in subdirectories of indices
-    i = files.length;
-    while (i-- > 0)
-      for (var j = 0, n = indices.length; j < n; j++)
-        if (0 === files[i].path.indexOf(indices[j].dir)) {
-          files.splice(i, 1);
-          break;
-        }
-
-    // Denote indices as bundles
-    indices.forEach(function(file) {
-      file.bundle = true;
-      file.ignored = [
-        path.relative(process.cwd(), path.join(file.dir, "*")),
-        path.relative(process.cwd(), file.dir + "." + options.ext)
-      ];
-    });
-
-    // Rejoin indices back into files
-    files = files.concat(indices);
-
-  }
-
+  if (options.bundleFolders) files = Utils.flagBundles(p, files, options.ext);
 
   files.forEach(function(file) {
-    if (!options.filter || options.filter.indexOf(file.ext) > -1) {
-      file.ext = file.ext.replace(/^\./, "");
-      file.basePath = p;
-      file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
-      results.push(file);
-    }
+
+    // Get rid of leading dot
+    file.ext = file.ext.replace(/^\./, "");
+
+    // Attach base path
+    file.basePath = p;
+
+    // Attach relative path
+    file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
+    results.push(file);
+
   });
 
   return results;
