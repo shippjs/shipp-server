@@ -295,11 +295,25 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
 Utils.watch = function(sourceDir, sourceExt, options) {
 
-  if ("*" !== sourceExt) sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
+  var p;
+
+  // Defaults
+  if ("object" === typeof sourceExt) {
+    options = sourceExt;
+    sourceExt = "*";
+  }
 
   options = options || {};
 
-  chokidar.watch(path.join(sourceDir, "**", sourceExt), options).on("change", function(file) {
+  // For source extension, if not wildcard, convert to "*.ext"
+  if ("*" !== sourceExt)
+    sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
+
+  // Create path, and ensure that chokidar's cwd is root
+  p = Utils.makePathAbsolute(path.join(sourceDir, "**", sourceExt));
+  options.cwd = path.parse(p).root;
+
+  chokidar.watch(p, options).on("change", function(file) {
     global.server.reload(file);
   });
 
