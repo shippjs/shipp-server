@@ -12,14 +12,19 @@
 
 */
 
+var dataStore = require("./data-store");
+
 
 module.exports = (function() {
 
   // Configuration
   global.config = require("./config")();
 
-  // Database
-  global.db = require("./data-store")();
+  // Database: dataStore appends to global database. As a result, assigning
+  // global.db with each iteration isn't data lossy.
+  (global.config.data || []).forEach(function(options) {
+    global.db = dataStore(options);
+  });
 
   // File system
   global.fs = new (require("memory-fs"))();
