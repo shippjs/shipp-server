@@ -22,13 +22,6 @@ function createDataQuery(queries) {
 }
 
 
-function sequence(tasks, initial) {
-  return Promise.reduce(tasks || [], function(val, task) {
-    return task(val);
-  }, initial);
-}
-
-
 /**
 
   @returns <String> Directory to ignore (if exists)
@@ -66,7 +59,7 @@ function addFile(router, route, file, type, basePath) {
       for (var key in metadata.session || {})
         req.session[key] = metadata.session[key];
 
-      sequence(tasks, req.params)
+      Utils.sequence(tasks, req.params)
       .then(res.type(type).send.bind(res))
       .catch(function(err) { console.log(err); res.sendStatus(500); });
 
