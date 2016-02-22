@@ -242,7 +242,7 @@ Utils.readDirectory = function(p, recursive) {
 
 Utils.readFileHead = function(path, chars) {
 
-  var buffer = new Buffer(chars),
+  var buffer = new Buffer(chars || 500),
       file   = fs.openSync(path, "r"),
       str,
       len;
