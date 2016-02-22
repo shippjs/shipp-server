@@ -20,6 +20,7 @@
 
 var Utils        = require("./utils"),
     Promise      = require("bluebird"),
+    chokidar     = require("chokidar"),
     path         = require("path"),
     webpack      = require("webpack"),
     readFile     = Promise.promisify(global.fs.readFile.bind(global.fs));
@@ -79,8 +80,12 @@ var Bundler = module.exports = function(options) {
   if (options.compile) this.compile();
 
   if (options.watch) {
+
     // Only watch directory with index file: breaks outside watchers otherwise
-    global.server.watch(path.join(path.dirname(options.entry), "**", "*"), function(event, file) {
+    // Note that this may fetch the file multiple times: once when "reload" is triggered,
+    // and again a second time when the file is called (e.g. from HTML)
+
+    chokidar.watch(path.join(path.dirname(options.entry), "**", "*")).on("all", function(event, file) {
       self.compile(function(err, stats) {
         global.server.reload(self.path);
       });
