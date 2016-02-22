@@ -13,6 +13,7 @@
   • mapFiles
   • readDirectory
   • readFileHead
+  • sequence
   • uniqueExtensions
   • watch
 
@@ -27,6 +28,7 @@ var fs       = require("fs"),
     url      = require("url"),
     path     = require("path"),
     chokidar = require("chokidar"),
+    Promise  = require("bluebird"),
     Utils;
 
 
@@ -407,4 +409,21 @@ Utils.watch = function(sourceDir, sourceExt, options) {
 
 Utils.isProduction = function() {
   return /^prod/i.test(process.env.NODE_ENV);
+};
+
+
+
+/**
+
+  Runs a sequence of promises, similar to when.js
+
+  @param {Array} tasks Array of "tasks" (functions that return promises)
+  @param {*} initial Initial value to call task with
+
+**/
+
+Utils.sequence = function(tasks, initial) {
+  return Promise.reduce(tasks || [], function(val, task) {
+    return task(val);
+  }, initial);
 };
