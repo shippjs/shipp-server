@@ -76,9 +76,6 @@ var Bundler = module.exports = function(options) {
   this.get = this.get.bind(this);
   this.compile = Promise.promisify(this.bundler.run.bind(this.bundler));
 
-  // Optionally compile
-  if (options.compile) this.compile();
-
   // Only watch directory with index file: breaks outside watchers otherwise
   if (options.watch) {
     chokidar.watch(path.join(path.dirname(options.entry), "**", "*")).on("all", function(event, file) {
@@ -87,6 +84,10 @@ var Bundler = module.exports = function(options) {
       });
     });
   }
+
+  // Optionally compile
+  // TO DO: Address race conditions here
+  if (options.compile) this.compile();
 
 };
 
@@ -101,7 +102,6 @@ var Bundler = module.exports = function(options) {
 **/
 
 Bundler.prototype.get = function() {
-  console.log("GETTING");
   return readFile(this.path, "utf8");
 };
 
