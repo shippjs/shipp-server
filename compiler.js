@@ -44,7 +44,7 @@ function addFile(router, route, file, type, basePath) {
     if (!Motors.hasEngine(file.ext)) Motors.addEngine(file.ext);
 
     // Extract metadata
-    if ("html" === type) {
+    if (/^html?$/.test(type)) {
       metadata = Metadata.extract(Utils.readFileHead(file.path, 500));
       tasks.push(createDataQuery(metadata.data));
     }
