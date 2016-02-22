@@ -103,7 +103,7 @@ module.exports = function(options) {
   });
 
   for (var key in exts)
-    Utils.watch(options.path, key, options.ext, { ignored : ignored });
+    Utils.watch(options.path, key, options.ext, { watchOptions : { ignored : ignored } });
 
   return router;
 

@@ -286,12 +286,14 @@ Utils.getRegExpMatches = function(str, re) {
 
 */
 
-Utils.watch = function(sourceDir, sourceExt, destExt) {
+Utils.watch = function(sourceDir, sourceExt, destExt, options) {
 
   if ("*" !== sourceExt) sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
   if ("*" !== destExt) destExt = (destExt) ? ("*." + destExt.replace(/^[\*\.]+/g, "")) : sourceExt;
 
-  global.server.watch(path.join(sourceDir, "**", sourceExt), function(event, file) {
+  options = options || {};
+
+  global.server.watch(path.join(sourceDir, "**", sourceExt), options, function(event, file) {
     if ("change" === event) global.server.reload(destExt);
   });
 
