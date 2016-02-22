@@ -79,8 +79,7 @@ function addFile(router, route, file, type, basePath) {
 
     // If we have a bundle, return the path (we won't "watch" as this happens
     // already in Bundler.
-    if (file.bundle) return file.dir;
-    return;
+    if (file.ignored) return file.ignored;
 
 }
 
@@ -96,7 +95,7 @@ module.exports = function(options) {
   files.forEach(function(file) {
 
     ignore = addFile(router, options.url, file, options.ext);
-    if (ignore) ignored.push(ignore);
+    if (ignore) ignored = ignored.concat(ignore);
 
     exts[file.ext] = 1;
 
