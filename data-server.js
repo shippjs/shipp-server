@@ -10,10 +10,7 @@
 var jsonServer = require("json-server");
 
 
-module.exports = function(options) {
-
-  // Set defaults
-  options = Object.assign({}, options);
+module.exports = function() {
 
   return jsonServer.router(global.db.object);
 
