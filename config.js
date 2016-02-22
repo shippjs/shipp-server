@@ -7,8 +7,9 @@
 
 **/
 
-var Utils  = require("./utils"),
-    config = require(Utils.makePathAbsolute("sneakers.config.js"));
+var Utils = require("./utils"),
+    config,
+    fs;
 
 
 var defaults = {
@@ -48,10 +49,16 @@ var defaults = {
 };
 
 
+
 module.exports = function() {
 
-  // Copy defaults and attach to globals
-  config = Object.assign(defaults, config);
+  // Load config if available
+  try {
+    config = require(Utils.makePathAbsolute("sneakers.config.js"));
+    config = Object.assign(defaults, config);
+  } catch (err) {
+    config = {};
+  }
 
   // Store global variables
   global.vars = config.globals || {};
