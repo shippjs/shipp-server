@@ -24,7 +24,10 @@ module.exports = Utils = {};
 
 Utils.makePathAbsolute = function(p) {
 
-  return path.resolve(process.cwd(), p || "");
+  if (path.isAbsolute(p))
+    return p;
+  else
+    return path.resolve(process.cwd(), p || "");
 
 }
 
