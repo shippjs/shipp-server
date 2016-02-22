@@ -293,10 +293,9 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
 */
 
-Utils.watch = function(sourceDir, sourceExt, destExt, options) {
+Utils.watch = function(sourceDir, sourceExt, options) {
 
   if ("*" !== sourceExt) sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
-  if ("*" !== destExt) destExt = (destExt) ? ("*." + destExt.replace(/^[\*\.]+/g, "")) : sourceExt;
 
   options = options || {};
 
