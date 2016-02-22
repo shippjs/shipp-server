@@ -31,7 +31,7 @@ Metadata.extract = function(str) {
       meta  = {};
 
 
-  Utils.getRegExpMatches(str, re).map(Metadata.parse).forEach(function(metadata) {
+  Utils.getRegExpMatches(str, re, 1).map(Metadata.parse).forEach(function(metadata) {
     meta[metadata["name"]] = meta[metadata["name"]] || [];
     meta[metadata["name"]].push(metadata.value);
   });
@@ -91,7 +91,7 @@ Metadata.parseQuery = function(str) {
   var key, idx;
 
   // Remove index if possible
-  if (idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g)[0])
+  if (idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g, 1)[0])
     str = str.replace(/\[\d+\]$/, "");
 
   // Allow assignment to key

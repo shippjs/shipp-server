@@ -266,13 +266,20 @@ Utils.readFileHead = function(path, chars) {
 
 */
 
-Utils.getRegExpMatches = function(str, re) {
+Utils.getRegExpMatches = function(str, re, idx) {
 
   var match,
       matches = [];
 
+  // Clone the RE and add global flag (otherwise has endless loop)
+  re = new RegExp(re);
+  re.global = true;
+
+  // Set default idx
+  idx = idx || 0;
+
   while (match = re.exec(str))
-    matches.push(match[1]);
+    matches.push(match[idx]);
 
   return matches;
 
