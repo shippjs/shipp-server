@@ -3,6 +3,9 @@
 
   index.js
 
+  Starting point for development work. Separated from server.js in order to
+  eventually allow for production deployments (they would not need BrowserSync).
+
 */
 
 module.exports = function() {
