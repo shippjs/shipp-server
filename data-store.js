@@ -67,9 +67,6 @@ module.exports = function(options) {
   var db = extendDatabase(low()),
       val;
 
-  // Set defaults
-  options = _.extend({ path : "./data", route : "/" }, options);
-
   Utils.mapFiles(options.path).forEach(function(file) {
 
     var json = JSON.parse(fs.readFileSync(file.path, "utf8")),
