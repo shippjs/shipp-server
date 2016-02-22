@@ -40,7 +40,7 @@ Utils.makePathAbsolute = function(p) {
 */
 
 Utils.isIndexFile = function(file) {
-  return /index[^\/]*$/.test(file.name);
+  return /^index[^\/]*$/i.test(file.name);
 }
 
 
