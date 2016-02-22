@@ -52,7 +52,7 @@ var Bundler = module.exports = function(options) {
   // Set up defaults
   options = Object.assign({ compile: true, watch : true, path : "/scripts/" }, options);
 
-  // Configure
+  // Configure webpack
   this.config = {
     entry      : options.entry,
     output     : {
@@ -65,7 +65,7 @@ var Bundler = module.exports = function(options) {
     resolve    : { extensions: exts }
   };
 
-  // Store path
+  // Store path to compiled file
   this.path = path.join(this.config.output.path, options.filename);
 
   // Set up bundler with in-memory file sysstem
@@ -79,12 +79,8 @@ var Bundler = module.exports = function(options) {
   // Optionally compile
   if (options.compile) this.compile();
 
+  // Only watch directory with index file: breaks outside watchers otherwise
   if (options.watch) {
-
-    // Only watch directory with index file: breaks outside watchers otherwise
-    // Note that this may fetch the file multiple times: once when "reload" is triggered,
-    // and again a second time when the file is called (e.g. from HTML)
-
     chokidar.watch(path.join(path.dirname(options.entry), "**", "*")).on("all", function(event, file) {
       self.bundler.run(function(err, stats) {
         global.server.reload(self.path);
@@ -105,6 +101,7 @@ var Bundler = module.exports = function(options) {
 **/
 
 Bundler.prototype.get = function() {
+  console.log("GETTING");
   return readFile(this.path, "utf8");
 };
 
