@@ -52,7 +52,9 @@ defaults = {
     html: "html",
     css: "css",
     js: "javascript"
-  }
+  },
+
+  locals: {}
 
 };
 
@@ -62,8 +64,21 @@ module.exports = function() {
 
   // Load config if available
   try {
-    config = require(Utils.makePathAbsolute("sneakers.config.js"));
-    config = Object.assign(defaults, config);
+
+    config = JSON.parse(fs.readFileSync(Utils.makePathAbsolute("sneakers.json"), "utf8"));
+    config = Object.assign({}, config);
+
+    // Key/value assignments
+    config.pipelines = Object.assign(config.pipelines || {}, defaults.pipelines);
+    config.locals    = Object.assign(config.locals || {}, defaults.locals);
+
+    // Array assignments
+    config.data      = (config.data    || []).concat(defaults.data);
+    config.scripts   = (config.scripts || []).concat(defaults.scripts);
+    config.statics   = (config.statics || []).concat(defaults.statics);
+    config.styles    = (config.styles  || []).concat(defaults.styles);
+    config.views     = (config.views   || []).concat(defaults.views);
+
   } catch (err) {
     config = {};
   }
