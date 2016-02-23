@@ -62,12 +62,12 @@ module.exports = function() {
   }
 
   // Store global variables
-  global.vars = config.globals || {};
+  global.locals = config.locals || {};
 
   // Copy production variables over second, so as to overwrite non-production
   // when applicable
   if (Utils.isProduction())
-    global.vars = Object.assign(global.vars, config["globals:production"] || {});
+    global.locals = Object.assign(global.locals, config["locals:production"] || {});
 
   return config;
 
