@@ -8,6 +8,8 @@
 
 **/
 
+require("./globals")();
+
 module.exports = function() {
 
   var path     = require("path"),
