@@ -8,37 +8,44 @@
 **/
 
 var Utils = require("./utils"),
-    config,
-    fs;
+    fs = require("fs"),
+    defaults,
+    config;
 
+var FONT_EXTENSIONS = ["ttf", "otf", "eot", "woff", "svg"];
 
-var defaults = {
+defaults = {
 
   data: [
-    { path : "./data", route : "/" }
+    { path : "data",       route : "/"                                           },
+    { path : "json",       route : "/"                                           }
   ],
 
   // Scripts are bundled by default, forcing directories with an "index" script to webpack
   scripts: [
-    { path : "./scripts", url : "/scripts", ext : "js", bundleFolders : true },
+    { path : "scripts",    url : "/scripts", exts : ["js"], bundleFolders : true },
   ],
 
   // Meanwhile, styles don't use bundling
   styles: [
-    { path : "./styles",  url : "/styles",  ext : "css" }
+    { path : "css",        url : "/css",     exts : ["css"]                      },
+    { path : "styles",     url : "/styles",  exts : ["css"]                      }
   ],
 
   // Vendor directories may include scripts, styles and JSON. As a result, we presume
   // that these are precompiled and treat them as statics.
   statics: [
-    { path : "./fonts",   url : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] },
-    { path : "./images",  url : "/images" },
-    { path : "./vendor",  url : "/vendor" }
+    { path : "components", url : "/components"                                   },
+    { path : "fonts",      url : "/fonts",   exts : FONT_EXTENSIONS              },
+    { path : "images",     url : "/images"                                       },
+    { path : "type",       url : "/type",    exts : FONT_EXTENSIONS              },
+    { path : "vendor",     url : "/vendor"                                       }
   ],
 
   // Views are compiled using template engines (when appropriate), HTML otherwise
   views: [
-    { path : "./views",   url : "/", ext : "html" }
+    { path : "pages",      url : "/",        exts : ["html"]                     },
+    { path : "views",      url : "/",        exts : ["html"]                     }
   ],
 
   pipelines: {
