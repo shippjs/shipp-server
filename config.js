@@ -23,7 +23,8 @@ defaults = {
 
   // Scripts are bundled by default, forcing directories with an "index" script to webpack
   scripts: [
-    { path : "scripts",    url : "/scripts", exts : ["js"], bundleFolders : true },
+    { path : "js",         url : "/js",      exts : ["js"], bundleFolders : true },
+    { path : "scripts",    url : "/scripts", exts : ["js"], bundleFolders : true }
   ],
 
   // Meanwhile, styles don't use bundling
