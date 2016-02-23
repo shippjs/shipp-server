@@ -40,7 +40,7 @@ module.exports = (function() {
   global.ports = { proxy : 27182 };
 
   // Add engines in config
-  for (var ext in global.config.engines)
-    global.engines.addEngine(ext, global.config.engines[ext]);
+  for (var ext in global.config.pipelines)
+    global.engines.addEngine(ext, global.config.pipelines[ext]);
 
 });

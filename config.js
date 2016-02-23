@@ -41,7 +41,7 @@ var defaults = {
     { path : "./views",   url : "/", ext : "html" }
   ],
 
-  engines: {
+  pipelines: {
     html: "html",
     css: "css",
     js: "javascript"
