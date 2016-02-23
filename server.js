@@ -35,8 +35,6 @@ module.exports = function() {
   iterateMiddleware(global.config.scripts, compiler);
 
   // Add statics
-  iterateMiddleware(global.config.fonts, statics);
-  iterateMiddleware(global.config.images, statics);
   iterateMiddleware(global.config.statics, statics);
 
   // We must add the data last or it overwrites other paths
