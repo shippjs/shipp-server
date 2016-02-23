@@ -141,7 +141,7 @@ function addFile(router, route, file, type, basePath) {
 
   Creates compilation pipelines for files and add route handlers.
 
-  @param {String} options.ext The default file extension to apply
+  @param {String} options.exts The default file extension to apply
   @param {String} options.path Directory to process
   @param {String} options.url Base url to route from: url structure = base + directory structure
   @param {Boolean} [options.bundleFolders] If true, applies folder bundling
@@ -155,7 +155,8 @@ module.exports = function(options) {
   var router  = express(),
       ignored = [],
       files   = Utils.mapFiles(options.path, options),
-      exts    = {};
+      exts    = {},
+      type    = Array.isArray(options.ext) ? options.ext[0] : options.ext;
 
   files.forEach(function(file) {
 
@@ -163,7 +164,7 @@ module.exports = function(options) {
     if (!Motors.hasEngine(file.ext)) Motors.addEngine(file.ext);
 
     // Handle the file
-    addFile(router, options.url, file, options.ext);
+    addFile(router, options.url, file, type);
 
     // Add to extension watch list
     exts[file.ext] = 1;
