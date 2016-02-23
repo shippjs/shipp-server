@@ -18,17 +18,6 @@ var defaults = {
     { path : "./data", route : "/" }
   ],
 
-  // Fonts are treated as statics, the extensions help to keep our "watch" efficient
-  fonts: [
-    { path : "./fonts",   url : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] }
-  ],
-
-  // Images are static too. We do not use extensions here as there are too many types of
-  // images, video and audio that developers may place in this folder.
-  images: [
-    { path : "./images",  url : "/images"  }
-  ],
-
   // Scripts are bundled by default, forcing directories with an "index" script to webpack
   scripts: [
     { path : "./scripts", url : "/scripts", ext : "js", bundleFolders : true },
@@ -42,6 +31,8 @@ var defaults = {
   // Vendor directories may include scripts, styles and JSON. As a result, we presume
   // that these are precompiled and treat them as statics.
   statics: [
+    { path : "./fonts",   url : "/fonts",   ext : ["ttf", "otf", "eot", "woff", "svg"] },
+    { path : "./images",  url : "/images" },
     { path : "./vendor",  url : "/vendor" }
   ],
 
