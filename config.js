@@ -39,7 +39,13 @@ var defaults = {
   // Views are compiled using template engines (when appropriate), HTML otherwise
   views: [
     { path : "./views",   url : "/", ext : "html" }
-  ]
+  ],
+
+  engines: {
+    html: "html",
+    css: "css",
+    js: "javascript"
+  }
 
 };
 
