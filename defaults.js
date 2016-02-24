@@ -1,3 +1,14 @@
+
+/**
+
+  defaults.js
+
+  The default JSON configuration presets. We use this rather than a JSON file so
+  that we can use `require` instead of fs.readFileSync/JSON.parse, for a speed
+  improvement.
+
+**/
+
 module.exports = {
 
   "data": ["data", "json"],
