@@ -1,5 +1,5 @@
 
-/*
+/**
 
   Globals.js
 
@@ -10,7 +10,7 @@
   • fs        File System (via MemoryFS)
   • server    Server (via BrowserSync)
 
-*/
+**/
 
 var dataStore = require("./data-store");
 
