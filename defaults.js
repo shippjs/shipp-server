@@ -22,11 +22,7 @@ module.exports = {
     "afterAll": ""
   },
 
-  "pipelines": {
-    "css": "css",
-    "html": "html",
-    "js": "javascript"
-  },
+  "pipelines": {},
 
   "routes": {
     "/"             : { "type": "views",    "path" : "views",      "exts" : ["html"]                             },
