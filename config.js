@@ -16,46 +16,36 @@ var FONT_EXTENSIONS = ["ttf", "otf", "eot", "woff", "svg"];
 
 defaults = {
 
-  data: [
-    { path : "data",       route : "/"                                           },
-    { path : "json",       route : "/"                                           }
-  ],
+  data: ["data", "json"],
 
-  // Scripts are bundled by default, forcing directories with an "index" script to webpack
-  scripts: [
-    { path : "js",         url : "/js",      exts : ["js"], bundleFolders : true },
-    { path : "scripts",    url : "/scripts", exts : ["js"], bundleFolders : true }
-  ],
+  locals: {},
 
-  // Meanwhile, styles don't use bundling
-  styles: [
-    { path : "css",        url : "/css",     exts : ["css"]                      },
-    { path : "styles",     url : "/styles",  exts : ["css"]                      }
-  ],
-
-  // Vendor directories may include scripts, styles and JSON. As a result, we presume
-  // that these are precompiled and treat them as statics.
-  statics: [
-    { path : "components", url : "/components"                                   },
-    { path : "fonts",      url : "/fonts",   exts : FONT_EXTENSIONS              },
-    { path : "images",     url : "/images"                                       },
-    { path : "type",       url : "/type",    exts : FONT_EXTENSIONS              },
-    { path : "vendor",     url : "/vendor"                                       }
-  ],
-
-  // Views are compiled using template engines (when appropriate), HTML otherwise
-  views: [
-    { path : "pages",      url : "/",        exts : ["html"]                     },
-    { path : "views",      url : "/",        exts : ["html"]                     }
-  ],
+  // beforeAll, beforeRoutes, afterRoutes, afterAll
+  middleware: {
+    beforeAll: "",
+    beforeRoutes: "",
+    afterRoutes: "",
+    afterAll: ""
+  },
 
   pipelines: {
-    html: "html",
     css: "css",
+    html: "html",
     js: "javascript"
   },
 
-  locals: {}
+  routes: {
+    "/"             : { type: "views",    path : "views",         exts : ["html"]                      },
+    "/components"   : { type: "statics",  path : "components"                                          },
+    "/css"          : { type: "styles",   path : "css",           exts : ["css"]                       },
+    "/fonts"        : { type: "statics",  path : "fonts",         exts : FONT_EXTENSIONS               },
+    "/images"       : { type: "statics",  path : "images",                                             },
+    "/js"           : { type: "scripts",  path : "js",            exts : ["js"],  bundleFolders : true },
+    "/scripts"      : { type: "scripts",  path : "scripts",       exts : ["js"],  bundleFolders : true },
+    "/styles"       : { type: "styles",   path : "styles",        exts : ["css"]                       },
+    "/type"         : { type: "statics",  path : "type",          exts : FONT_EXTENSIONS               },
+    "/vendor"       : { type: "statics",  path : "vendor"                                              }
+  },
 
 };
 
@@ -65,21 +55,8 @@ module.exports = function() {
 
   // Load config if available
   try {
-
     config = JSON.parse(fs.readFileSync(Utils.makePathAbsolute("sneakers.json"), "utf8"));
-    config = Object.assign({}, config);
-
-    // Key/value assignments
-    config.pipelines = Object.assign(config.pipelines || {}, defaults.pipelines);
-    config.locals    = Object.assign(config.locals || {}, defaults.locals);
-
-    // Array assignments
-    config.data      = (config.data    || []).concat(defaults.data);
-    config.scripts   = (config.scripts || []).concat(defaults.scripts);
-    config.statics   = (config.statics || []).concat(defaults.statics);
-    config.styles    = (config.styles  || []).concat(defaults.styles);
-    config.views     = (config.views   || []).concat(defaults.views);
-
+    config = Object.assign({}, defaults, config);
   } catch (err) {
     config = {};
   }
