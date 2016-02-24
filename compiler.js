@@ -156,7 +156,7 @@ module.exports = function(options) {
       ignored = [],
       files   = Utils.mapFiles(options.path, options),
       exts    = {},
-      type    = Array.isArray(options.ext) ? options.ext[0] : options.ext;
+      type    = Array.isArray(options.exts) ? options.exts[0] : options.exts;
 
   files.forEach(function(file) {
 
