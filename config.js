@@ -3,7 +3,10 @@
 
   Config.js
 
-  Base configuration file for sneakers server.
+  Base configuration file for sneakers server. The config file is an "all-or-nothing"
+  approach: we either use the defaults, or create a config file for you. This
+  helps to ensure that future changes to the defaults file don't break existing
+  configurations.
 
 **/
 
@@ -19,9 +22,8 @@ module.exports = function() {
   // Load config if available
   try {
     config = JSON.parse(fs.readFileSync(Utils.makePathAbsolute("sneakers.json"), "utf8"));
-    config = Object.assign({}, defaults, config);
   } catch (err) {
-    config = {};
+    config = Object.assign({}, defaults);
   }
 
   // Store global variables
