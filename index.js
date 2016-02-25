@@ -21,7 +21,7 @@ module.exports = function(options) {
       options,
       PORT;
 
-  PORT = global.ports.proxy;
+  PORT = global.ports.server;
 
   // Set up sensible logging defaults, etc. These will change with production environments
   server.use(require("morgan")("dev"));

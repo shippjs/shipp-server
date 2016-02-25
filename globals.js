@@ -30,14 +30,17 @@ module.exports = function(options) {
   global.fs = new (require("memory-fs"))();
 
   // Server
-  global.server = require("browser-sync").create();
+  if (options.liveRefresh) {
+    // Add internal port (proxy of BrowserSync)
+    global.ports = { server : 27182 };
+    global.server = require("browser-sync").create();
+  } else {
+    global.ports = { server : global.config.port || 3000 };
+  }
 
   // Engines
   global.engines = require("superloader").engines;
   global.engines.dir = process.cwd();
-
-  // Add internal port (proxy of BrowserSync)
-  global.ports = { proxy : 27182 };
 
   // Add engines in config
   for (var ext in global.config.pipelines)
