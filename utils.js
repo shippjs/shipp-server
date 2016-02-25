@@ -151,6 +151,7 @@ Utils.flagBundles = function(p, files, ext) {
 
   @param {String} p Path to map
   @param {Object} [options.recursive] If true, processes recursively
+  @param {Boolean} [options.bundleFolders] If true, automatically bundles appropriate folders
 
 **/
 
