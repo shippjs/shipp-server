@@ -8,9 +8,11 @@
 
 **/
 
-require("./globals")();
+module.exports = function(options) {
 
-module.exports = function() {
+  // Defaults
+  options = options || {};
+  require("./globals")(options);
 
   var path     = require("path"),
       server   = require("express")(),
