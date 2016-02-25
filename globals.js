@@ -15,7 +15,7 @@
 var dataStore = require("./data-store");
 
 
-module.exports = (function() {
+module.exports = function(options) {
 
   // Configuration
   global.config = require("./config")();
@@ -43,4 +43,4 @@ module.exports = (function() {
   for (var ext in global.config.pipelines)
     global.engines.addEngine(ext, global.config.pipelines[ext]);
 
-});
+};
