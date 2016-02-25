@@ -28,19 +28,19 @@ module.exports = function(server, key) {
   if ("string" === typeof middleware) middleware = [middleware];
 
   // Iterate
-  middleware.forEach(function(library) {
+  middleware.forEach(function(pkg) {
 
     // If module is local, simply require
-    if ("." === library[0] || "/" === library[0])
-      library = require(utils.makePathAbsolute(library));
+    if ("." === pkg[0] || "/" === pkg[0])
+      pkg = require(utils.makePathAbsolute(pkg));
 
     else {
       // Lazy-load desires (don't reduce load time unless we have to)
       if (!desires) desires = require("desires");
-      library = desires(library);
+      pkg = desires(pkg);
     }
 
-    server.use(library);
+    server.use(pkg);
 
   });
 
