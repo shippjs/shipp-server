@@ -14,19 +14,26 @@ module.exports = function(options) {
   options = options || {};
   require("./globals")(options);
 
-  var path     = require("path"),
-      server   = require("express")(),
-      compiler = require("./compiler"),
-      statics  = require("./statics"),
+  var path       = require("path"),
+      server     = require("express")(),
+      compiler   = require("./compiler"),
+      middleware = require("./middleware"),
+      statics    = require("./statics"),
       options,
       PORT;
 
   PORT = global.ports.server;
 
+  // Middleware injection
+  middleware(server, "beforeAll");
+
   // Set up sensible logging defaults, etc. These will change with production environments
   server.use(require("morgan")("dev"));
   server.use(require("cookie-parser")());
   server.use(require("express-session")({ secret : "password123", resave : false, saveUninitialized : true }));
+
+  // Middleware injection
+  middleware(server, "beforeRoutes");
 
   // Routing middleware
   for (var route in global.config.routes) {
@@ -52,10 +59,16 @@ module.exports = function(options) {
   // We must add the data last or it overwrites other paths
   server.use(require("./data-server")());
 
+  // Middleware injection
+  middleware(server, "afterRoutes");
+
   // Handle 404 errors
   server.use(function(req, res, next) {
     res.status(404).send("404 Not Found");
   });
+
+  // Middleware injection
+  middleware(server, "afterAll");
 
   // Listen (we will proxy with browser sync)
   server.listen(PORT);
