@@ -52,6 +52,11 @@ module.exports = function(options) {
   // We must add the data last or it overwrites other paths
   server.use(require("./data-server")());
 
+  // Handle 404 errors
+  server.use(function(req, res, next) {
+    res.status(404).send("404 Not Found");
+  });
+
   // Listen (we will proxy with browser sync)
   server.listen(PORT);
 
