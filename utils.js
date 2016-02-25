@@ -395,6 +395,10 @@ Utils.watch = function(sourceDir, sourceExt, options) {
   options.cwd = path.parse(p).root;
 
   chokidar.watch(p, options).on("change", function(file) {
+    if (options.type) {
+      var parsed = path.parse(file);
+      file = path.join(parsed.root, parsed.dir, parsed.name + "." + options.type)
+    }
     global.server.reload(file);
   });
 
