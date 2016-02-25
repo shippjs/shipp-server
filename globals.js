@@ -22,8 +22,8 @@ module.exports = function(options) {
 
   // Database: dataStore appends to global database. As a result, assigning
   // global.db with each iteration isn't data lossy.
-  (global.config.data || []).forEach(function(options) {
-    global.db = dataStore(options);
+  (global.config.data || []).forEach(function(store) {
+    global.db = dataStore(store);
   });
 
   // File system
