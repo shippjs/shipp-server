@@ -81,13 +81,13 @@ Metadata.parse = function(str) {
   // Handle different types of metadata differently
   switch (name) {
     case "cookies":
-      value = JSON.parse("{" + matches[1] + "}");
+      value = JSON.parse("{" + matches[0] + "}");
       break;
     case "session":
-      value = JSON.parse("{" + matches[1] + "}");
+      value = JSON.parse("{" + matches[0] + "}");
       break;
     case "params":
-      value = matches[1];
+      value = matches[0];
       break;
     default:
       value = Metadata.parseQuery(matches.join("="));
