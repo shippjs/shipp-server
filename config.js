@@ -11,8 +11,7 @@
 **/
 
 var fs = require("fs"),
-    Utils = require("./utils"),
-    defaults = require("./defaults");
+    Utils = require("./utils");
 
 
 module.exports = function() {
@@ -23,7 +22,7 @@ module.exports = function() {
   try {
     config = JSON.parse(fs.readFileSync(Utils.makePathAbsolute("sneakers.json"), "utf8"));
   } catch (err) {
-    config = Object.assign({}, defaults);
+    config = Object.assign({}, require("./defaults"));
   }
 
   // Store global variables
