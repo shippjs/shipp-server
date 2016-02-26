@@ -114,7 +114,7 @@ function createHandler(type, compiler, metadata) {
 function createQueryFn(queries) {
   return function(context) {
     return makeQuery(queries, context).then(function(data) {
-      return Promise.resolve(Object.assign({}, global.locals, context, data));
+      return Promise.resolve(Object.assign(data, context));
     });
   };
 }
