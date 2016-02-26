@@ -14,7 +14,7 @@
 var Bundler     = require("./bundler"),
     express     = require("express"),
     Metadata    = require("./metadata"),
-    Motors      = global.engines,
+    Pipelines   = global.pipelines,
     Promise     = require("bluebird"),
     Utils       = require("./utils"),
     makeQuery   = Promise.promisify(global.db.queries);
@@ -41,7 +41,7 @@ function extractMetadata(file, type) {
 /**
 
   Creates a compiler for a file. For bundles, this means webpacking. Otherwise,
-  uses the Motors engine.
+  uses the Pipelines engine.
 
   @param {Stat} file fs.Stat object representing file
   @param {String} [type] Type of file
@@ -53,7 +53,7 @@ function createCompiler(file, type) {
   if (file.bundle)
     return Bundler.fromFile(file, type).get;
   else
-    return Promise.promisify(Motors.compileFile.bind(Motors, file.path));
+    return Promise.promisify(Pipelines.compileFile.bind(Pipelines, file.path));
 }
 
 
@@ -161,7 +161,7 @@ module.exports = function(options) {
   files.forEach(function(file) {
 
     // Add to list of extensions if not present
-    if (!Motors.hasEngine(file.ext)) Motors.addEngine(file.ext);
+    if (!Pipelines.hasPipeline(file.ext)) Pipelines.addPipeline(file.ext);
 
     // Handle the file
     addFile(router, options.url, file, type);

@@ -38,12 +38,12 @@ module.exports = function(options) {
     global.ports = { server : global.config.port || 3000 };
   }
 
-  // Engines
-  global.engines = require("superloader").engines;
-  global.engines.dir = process.cwd();
+  // Pipelines
+  global.pipelines = require("superloader").pipelines;
+  global.pipelines.dir = process.cwd();
 
-  // Add engines in config
+  // Add pipelines in config
   for (var ext in global.config.pipelines)
-    global.engines.addEngine(ext, global.config.pipelines[ext]);
+    global.pipelines.addPipeline(ext, global.config.pipelines[ext]);
 
 };
