@@ -70,14 +70,18 @@ function extendDatabase(db) {
 }
 
 
-module.exports = function(folder) {
+module.exports = function(options) {
 
   var val;
 
-  Utils.mapFiles(folder).forEach(function(file) {
+  // Default to "/" route
+  if ("string" === typeof options)
+    options = { path : options, url : "/" };
+
+  Utils.mapFiles(options.path).forEach(function(file) {
 
     var json = JSON.parse(fs.readFileSync(file.path, "utf8")),
-        slug = Utils.makeRoutes("/", { folder : file.folder, name : "" })[0]
+        slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0]
 
     // If array, use file name as key. Otherwise, parse keys
     if (Array.isArray(json)) {
