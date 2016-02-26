@@ -233,7 +233,7 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   // and pass the subsequent URL on as a "query" parameter
   if (/^html?$/.test(ext) && ("template" === file.name)) {
     route = route.split("/").slice(0, -1).join("/");
-    return [route + "/:query"];
+    return [route + "/:$slug"];
   }
 
   // Add file and default extension
