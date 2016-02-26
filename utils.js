@@ -231,7 +231,7 @@ Utils.makeRoutes = function(baseRoute, file, options) {
 
   // HTML-like files named "template" pull their route from the parent directory
   // and pass the subsequent URL on as a "query" parameter
-  if (/^html?$/.test(ext) && ("template" === file.name)) {
+  if (Utils.isTemplate(file, ext)) {
     route = route.split("/").slice(0, -1).join("/");
     return [route + "/:$slug"];
   }
