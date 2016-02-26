@@ -84,15 +84,39 @@ function createHandler(type, compiler, metadata) {
 
   return function(req, res) {
 
-    // Set cookies
-    for (key in metadata.cookies || {})
-      res.cookie(key, metadata.cookies[key]);
+    var data = {};
 
-    // Set session
-    for (key in metadata.session || {})
-      req.session[key] = metadata.session[key];
+    if (Utils.isHTML(type)) {
 
-    Utils.sequence(tasks, req.params)
+      // Data object will include locals, cookies, session, params, query, slug
+      // and if applicable, database query results
+      data = Object.assign(data, global.locals);
+
+      // Attach special variables
+      data.$cookies = req.cookies;
+      data.$session = req.session;
+      data.$params  = req.params;
+      data.$query   = req.query;
+
+      // Special slug
+      if (metadata.isTemplate)
+        data.$slug = req.url.replace(req.route.path.split(":")[0], "");
+
+      // Set cookies
+      for (key in metadata.cookies || {}) {
+        res.cookie(key, metadata.cookies[key]);
+        data.$cookies[key] = metadata.cookies[key];
+      }
+
+      // Set session
+      for (key in metadata.session || {}) {
+        req.session[key] = metadata.session[key];
+        data.$session[key] = metadata.session[key];
+      }
+
+    }
+
+    Utils.sequence(tasks, data)
     .then(res.type(type).send.bind(res))
     .catch(function(err) { console.log(err); res.sendStatus(500); });
 
