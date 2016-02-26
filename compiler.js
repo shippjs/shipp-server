@@ -80,7 +80,7 @@ function createHandler(type, compiler, metadata) {
 
   // Add data query if necessary
   metadata = metadata || {};
-  if (metadata.query) tasks.unshift(createQueryFn(metadata.query));
+  if (metadata.data) tasks.unshift(createQueryFn(metadata.data));
 
   return function(req, res) {
 
