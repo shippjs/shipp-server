@@ -1,7 +1,6 @@
-
 /**
 
-  Server.js
+  server
 
   The backbone of the server module. In development, this runs proxied through
   BrowserSync server.
@@ -19,7 +18,6 @@ module.exports = function(options) {
       compiler   = require("./compiler"),
       middleware = require("./middleware"),
       statics    = require("./statics"),
-      options,
       PORT;
 
   PORT = global.ports.server;
@@ -73,4 +71,4 @@ module.exports = function(options) {
   // Listen (we will proxy with browser sync)
   server.listen(PORT);
 
-}
+};

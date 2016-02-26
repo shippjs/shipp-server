@@ -1,6 +1,6 @@
 /**
 
-  Bundler.js
+  bundler.js
 
   Wrapper for module bundling: currently uses webpack.
 

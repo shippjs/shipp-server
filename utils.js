@@ -1,4 +1,3 @@
-
 /**
 
   Utils.js
@@ -52,7 +51,7 @@ Utils.makePathAbsolute = function(p) {
   else
     return path.resolve(process.cwd(), p || "");
 
-}
+};
 
 
 
@@ -67,7 +66,7 @@ Utils.makePathAbsolute = function(p) {
 
 Utils.isIndexFile = function(file) {
   return /^index[^\/]*$/i.test(file.name);
-}
+};
 
 
 
@@ -81,7 +80,7 @@ Utils.isIndexFile = function(file) {
 **/
 
 Utils.uniqueExtensions = function(p) {
-  var exts = {}
+  var exts = {};
   Utils.readDirectory(p).forEach(function(file) {
     if (file.ext && "" !== file.ext) exts[file.ext.toLowerCase()] = 1;
   });
@@ -103,7 +102,8 @@ Utils.uniqueExtensions = function(p) {
 
 Utils.flagBundles = function(p, files, ext) {
 
-  var indices = [];
+  var indices = [],
+      i, j, n;
 
   // Filter out index files (outside of master directory)
   i = files.length;
@@ -114,7 +114,7 @@ Utils.flagBundles = function(p, files, ext) {
   // Remove indices that are subdirectories of each other
   i = indices.length;
   while (i-- > 0)
-    for (var j = 0, n = indices.length; j < n; j++)
+    for (j = 0, n = indices.length; j < n; j++)
       if (i !== j && 0 === indices[i].path.indexOf(indices[j].dir)) {
         indices.splice(i, 1);
         break;
@@ -123,7 +123,7 @@ Utils.flagBundles = function(p, files, ext) {
   // Remove files in subdirectories of indices
   i = files.length;
   while (i-- > 0)
-    for (var j = 0, n = indices.length; j < n; j++)
+    for (j = 0, n = indices.length; j < n; j++)
       if (0 === files[i].path.indexOf(indices[j].dir)) {
         files.splice(i, 1);
         break;
@@ -192,7 +192,7 @@ Utils.mapFiles = function(p, options) {
 
   return results;
 
-}
+};
 
 
 
@@ -216,8 +216,9 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   var re = /\/\/+$/,
       route,
       routes,
-      ext,
-      options = options || {};
+      ext;
+
+  options = options || {};
 
   // By defaulting to file type, we address templating and transpiling. We can
   // resolve coffee files to js, etc. We also remove leading dot.
@@ -247,7 +248,7 @@ Utils.makeRoutes = function(baseRoute, file, options) {
 
   return routes;
 
-}
+};
 
 
 
@@ -287,7 +288,7 @@ Utils.readDirectory = function(p, recursive) {
     // Recursively walk directory, or add file
     if (stats.isDirectory()) {
       if (recursive)
-        results = results.concat(Utils.readDirectory(file, true))
+        results = results.concat(Utils.readDirectory(file, true));
     } else {
       parsed = path.parse(file);
       parsed.path = file;
@@ -298,7 +299,7 @@ Utils.readDirectory = function(p, recursive) {
 
   return results;
 
-}
+};
 
 
 
@@ -326,9 +327,9 @@ Utils.readFileHead = function(path, chars) {
   // (so that we can use template engines without through errors)
   str = buffer.slice(0, len).toString().split("\n");
 
-  return str.slice(0, str.length - 1).join("\n")
+  return str.slice(0, str.length - 1).join("\n");
 
-}
+};
 
 
 
@@ -355,12 +356,12 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
   // Set default idx
   idx = idx || 0;
 
-  while (match = pattern.exec(str))
+  while ((match = pattern.exec(str)))
     matches.push(match[idx]);
 
   return matches;
 
-}
+};
 
 
 
@@ -397,12 +398,12 @@ Utils.watch = function(sourceDir, sourceExt, options) {
   chokidar.watch(p, options).on("change", function(file) {
     if (options.type) {
       var parsed = path.parse(file);
-      file = path.join(parsed.root, parsed.dir, parsed.name + "." + options.type)
+      file = path.join(parsed.root, parsed.dir, parsed.name + "." + options.type);
     }
     global.server.reload(file);
   });
 
-}
+};
 
 
 /**

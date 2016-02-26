@@ -1,11 +1,10 @@
-
-/*
+/**
 
   static.js
 
   Creates static server: see https://github.com/isaacs/st
 
-*/
+**/
 
 var Utils   = require("./utils"),
     st      = require("st");
@@ -23,4 +22,4 @@ module.exports = function(options) {
 
   return st(options);
 
-}
+};

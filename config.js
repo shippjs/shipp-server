@@ -1,7 +1,6 @@
-
 /**
 
-  Config.js
+  config.js
 
   Base configuration file for sneakers server. The config file is an "all-or-nothing"
   approach: we either use the defaults, or create a config file for you. This
@@ -35,4 +34,4 @@ module.exports = function() {
 
   return config;
 
-}
+};

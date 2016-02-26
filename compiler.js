@@ -1,7 +1,6 @@
-
 /**
 
-  Compiler.js
+  compiler.js
 
   Powerful compiler for script transpilation, templating and CSS preprocessing.
 
@@ -70,7 +69,8 @@ function createCompiler(file, type) {
 
 function createHandler(type, compiler, metadata) {
 
-  var tasks = [compiler];
+  var tasks = [compiler],
+      key;
 
   // Add data query if necessary
   metadata = metadata || {};
@@ -79,11 +79,11 @@ function createHandler(type, compiler, metadata) {
   return function(req, res) {
 
     // Set cookies
-    for (var key in metadata.cookies || {})
+    for (key in metadata.cookies || {})
       res.cookie(key, metadata.cookies[key]);
 
     // Set session
-    for (var key in metadata.session || {})
+    for (key in metadata.session || {})
       req.session[key] = metadata.session[key];
 
     Utils.sequence(tasks, req.params)
@@ -110,7 +110,7 @@ function createQueryFn(queries) {
     return makeQuery(queries, context).then(function(data) {
       return Promise.resolve(Object.assign({}, global.locals, context, data));
     });
-  }
+  };
 }
 
 

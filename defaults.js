@@ -1,4 +1,3 @@
-
 /**
 
   defaults.js
@@ -37,4 +36,4 @@ module.exports = {
     "/vendor"       : { "type": "statics",  "path" : "vendor"                                                    }
   }
 
-}
+};

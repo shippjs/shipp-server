@@ -1,4 +1,3 @@
-
 /**
 
   data-store.js
@@ -35,12 +34,12 @@ function extendDatabase(db) {
   db.get = function(key) {
     var val = db.object[key];
     return (Array.isArray(val)) ? db(key) : _(val);
-  }
+  };
 
   // Runs a database query
   db.query = function(query, context, next) {
     query.run(db.get(query.query.table).value(), context, next);
-  }
+  };
 
   // Executes multiple queries and combines into a single object
   db.queries = function(queries, context, next) {
@@ -63,7 +62,7 @@ function extendDatabase(db) {
       });
     });
 
-  }
+  };
 
   return db;
 
@@ -81,7 +80,8 @@ module.exports = function(options) {
   Utils.mapFiles(options.path).forEach(function(file) {
 
     var json = JSON.parse(fs.readFileSync(file.path, "utf8")),
-        slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0]
+        slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0],
+        key;
 
     // If array, use file name as key. Otherwise, parse keys
     if (Array.isArray(json)) {
@@ -106,4 +106,4 @@ module.exports = function(options) {
 
   return Database;
 
-}
+};

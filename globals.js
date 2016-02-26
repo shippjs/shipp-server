@@ -1,7 +1,6 @@
-
 /**
 
-  Globals.js
+  globals.js
 
   There are multiple globals we choose not to pass between functions:
 

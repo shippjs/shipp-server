@@ -1,7 +1,6 @@
-
 /**
 
-  Metadata.js
+  metadata.js
 
   Metadata is stored as comments near the beginning of an HTML file.
 
@@ -49,16 +48,16 @@ Metadata.extract = function(str) {
   Utils.getRegExpMatches(str, re, 1).map(Metadata.parse).forEach(function(metadata) {
 
     // Ensure exists...
-    meta[metadata["name"]] = meta[metadata["name"]] || [];
+    meta[metadata.name] = meta[metadata.name] || [];
 
     // Add value
-    meta[metadata["name"]].push(metadata.value);
+    meta[metadata.name].push(metadata.value);
 
   });
 
   return meta;
 
-}
+};
 
 
 
@@ -93,7 +92,7 @@ Metadata.parse = function(str) {
 
   return { name : name, value : value };
 
-}
+};
 
 
 
@@ -127,7 +126,7 @@ Metadata.parseQuery = function(str) {
   if ("'" === str[0] || '"' === str[0]) {
 
     // But not before removing index...
-    if (idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g, 1)[0])
+    if ((idx = Utils.getRegExpMatches(str, /\[(\d+)\]$/g, 1)[0]))
       str = str.replace(/\[\d+\]$/, "");
 
     // Check to see properly formed
@@ -142,6 +141,6 @@ Metadata.parseQuery = function(str) {
   // Queries can be cached as we are simply storing translation
   query = queryCache[str] || (queryCache[str] = new Universql(str));
 
-  return { idx : idx, key : key, query : query }
+  return { idx : idx, key : key, query : query };
 
-}
+};
