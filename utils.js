@@ -434,3 +434,20 @@ Utils.sequence = function(tasks, initial) {
     return task(val);
   }, initial);
 };
+
+
+
+/**
+
+  Tests whether a file is a template (HTML-like and named properly)
+
+  @param {Stats} file File as returned by fs.lstat
+  @param {String} type The type of file extension
+  @returns {Boolean} Returns true is is a template
+
+**/
+
+Utils.isTemplate = function(file, type) {
+  return ("template" === file.name) && Utils.isHTML(type);
+};
+
