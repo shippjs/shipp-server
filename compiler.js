@@ -30,10 +30,16 @@ var Bundler     = require("./bundler"),
 **/
 
 function extractMetadata(file, type) {
-  if (/^html?$/.test(type || ""))
-    return Metadata.extract(Utils.readFileHead(file.path, 500));
-  else
-    return {};
+
+  var metadata = {};
+
+  if (Utils.isHTML(type)) {
+    metadata = Metadata.extract(Utils.readFileHead(file.path, 500));
+    metadata.isTemplate = Utils.isTemplate(file, type);
+  }
+
+  return metadata;
+
 }
 
 
