@@ -41,7 +41,7 @@ var Metadata = module.exports = {};
 
 Metadata.extract = function(str) {
 
-  var names = ["DATA", "COOKIES", "SESSION"],
+  var names = ["DATA", "PARAMS", "COOKIES", "SESSION"],
       re    = new RegExp("(\\b(?:" + names.join("|") + ")\\=[^\\n\\r]+)", "g"),
       meta  = {};
 
@@ -85,6 +85,9 @@ Metadata.parse = function(str) {
       break;
     case "session":
       value = JSON.parse("{" + matches[1] + "}");
+      break;
+    case "params":
+      value = matches[1];
       break;
     default:
       value = Metadata.parseQuery(matches.join("="));
