@@ -451,3 +451,16 @@ Utils.isTemplate = function(file, type) {
   return ("template" === file.name) && Utils.isHTML(type);
 };
 
+
+/**
+
+  Tests whether a type is HTML-like
+
+  @param {String} type Type of file
+  @returns {Boolean} Returns true if is HTML-like
+
+**/
+
+Utils.isHTML = function(type) {
+  return /^\*?\.?html?$/i.test(type);
+};
