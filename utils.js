@@ -230,10 +230,11 @@ Utils.makeRoutes = function(baseRoute, file, options) {
   route = (url.resolve((baseRoute + "/").replace(re, "/"), file.folder) + "/").replace(re, "/");
 
   // HTML-like files named "template" pull their route from the parent directory
-  // and pass the subsequent URL on as a "query" parameter
+  // and pass the subsequent URL on as a "query" parameter. Note that $ are not
+  // allowed in params.
   if (Utils.isTemplate(file, ext)) {
     route = route.split("/").slice(0, -1).join("/");
-    return [route + "/:$slug"];
+    return [route + "/" + (options.params || ":slug").replace(/^\//, "")];
   }
 
   // Add file and default extension
