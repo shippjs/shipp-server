@@ -47,11 +47,12 @@ Metadata.extract = function(str) {
 
   Utils.getRegExpMatches(str, re, 1).map(Metadata.parse).forEach(function(metadata) {
 
-    // Ensure exists...
-    meta[metadata.name] = meta[metadata.name] || [];
-
-    // Add value
-    meta[metadata.name].push(metadata.value);
+    if ("data" === metadata.name) {
+      meta[metadata.name] = meta[metadata.name] || [];
+      meta[metadata.name].push(metadata.value);
+    } else {
+      meta[metadata.name] = metadata.value;
+    }
 
   });
 
