@@ -14,17 +14,23 @@ var desires,
 
   Inserts middleware from the configuration file if requested.
 
-  @param {express} server Express-server
   @param {String} key String with the middleware
+  @returns {Router} If middleware exists returns router. Otherwise nothing.
 
 **/
 
-module.exports = function(server, key) {
+var express = require("express");
 
-  var middleware = global.config.middleware[key] || [];
+module.exports = function(key) {
+
+  var middleware = global.config.middleware[key] || [],
+      router = express();
 
   // Handle strings (in the event of user error)
   if ("string" === typeof middleware) middleware = [middleware];
+
+  // Handle missing middleware
+  if (!middleware || !middleware.length) return;
 
   // Iterate
   middleware.forEach(function(pkg) {
@@ -39,8 +45,10 @@ module.exports = function(server, key) {
       pkg = desires(pkg);
     }
 
-    server.use(pkg);
+    router.use(pkg);
 
   });
+
+  return router;
 
 };
