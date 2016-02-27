@@ -18,7 +18,7 @@ module.exports = {
     "beforeAll": "",
     "beforeRoutes": "",
     "afterRoutes": "",
-    "afterAll": ""
+    "errorHandler": ""
   },
 
   "pipelines": {},
