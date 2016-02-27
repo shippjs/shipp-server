@@ -18,9 +18,8 @@ module.exports = function(options) {
       compiler   = require("./compiler"),
       middleware = require("./middleware"),
       statics    = require("./statics"),
-      PORT;
+      PORT       = global.ports.server;
 
-  PORT = global.ports.server;
 
   // Middleware injection
   middleware(server, "beforeAll");
