@@ -28,7 +28,7 @@ module.exports = function(options) {
   }
 
   // Middleware injection
-  middleware(server, "beforeAll");
+  use(middleware("beforeAll"));
 
   // Set up sensible logging defaults, etc. These will change with production environments
   use(require("morgan")("dev"));
@@ -36,7 +36,7 @@ module.exports = function(options) {
   use(require("express-session")({ secret : "password123", resave : false, saveUninitialized : true }));
 
   // Middleware injection
-  middleware(server, "beforeRoutes");
+  use(middleware("beforeRoutes"));
 
   // Routing middleware
   for (var route in global.config.routes) {
@@ -63,7 +63,7 @@ module.exports = function(options) {
   use(require("./data-server")());
 
   // Middleware injection
-  middleware(server, "afterRoutes");
+  use(middleware("afterRoutes"));
 
   // Handle 404 errors
   server.use(function(req, res, next) {
