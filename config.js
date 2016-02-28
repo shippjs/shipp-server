@@ -10,14 +10,32 @@
 **/
 
 var fs = require("fs"),
+    assert = require("assert"),
     Utils = require("./utils");
 
 
 /**
 
+  Tests that a route is valid
 
+  @param {Object} route The route to check
+  @param {String} [name] Name of the route (for error handling)
 
 **/
+
+function validateRoute(route, name) {
+
+  var validKeys = ["type", "path", "exts", "bundleFolders"];
+
+  name = (name) ? "route " + name : "route";
+  assert("string" === typeof route.type, name + " has invalid type")
+  assert("string" === typeof route.path, name + " has invalid path")
+
+  for (var key in route)
+    assert(validKeys.indexOf(key) > -1, name + " has unrecognized key " + key);
+
+}
+
 
 module.exports = function() {
 
