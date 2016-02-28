@@ -76,7 +76,7 @@ module.exports = function() {
 
   var config;
 
-  // Load config if available
+  // Load config if available, fall back to defaults
   try {
     config = JSON.parse(fs.readFileSync(Utils.makePathAbsolute("sneakers.json"), "utf8"));
   } catch (err) {
