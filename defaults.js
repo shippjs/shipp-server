@@ -15,10 +15,10 @@ module.exports = {
   "locals": {},
 
   "middleware": {
-    "beforeAll": "",
-    "beforeRoutes": "",
-    "afterRoutes": "",
-    "errorHandler": ""
+    "beforeAll": [],
+    "beforeRoutes": [],
+    "afterRoutes": [],
+    "errorHandler": []
   },
 
   "pipelines": {},
