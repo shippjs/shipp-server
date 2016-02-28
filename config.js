@@ -83,7 +83,7 @@ module.exports = function() {
   validateConfig(config);
 
   // Store global variables
-  global.locals = config.locals || {};
+  global.locals = config.locals;
 
   // Copy production variables over second, so as to overwrite non-production
   // when applicable
