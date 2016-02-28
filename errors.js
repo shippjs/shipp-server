@@ -115,6 +115,9 @@ module.exports = function(server, handler) {
   });
 
   // Use user-provided error handler (otherwise pass errors to express)
-  if (handler) server.use(handler);
+  if (handler) {
+    if (4 !== handler.length) throw new Error("Error handler must have 4 arguments")
+    server.use(handler);
+  }
 
 };
