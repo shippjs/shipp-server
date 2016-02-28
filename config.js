@@ -86,6 +86,11 @@ module.exports = function() {
   // Validate
   validateConfig(config);
 
+  // Store environment variables
+  global.env = config.env;
+  for (var key in global.env)
+    process.env[key] = global.env[key];
+
   // Store global variables
   global.locals = config.locals;
 
