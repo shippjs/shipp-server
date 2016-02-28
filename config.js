@@ -65,6 +65,10 @@ function validateConfig(config) {
   for (var route in config.routes)
     validateRoute(config.routes[route], route);
 
+  // Environment
+  for (var key in config.env)
+    assert(key == key.toUpperCase(), "env variable " + key + " isn't capitalized");
+
 }
 
 
