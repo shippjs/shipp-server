@@ -91,6 +91,14 @@ module.exports = function() {
   for (var key in global.env)
     process.env[key] = global.env[key];
 
+  // Allow environment variables to be added in to locals using $NODE_ENV notation
+  Utils.traverse(config.locals, function(obj, key, val) {
+    if (!val || "$" !== val[0]) return;
+    val = val.slice(1);
+    if ("undefined" !== typeof process.env[val])
+      obj[key] = process.env[val];
+  });
+
   // Store global variables
   global.locals = config.locals;
 
