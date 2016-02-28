@@ -21,6 +21,8 @@ module.exports = {
     "errorHandler": []
   },
 
+  "env": {},
+
   "pipelines": {},
 
   "routes": {
