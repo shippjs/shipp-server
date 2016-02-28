@@ -82,7 +82,7 @@ function createHandler(type, compiler, metadata) {
   metadata = metadata || {};
   if (metadata.data) tasks.unshift(createQueryFn(metadata.data));
 
-  return function(req, res) {
+  return function(req, res, next) {
 
     var data = {};
 
@@ -118,7 +118,10 @@ function createHandler(type, compiler, metadata) {
 
     Utils.sequence(tasks, data)
     .then(res.type(type).send.bind(res))
-    .catch(function(err) { console.log(err); res.sendStatus(500); });
+    .catch(function(err) {
+      if (/not found/i.test(err.message)) res.status(404);
+      next(err);
+    });
 
   };
 
