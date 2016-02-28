@@ -518,3 +518,16 @@ Utils.traverse = function(obj, fn) {
   }
 
 };
+
+
+/**
+
+  Escapes regex. From lodash.com by John Dalton.
+
+  @param {String} str The string to escape
+
+**/
+
+Utils.escapeRegex = function(str) {
+  return str.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+}
