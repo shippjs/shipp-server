@@ -56,9 +56,15 @@ function extendDatabase(db) {
 
     _.each(queries, function(query) {
       db.query(query.query, context, function(err, result) {
-        if ("undefined" !== typeof query.idx) result = result[query.idx];
+
+        if ("undefined" !== typeof query.idx) {
+          if (!result.length) return next(new Error("Result not found"), null);
+          result = result[query.idx];
+        }
+
         results = _.extend(results, (query.key) ? pair([[query.key, result]]) : result);
         if (--remaining === 0) next(err, results);
+
       });
     });
 
