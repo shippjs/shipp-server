@@ -28,8 +28,8 @@ function validateRoute(route, name) {
   var validKeys = ["type", "path", "exts", "bundleFolders"];
 
   name = (name) ? "route " + name : "route";
-  assert("string" === typeof route.type, name + " has invalid type")
-  assert("string" === typeof route.path, name + " has invalid path")
+  assert("string" === typeof route.type, name + " has invalid type");
+  assert("string" === typeof route.path, name + " has invalid path");
 
   for (var key in route)
     assert(validKeys.indexOf(key) > -1, name + " has unrecognized key " + key);

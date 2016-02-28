@@ -478,7 +478,7 @@ Utils.isHTML = function(type) {
 
 Utils.isPlainObject = function(input) {
   return ("object" == typeof input) && !Array.isArray(input);
-}
+};
 
 
 /**
@@ -496,4 +496,4 @@ Utils.isArrayOfType = function(input, type) {
   for (var i = 0, n = input.length; i < n; i++)
     if (type !== typeof input[i]) return false;
   return true;
-}
+};
