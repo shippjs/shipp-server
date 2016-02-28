@@ -37,6 +37,37 @@ function validateRoute(route, name) {
 }
 
 
+/**
+
+  Ensures that a config file is properly formatted. Throws errors on issues.
+
+  @param {Object} config The configuration
+
+**/
+
+function validateConfig(config) {
+
+  // Objects
+  assert(Utils.isPlainObject(config), "config is not an object");
+  assert(Utils.isPlainObject(config.middleware), "middleware is not an object");
+  assert(Utils.isPlainObject(config.pipelines), "pipelines is not an object");
+  assert(Utils.isPlainObject(config.routes), "routes is not an object");
+  assert(Utils.isPlainObject(config.env), "env is not an object");
+
+  // Arrays
+  assert(Utils.isArrayOfType(config.data, "string"), "data isn't an array of strings");
+  assert(Utils.isArrayOfType(config.middleware.beforeAll, "string"), "middleware.beforeAll isn't an array of strings");
+  assert(Utils.isArrayOfType(config.middleware.beforeRoutes, "string"), "middleware.beforeRoutes isn't an array of strings");
+  assert(Utils.isArrayOfType(config.middleware.afterRoutes, "string"), "middleware.afterRoutes isn't an array of strings");
+  assert(Utils.isArrayOfType(config.middleware.errorHandler, "string"), "middleware.errorHandler isn't an array of strings");
+
+  // Routes
+  for (var route in config.routes)
+    validateRoute(config.routes[route], route);
+
+}
+
+
 module.exports = function() {
 
   var config;
@@ -47,6 +78,9 @@ module.exports = function() {
   } catch (err) {
     config = Object.assign({}, require("./defaults"));
   }
+
+  // Validate
+  validateConfig(config);
 
   // Store global variables
   global.locals = config.locals || {};
