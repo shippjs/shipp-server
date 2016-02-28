@@ -182,6 +182,31 @@ function addFile(router, route, file, type, basePath) {
   });
 
 
+/**
+
+  Removes routes from the router matching the regex.
+
+  @param {Router} router The router to search
+  @param {RegExp} re The pattern to match
+
+**/
+
+function removeRoutes(router, routes) {
+
+  if (!router._router || !router._router.stack || !routes || !routes.length) return;
+
+  var stack = router._router.stack,
+      re = new RegExp("^(" + lookup[p].map(Utils.escapeRegex).join("|") + ")$");
+
+  // Express keeps routes as a stack in _router.stack. Note that this section
+  // is not part of the official API and thus subject to change
+  for (var i = stack.length - 1; i >= 0; i--)
+    if (stack[i].route && re.test(stack[i].route.path))
+      stack.splice(i, 1);
+
+}
+
+
 }
 
 
