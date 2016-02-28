@@ -181,6 +181,8 @@ function addFile(router, route, file, type, basePath) {
     router.get(r, handler);
   });
 
+}
+
 
 /**
 
@@ -207,6 +209,18 @@ function removeRoutes(router, routes) {
 }
 
 
+/**
+
+  Removes a file's routes and corresponding lookup
+
+  @param {String} p The path to the file
+
+**/
+
+function removeFile(p) {
+  var routes = lookup[p];
+  delete lookup[p];
+  return routes;
 }
 
 
