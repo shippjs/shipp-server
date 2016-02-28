@@ -465,3 +465,18 @@ Utils.isTemplate = function(file, type) {
 Utils.isHTML = function(type) {
   return /^\*?\.?html?$/i.test(type);
 };
+
+
+/**
+
+  Tests that an input is a non-array object.
+
+  @param {*} input The item to check
+  @returns {Boolean} Returns true if is an object, but not an array
+
+**/
+
+Utils.isPlainObject = function(input) {
+  return ("object" == typeof input) && !Array.isArray(input);
+}
+
