@@ -19,6 +19,14 @@ var Bundler     = require("./bundler"),
     makeQuery   = Promise.promisify(global.db.queries);
 
 
+
+//
+//  Lookup where key is file path and value is array of routes. Used for route removal.
+//
+
+var lookup = {};
+
+
 /**
 
   Extracts metadata from a file if appropriate (HTML-like)
@@ -164,6 +172,11 @@ function addFile(router, route, file, type, basePath) {
 
   // Add routes to router
   Utils.makeRoutes(route, file, { type : type, params : metadata.params }).forEach(function(r) {
+
+    // Store path in lookup (for later removal if necessary)
+    // Note that this section could be removed in production
+    lookup[file.path] = lookup[file.path] || [];
+    if (-1 === lookup[file.path].indexOf(r)) lookup[file.path].push(r);
 
     router.get(r, handler);
   });
