@@ -158,14 +158,16 @@ function createQueryFn(queries) {
 
 function addFile(router, route, file, type, basePath) {
 
-    var metadata = extractMetadata(file, type),
-        compiler = createCompiler(file, type),
-        handler  = createHandler(type, compiler, metadata);
+  var metadata = extractMetadata(file, type),
+      compiler = createCompiler(file, type),
+      handler  = createHandler(type, compiler, metadata);
 
-    // Add routes to router
-    Utils.makeRoutes(route, file, { type : type, params : metadata.params }).forEach(function(r) {
-      router.get(r, handler);
-    });
+  // Add routes to router
+  Utils.makeRoutes(route, file, { type : type, params : metadata.params }).forEach(function(r) {
+
+    router.get(r, handler);
+  });
+
 
 }
 
