@@ -65,13 +65,8 @@ module.exports = function(options) {
   // Middleware injection
   use(middleware("afterRoutes"));
 
-  // Handle 404 errors
-  server.use(function(req, res, next) {
-    res.status(404).send("404 Not Found");
-  });
-
-  // Middleware injection
-  middleware(server, "afterAll");
+  // Error handling: please see errors middleware for explanation of structure
+  require("./errors")(server, middleware("errorHandler"));
 
   // Listen (we will proxy with browser sync)
   server.listen(PORT);
