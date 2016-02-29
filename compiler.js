@@ -257,7 +257,6 @@ module.exports = function(options) {
       type: type,
     },
     add: function(file, compiled) {
-      console.log(file, compiled);
       addFile(router, options.url, Utils.parse(file, options.path), type);
     },
     change: function(file, compiled) {
