@@ -191,13 +191,14 @@ Utils.mapFiles = function(p, options) {
 
 Utils.parse = function(p, base) {
 
-  var p = Utils.makePathAbsolute(p),
-      parsed = path.parse(p);
+  var parsed;
 
-  parsed.path = p;
+  p = Utils.makePathAbsolute(p);
+  parsed = path.parse(p);
 
   // Get rid of leading dot for an extension
   parsed.ext = parsed.ext.replace(/^\./, "");
+  parsed.path = p;
 
   if (base) {
     base = Utils.makePathAbsolute(base);
@@ -551,4 +552,4 @@ Utils.traverse = function(obj, fn) {
 
 Utils.escapeRegex = function(str) {
   return str.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
-}
+};
