@@ -230,9 +230,13 @@ module.exports = function(options) {
 
   var router  = express(),
       ignored = [],
-      files   = Utils.mapFiles(options.path, options),
+      type    = Array.isArray(options.exts) ? options.exts[0] : options.exts,
       exts    = {},
-      type    = Array.isArray(options.exts) ? options.exts[0] : options.exts;
+      files;
+
+  // Since we can have multiple exts, we attach the type to the options object
+  options.type = type;
+  files = Utils.mapFiles(options.path, options),
 
   files.forEach(function(file) {
 
