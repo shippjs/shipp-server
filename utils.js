@@ -28,6 +28,7 @@ var fs       = require("fs"),
     path     = require("path"),
     chokidar = require("chokidar"),
     Promise  = require("bluebird"),
+    reorg    = require("reorg"),
     Utils;
 
 
@@ -378,30 +379,16 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
 **/
 
-Utils.watch = function(sourceDir, sourceExt, options) {
+Utils.watch = reorg(function(sourceDir, sourceExt, options) {
 
   var p;
 
-  // Defaults
-  if ("object" === typeof sourceExt) {
-    options = sourceExt;
-    sourceExt = "*";
-  }
-
-  // Allow for options to be universal callback
-  if ("function" === typeof options) options = { all : options };
-
-  // Set defaults
-  options = options || {};
-  options.chokidar = options.chokidar || {};
-
   // For source extension, if not wildcard, convert to "*.ext"
-  if ("*" !== sourceExt)
-    sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
+  if ("*" !== sourceExt) sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
 
-  // Create path, and ensure that chokidar's cwd is root
-  p = Utils.makePathAbsolute(path.join(sourceDir, "**", sourceExt));
-  options.chokidar.cwd = path.parse(p).root;
+  // Ensure we have chokidar options and that chokidar's cwd is root
+  options.chokidar = options.chokidar || {};
+  options.chokidar.cwd = path.parse(Utils.makePathAbsolute(path.join(sourceDir, "**", sourceExt))).root;
 
   chokidar.watch(p, options.chokidar).on("all", function(event, file) {
 
@@ -409,14 +396,14 @@ Utils.watch = function(sourceDir, sourceExt, options) {
 
     if (options[event] || options.all) {
 
+      // File is missing root directory
+      file = path.join(options.chokidar.cwd, file);
+
       // Map file to compiled version
       if (options.type) {
         parsed = path.parse(file);
-        compiled = path.join(options.cwd, parsed.root, parsed.dir, parsed.name + "." + options.type);
+        compiled = path.join(parsed.root, parsed.dir, parsed.name + "." + options.type);
       }
-
-      // File is missing root directory
-      file = path.join(options.cwd, file);
 
       // Callback
       if (options[event]) options[event](file, compiled);
@@ -426,7 +413,7 @@ Utils.watch = function(sourceDir, sourceExt, options) {
 
   });
 
-};
+}, "string!", ["string", "*"], "object");
 
 
 /**
