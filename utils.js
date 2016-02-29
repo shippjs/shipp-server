@@ -368,7 +368,8 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
 /**
 
-  Watches a directory for an extension, with options
+  Watches a directory for an extension, with options. We allow options to serve
+  as an "all" callback to facilitate shorthand.
 
   @param {String} sourceDir The source directory (without wildcards)
   @param {String} sourceExt The source extension (defaults to "*")
@@ -387,6 +388,10 @@ Utils.watch = function(sourceDir, sourceExt, options) {
     sourceExt = "*";
   }
 
+  // Allow for options to be universal callback
+  if ("function" === typeof options) options = { all : options };
+
+  // Set defaults
   options = options || {};
   options.chokidar = options.chokidar || {};
 
