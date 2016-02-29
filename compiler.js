@@ -176,9 +176,12 @@ function addFile(router, route, file, type, basePath) {
     // Store path in lookup (for later removal if necessary)
     // Note that this section could be removed in production
     lookup[file.path] = lookup[file.path] || [];
-    if (-1 === lookup[file.path].indexOf(r)) lookup[file.path].push(r);
 
-    router.get(r, handler);
+    if (-1 === lookup[file.path].indexOf(r)) {
+      lookup[file.path].push(r);
+      router.get(r, handler);
+    }
+
   });
 
 }
