@@ -163,7 +163,7 @@ Utils.mapFiles = function(p, options) {
 
   // Make path absolute before call (for comparison after)
   p = Utils.makePathAbsolute(p);
-  files = Utils.readDirectory(p, options.recursive);
+  files = Utils.readDirectory(p, options.recursive, p);
 
   // Sort in reverse order so that directory calls come last
   files.sort(function(a, b) { return (a.path < b.path) ? -1 : (a.path > b.path) ? 1 : 0; }).reverse();
@@ -177,26 +177,17 @@ Utils.mapFiles = function(p, options) {
   // Remove subdirectory files if index.* is encountered
   if (options.bundleFolders) files = Utils.flagBundles(p, files, options.ext);
 
-  files.forEach(function(file) {
-
-    // Get rid of leading dot
-    file.ext = file.ext.replace(/^\./, "");
-
-    // Attach base path
-    file.basePath = p;
-
-    // Attach relative path
-    file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
-    results.push(file);
-/**
-
-  });
-  Parses a file name and adds additional information
-
-  return results;
-**/
+  return files;
 
 };
+
+
+/**
+
+  Parses a file name and adds additional information
+
+**/
+
 Utils.parse = function(p, base) {
 
   var p = Utils.makePathAbsolute(p),
