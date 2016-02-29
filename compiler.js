@@ -166,6 +166,9 @@ function createQueryFn(queries) {
 
 function addFile(router, route, file, type) {
 
+  // Add to list of extensions if not present
+  if (!Pipelines.hasPipeline(file.ext)) Pipelines.addPipeline(file.ext);
+
   var metadata = extractMetadata(file, type),
       compiler = createCompiler(file, type),
       handler  = createHandler(type, compiler, metadata);
@@ -239,9 +242,6 @@ module.exports = function(options) {
   files = Utils.mapFiles(options.path, options),
 
   files.forEach(function(file) {
-
-    // Add to list of extensions if not present
-    if (!Pipelines.hasPipeline(file.ext)) Pipelines.addPipeline(file.ext);
 
     // Handle the file
     addFile(router, options.url, file, type);
