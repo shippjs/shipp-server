@@ -45,7 +45,8 @@ var Utils        = require("./utils"),
 
 var Bundler = module.exports = function(options) {
 
-  // Determine which extensions to look for
+  // Determine which extensions to look for. Our extensions come without the
+  // preceeding "." that webpack needs: make sure to add them
   var self = this,
       exts = Utils.uniqueExtensions(path.join(options.entry, ".."))
                   .map(function(x) { return "." + x; })
