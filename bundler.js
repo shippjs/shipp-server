@@ -47,7 +47,9 @@ var Bundler = module.exports = function(options) {
 
   // Determine which extensions to look for
   var self = this,
-      exts = Utils.uniqueExtensions(path.join(options.entry, "..")).concat([""]);
+      exts = Utils.uniqueExtensions(path.join(options.entry, ".."))
+                  .map(function(x) { return "." + x; })
+                  .concat([""]);
 
   // Set up defaults
   options = Object.assign({ compile: true, watch : true, path : "/scripts/" }, options);
