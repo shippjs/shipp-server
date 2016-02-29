@@ -188,13 +188,34 @@ Utils.mapFiles = function(p, options) {
     // Attach relative path
     file.folder = path.relative(p, file.path.replace(new RegExp(file.base + "$"), ""));
     results.push(file);
+/**
 
   });
+  Parses a file name and adds additional information
 
   return results;
+**/
 
 };
+Utils.parse = function(p, base) {
 
+  var p = Utils.makePathAbsolute(p),
+      parsed = path.parse(p);
+
+  parsed.path = p;
+
+  // Get rid of leading dot for an extension
+  parsed.ext = parsed.ext.replace(/^\./, "");
+
+  if (base) {
+    base = Utils.makePathAbsolute(base);
+    parsed.basePath = base;
+    parsed.folder = path.relative(base, parsed.path.replace(new RegExp(parsed.base + "$"), ""));
+  }
+
+  return parsed;
+
+};
 
 
 /**
