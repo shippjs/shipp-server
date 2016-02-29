@@ -281,10 +281,11 @@ Utils.makeRoutes = function(baseRoute, file, options) {
 
   @param {String} p Path to read
   @param {Boolean} recursive Whether to read recursively (default: true)
+  @param [String] base Optional base path from which to parse
 
 **/
 
-Utils.readDirectory = function(p, recursive) {
+Utils.readDirectory = function(p, recursive, base) {
 
   var results = [];
 
@@ -311,11 +312,9 @@ Utils.readDirectory = function(p, recursive) {
     // Recursively walk directory, or add file
     if (stats.isDirectory()) {
       if (recursive)
-        results = results.concat(Utils.readDirectory(file, true));
+        results = results.concat(Utils.readDirectory(file, true, base));
     } else {
-      parsed = path.parse(file);
-      parsed.path = file;
-      results.push(parsed);
+      results.push(Utils.parse(file, base || p));
     }
 
   });
