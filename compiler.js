@@ -252,9 +252,21 @@ module.exports = function(options) {
 
   for (var key in exts)
     Utils.watch(options.path, key, {
-      ignoreInitial : true,
-      ignored : ignored,
-      type : type
+      chokidar: {
+        ignoreInitial : true,
+        ignored: ignored,
+        type: type,
+      },
+      add: function(file, compiled) {
+        addFile(router, options.url, Utils.parse(file, options.path), type);
+      },
+      change: function(file, compiled) {
+        global.server.reload(compiled);
+      },
+      unlink: function(file, compiled) {
+        removeRoutes(router, lookup[file]);
+        delete lookup[file];
+      }
     });
 
   return router;
