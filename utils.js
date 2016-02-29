@@ -398,8 +398,9 @@ Utils.watch = reorg(function(sourceDir, sourceExt, options) {
   if ("*" !== sourceExt) sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
 
   // Ensure we have chokidar options and that chokidar's cwd is root
+  p = Utils.makePathAbsolute(path.join(sourceDir, "**", sourceExt));
   options.chokidar = options.chokidar || {};
-  options.chokidar.cwd = path.parse(Utils.makePathAbsolute(path.join(sourceDir, "**", sourceExt))).root;
+  options.chokidar.cwd = path.parse(p).root;
 
   chokidar.watch(p, options.chokidar).on("all", function(event, file) {
 
