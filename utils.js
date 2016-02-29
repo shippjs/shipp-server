@@ -381,8 +381,7 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
 /**
 
-  Watches a directory for an extension, with options. We allow options to serve
-  as an "all" callback to facilitate shorthand.
+  Watches a directory via chokidar
 
   @param {String} sourceDir The source directory (without wildcards)
   @param {String} sourceExt The source extension (defaults to "*")
