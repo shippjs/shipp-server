@@ -164,7 +164,7 @@ function createQueryFn(queries) {
 
 **/
 
-function addFile(router, route, file, type, basePath) {
+function addFile(router, route, file, type) {
 
   var metadata = extractMetadata(file, type),
       compiler = createCompiler(file, type),
