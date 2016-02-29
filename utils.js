@@ -153,6 +153,7 @@ Utils.flagBundles = function(p, files, ext) {
   @param {String} p Path to map
   @param {Object} [options.recursive] If true, processes recursively
   @param {Boolean} [options.bundleFolders] If true, automatically bundles appropriate folders
+  @param {String} [options.type] The file type of the bundles (e.g. js)
 
 **/
 
@@ -175,7 +176,7 @@ Utils.mapFiles = function(p, options) {
       Array.prototype.push.apply(files, files.splice(i, 1));
 
   // Remove subdirectory files if index.* is encountered
-  if (options.bundleFolders) files = Utils.flagBundles(p, files, options.ext);
+  if (options.bundleFolders) files = Utils.flagBundles(p, files, options.type);
 
   return files;
 
