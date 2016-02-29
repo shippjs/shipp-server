@@ -234,7 +234,6 @@ module.exports = function(options) {
   var router  = express(),
       ignored = [],
       type    = Array.isArray(options.exts) ? options.exts[0] : options.exts,
-      exts    = {},
       files;
 
   // Since we can have multiple exts, we attach the type to the options object
@@ -246,32 +245,29 @@ module.exports = function(options) {
     // Handle the file
     addFile(router, options.url, file, type);
 
-    // Add to extension watch list
-    exts[file.ext] = 1;
-
     // Remove ignored directories from watch list
     if (file.ignored) ignored = ignored.concat(file.ignored);
 
   });
 
-  for (var key in exts)
-    Utils.watch(options.path, key, {
-      chokidar: {
-        ignoreInitial : true,
-        ignored: ignored,
-        type: type,
-      },
-      add: function(file, compiled) {
-        addFile(router, options.url, Utils.parse(file, options.path), type);
-      },
-      change: function(file, compiled) {
-        global.server.reload(compiled);
-      },
-      unlink: function(file, compiled) {
-        removeRoutes(router, lookup[file]);
-        delete lookup[file];
-      }
-    });
+  Utils.watch(options.path, "*", {
+    chokidar: {
+      ignoreInitial : true,
+      ignored: ignored,
+      type: type,
+    },
+    add: function(file, compiled) {
+      console.log(file, compiled);
+      addFile(router, options.url, Utils.parse(file, options.path), type);
+    },
+    change: function(file, compiled) {
+      global.server.reload(compiled);
+    },
+    unlink: function(file, compiled) {
+      removeRoutes(router, lookup[file]);
+      delete lookup[file];
+    }
+  });
 
   return router;
 
