@@ -68,7 +68,7 @@ var Bundler = module.exports = function(options) {
   // Store path to compiled file
   this.path = path.join(this.config.output.path, options.filename);
 
-  // Set up bundler with in-memory file sysstem
+  // Set up bundler with in-memory file system
   this.bundler = webpack(this.config);
   this.bundler.outputFileSystem = global.fs;
 
