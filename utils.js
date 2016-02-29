@@ -372,7 +372,8 @@ Utils.getRegExpMatches = function(str, pattern, idx) {
 
   @param {String} sourceDir The source directory (without wildcards)
   @param {String} sourceExt The source extension (defaults to "*")
-  @param {Object} options The object options to pass to chokidar
+  @param {Object} [options.chokidar] Options to pass to chokidar
+  @param {Function} [options.*] Event handlers (file, compiled) where * is name of event
 
 **/
 
@@ -387,6 +388,7 @@ Utils.watch = function(sourceDir, sourceExt, options) {
   }
 
   options = options || {};
+  options.chokidar = options.chokidar || {};
 
   // For source extension, if not wildcard, convert to "*.ext"
   if ("*" !== sourceExt)
@@ -394,14 +396,29 @@ Utils.watch = function(sourceDir, sourceExt, options) {
 
   // Create path, and ensure that chokidar's cwd is root
   p = Utils.makePathAbsolute(path.join(sourceDir, "**", sourceExt));
-  options.cwd = path.parse(p).root;
+  options.chokidar.cwd = path.parse(p).root;
 
-  chokidar.watch(p, options).on("change", function(file) {
-    if (options.type) {
-      var parsed = path.parse(file);
-      file = path.join(parsed.root, parsed.dir, parsed.name + "." + options.type);
+  chokidar.watch(p, options.chokidar).on("all", function(event, file) {
+
+    var parsed, compiled;
+
+    if (options[event] || options.all) {
+
+      // Map file to compiled version
+      if (options.type) {
+        parsed = path.parse(file);
+        compiled = path.join(options.cwd, parsed.root, parsed.dir, parsed.name + "." + options.type);
+      }
+
+      // File is missing root directory
+      file = path.join(options.cwd, file);
+
+      // Callback
+      if (options[event]) options[event](file, compiled);
+      if (options.all) options.all(file, compiled);
+
     }
-    global.server.reload(file);
+
   });
 
 };
