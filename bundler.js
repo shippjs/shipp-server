@@ -78,11 +78,11 @@ var Bundler = module.exports = function(options) {
 
   // Only watch directory with index file: breaks outside watchers otherwise
   if (options.watch) {
-    chokidar.watch(path.join(path.dirname(options.entry), "**", "*")).on("all", function(event, file) {
-      self.bundler.run(function(err, stats) {
+    Utils.watch(path.dirname(options.entry), "*", { all: function() {
+      self.bundler.run(function() {
         global.server.reload(self.path);
       });
-    });
+    }});
   }
 
   // Optionally compile
