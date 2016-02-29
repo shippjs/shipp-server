@@ -201,7 +201,7 @@ function removeRoutes(router, routes) {
   if (!router._router || !router._router.stack || !routes || !routes.length) return;
 
   var stack = router._router.stack,
-      re = new RegExp("^(" + lookup[p].map(Utils.escapeRegex).join("|") + ")$");
+      re = new RegExp("^(" + routes.map(Utils.escapeRegex).join("|") + ")$");
 
   // Express keeps routes as a stack in _router.stack. Note that this section
   // is not part of the official API and thus subject to change
