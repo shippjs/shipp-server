@@ -8,7 +8,7 @@
   • fromFile
 
   Instance
-  • construtor
+  • constructor
   • get
 
 **/
