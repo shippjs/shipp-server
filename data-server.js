@@ -17,10 +17,10 @@ module.exports = function() {
   // We modify this to pass when data isn't found
   router.stack[router.stack.length-1].handle = function (req, res, next) {
     if (!res.locals.data)
-      next()
+      next();
     else
-      router.render(req, res)
-  }
+      router.render(req, res);
+  };
 
   return router;
 
