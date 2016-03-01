@@ -588,18 +588,20 @@ Utils.compress = function(method, str, level, next) {
   @param {Response} res The response
   @param {String} type The file type
   @param {Buffer} buf The buffer to send
-  @param {String} method The method to use
+  @param {String} enc The encoding to use
 
 **/
 
-Utils.send = function(res, type, buf, method) {
+Utils.send = function(res, type, buf, enc) {
 
   res.type(type);
 
-  if ("raw" === method || !method) {
+
+  // Raw versus compressed
+  if ("identity" === enc || !enc) {
     res.send(buf);
   } else {
-    res.setHeader("Content-Encoding", method);
+    res.setHeader("Content-Encoding", enc);
     res.removeHeader("Content-Length");
     res.send(buf);
   }
