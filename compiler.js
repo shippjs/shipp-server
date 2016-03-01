@@ -25,7 +25,8 @@ var Bundler     = require("./bundler"),
 //  Lookup where key is file path and value is array of routes. Used for route removal.
 //
 
-var lookup = {};
+var lookup = {},
+    CACHE_MS = 1000 * 60 * 60 * 24;
 
 
 /**
@@ -140,7 +141,7 @@ function createHandler(file, type, compiler, metadata) {
     // We are currently assuming a synchronous, non-shared cache. This should
     // help with performance.
     if (cache && (compiled = Cache.get(method + ":" + file.path))) {
-      Utils.send(res, type, compiled, method);
+      Utils.send(res, type, compiled, method, CACHE_MS);
       return;
     }
 
@@ -152,7 +153,7 @@ function createHandler(file, type, compiler, metadata) {
       if (cache) Cache.set("identity:" + file.path, compiled);
 
       // Uncompressed
-      if ("identity" === method) return Utils.send(res, type, compiled);
+      if ("identity" === method) return Utils.send(res, type, compiled, method, CACHE_MS);
 
       // Compressed
       Utils.compress(method, compiled, metadata.cache, function(err, compressed) {
@@ -161,7 +162,7 @@ function createHandler(file, type, compiler, metadata) {
         if (err) return Utils.send(res, type, compiled);
 
         // Send and cache results: should we cache original results too?
-        Utils.send(res, type, compressed, method);
+        Utils.send(res, type, compressed, method, CACHE_MS);
         if (cache) Cache.set(method + ":" + file.path, compressed);
 
       });
