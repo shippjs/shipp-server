@@ -102,8 +102,10 @@ function createHandler(file, type, compiler, metadata) {
 
   return function(req, res, next) {
 
+    // Note that the BrowserSync proxy always sets method to identity
     var data = {},
-        compiled;
+        compiled,
+        method = req.acceptsEncodings(["gzip", "deflate", "identity"]) || "identity";
 
     if (isHTML) {
 
@@ -137,14 +139,39 @@ function createHandler(file, type, compiler, metadata) {
 
     // We are currently assuming a synchronous, non-shared cache. This should
     // help with performance.
-    if (cache && (compiled = Cache.get(file.path))) {
-      res.type(type).send(compiled);
+    if (cache && (compiled = Cache.get(method + ":" + file.path))) {
+      try {
+        Utils.send(res, type, compiled, method);
+      } catch (err) {
+        next(err);
+      }
       return;
     }
 
     Utils.sequence(tasks, data).then(function(compiled) {
-      res.type(type).send(compiled);
-      if (cache) Cache.set(file.path, compiled);
+
+      var level;
+
+      function sendRaw() {
+        send(res, type, compiled);
+        if (cache) Cache.set(method + ":" + file.path, compiled);
+      }
+
+      // Uncompressed
+      if ("identity" === method) return sendRaw();
+
+      // Compressed
+      Utils.compress(method, compiled, metadata.cache, function(err, compressed) {
+
+        // Fall back on error
+        if (err) return sendRaw();
+
+        // Send and cache results: should we cache original results too?
+        Utils.send(res, type, compressed, method);
+        if (cache) Cache.set(method + ":" + file.path, compressed);
+
+      });
+
     }).catch(function(err) {
       if (/not found/i.test(err.message)) res.status(404);
       next(err);
