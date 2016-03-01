@@ -395,6 +395,9 @@ Utils.watch = reorg(function(sourceDir, sourceExt, options) {
 
   var p;
 
+  // Don't watch in production
+  if (Utils.isProduction()) return;
+
   // For source extension, if not wildcard, convert to "*.ext"
   if ("*" !== sourceExt) sourceExt = "*." + sourceExt.replace(/^[\*\.]+/g, "");
 
