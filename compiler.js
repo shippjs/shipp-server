@@ -89,18 +89,23 @@ function createCompiler(file, type) {
 function createHandler(file, type, compiler, metadata) {
 
   var tasks = [compiler],
+      isHTML = Utils.isHTML(type),
+      cache,
       key;
 
   // Add data query if necessary
   metadata = metadata || {};
   if (metadata.data) tasks.unshift(createQueryFn(metadata.data));
 
+  // Store cache flag (for speed increase)
+  cache = Utils.isProduction() && metadata.cache;
+
   return function(req, res, next) {
 
     var data = {},
         compiled;
 
-    if (Utils.isHTML(type)) {
+    if (isHTML) {
 
       // Data object will include locals, cookies, session, params, query, slug
       // and if applicable, database query results
@@ -137,7 +142,7 @@ function createHandler(file, type, compiler, metadata) {
 
     Utils.sequence(tasks, data).then(function(compiled) {
       res.type(type).send(compiled);
-      if (metadata.cache) Cache.set(file.path, compiled);
+      if (cache) Cache.set(file.path, compiled);
     }).catch(function(err) {
       if (/not found/i.test(err.message)) res.status(404);
       next(err);
