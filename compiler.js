@@ -252,8 +252,8 @@ module.exports = function(options) {
     chokidar: {
       ignoreInitial : true,
       ignored: ignored,
-      type: type,
     },
+    type: type,
     add: function(file, compiled) {
       addFile(router, options.url, Utils.parse(file, options.path), type);
     },
