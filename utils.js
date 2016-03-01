@@ -580,3 +580,28 @@ Utils.compress = function(method, str, level, next) {
 
 };
 
+
+/**
+
+  Sends a compressed or uncompressed response.
+
+  @param {Response} res The response
+  @param {String} type The file type
+  @param {Buffer} buf The buffer to send
+  @param {String} method The method to use
+
+**/
+
+Utils.send = function(res, type, buf, method) {
+
+  res.type(type);
+
+  if ("raw" === method || !method) {
+    res.send(buf);
+  } else {
+    res.setHeader("Content-Encoding", method);
+    res.removeHeader("Content-Length");
+    res.send(buf);
+  }
+
+};
