@@ -589,13 +589,18 @@ Utils.compress = function(method, str, level, next) {
   @param {String} type The file type
   @param {Buffer} buf The buffer to send
   @param {String} enc The encoding to use
+  @param {Number} [cache] Cache-control setting
 
 **/
 
-Utils.send = function(res, type, buf, enc) {
+Utils.send = function(res, type, buf, enc, cache) {
 
+  // File type
   res.type(type);
 
+  // Cache control
+  if (undefined !== cache)
+    res.setHeader("Cache-Control", cache)
 
   // Raw versus compressed
   if ("identity" === enc || !enc) {
