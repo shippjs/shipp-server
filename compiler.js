@@ -40,11 +40,14 @@ var lookup = {};
 
 function extractMetadata(file, type) {
 
-  var metadata = {};
+  var metadata;
 
   if (Utils.isHTML(type)) {
     metadata = Metadata.extract(Utils.readFileHead(file.path, 500));
     metadata.isTemplate = Utils.isTemplate(file, type);
+  } else {
+    // For non-HTML files default to caching
+    metadata = { cache: true };
   }
 
   return metadata;
