@@ -137,8 +137,10 @@ function createHandler(file, type, compiler, metadata) {
 
     // We are currently assuming a synchronous, non-shared cache. This should
     // help with performance.
-    if (metadata.cache && (compiled = Cache.get(file.path)))
-      return res.type(type).send(compiled);
+    if (cache && (compiled = Cache.get(file.path))) {
+      res.type(type).send(compiled);
+      return;
+    }
 
     Utils.sequence(tasks, data).then(function(compiled) {
       res.type(type).send(compiled);
