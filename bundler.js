@@ -53,7 +53,7 @@ var Bundler = module.exports = function(options) {
                   .concat([""]);
 
   // Set up defaults
-  options = Object.assign({ compile: true, watch : true, path : "/scripts/" }, options);
+  options = Object.assign({ compile: true, watch : !Utils.isProduction(), path : "/scripts/" }, options);
 
   // Configure webpack
   this.config = {
