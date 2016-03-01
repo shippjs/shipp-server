@@ -29,6 +29,7 @@ var fs       = require("fs"),
     chokidar = require("chokidar"),
     Promise  = require("bluebird"),
     reorg    = require("reorg"),
+    zlib     = require("zlib"),
     Utils;
 
 
@@ -556,3 +557,26 @@ Utils.traverse = function(obj, fn) {
 Utils.escapeRegex = function(str) {
   return str.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
 };
+
+
+
+/**
+
+  Compresses a string.
+
+  @param {String} method The compression method
+  @param {String} str The string to compress
+  @param {Boolean} maxCompress If true, maximum compression level
+  @param {Function} next Callback of form (err, compressed)
+
+**/
+
+Utils.compress = function(method, str, level, next) {
+
+  var zip = ("gzip" === method) ? zlib.gzip : zlib.deflate;
+
+  level = level ? zlib.Z_BEST_COMPRESSION : zlib.Z_DEFAULT_COMPRESSION;
+  zip(str, { level : level }, next);
+
+};
+
