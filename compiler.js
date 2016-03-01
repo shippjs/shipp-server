@@ -185,13 +185,17 @@ function addFile(router, route, file, type) {
   // Add routes to router
   Utils.makeRoutes(route, file, { type : type, params : metadata.params }).forEach(function(r) {
 
-    // Store path in lookup (for later removal if necessary)
-    // Note that this section could be removed in production
-    lookup[file.path] = lookup[file.path] || [];
-
-    if (-1 === lookup[file.path].indexOf(r)) {
-      lookup[file.path].push(r);
+    if (Utils.isProduction()) {
       router.get(r, handler);
+
+    } else {
+      // Store path in lookup (for later removal if necessary)
+      lookup[file.path] = lookup[file.path] || [];
+
+      if (-1 === lookup[file.path].indexOf(r)) {
+        lookup[file.path].push(r);
+        router.get(r, handler);
+      }
     }
 
   });
