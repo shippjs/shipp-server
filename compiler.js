@@ -11,6 +11,7 @@
 **/
 
 var Bundler     = require("./bundler"),
+    Cache       = require("./cache"),
     express     = require("express"),
     Metadata    = require("./metadata"),
     Pipelines   = global.pipelines,
@@ -74,6 +75,7 @@ function createCompiler(file, type) {
 
   Creates a route handler for a file
 
+  @param {File} file File information provided by Utils.parse
   @param {String} type Type of file
   @param {Function} compiler Function that compiles and returns promise
   @param {Object} [metadata] Extracted metadata
@@ -81,7 +83,7 @@ function createCompiler(file, type) {
 
 **/
 
-function createHandler(type, compiler, metadata) {
+function createHandler(file, type, compiler, metadata) {
 
   var tasks = [compiler],
       key;
@@ -92,7 +94,8 @@ function createHandler(type, compiler, metadata) {
 
   return function(req, res, next) {
 
-    var data = {};
+    var data = {},
+        compiled;
 
     if (Utils.isHTML(type)) {
 
@@ -124,9 +127,15 @@ function createHandler(type, compiler, metadata) {
 
     }
 
-    Utils.sequence(tasks, data)
-    .then(res.type(type).send.bind(res))
-    .catch(function(err) {
+    // We are currently assuming a synchronous, non-shared cache. This should
+    // help with performance.
+    if (metadata.cache && (compiled = Cache.get(file.path)))
+      return res.type(type).send(compiled);
+
+    Utils.sequence(tasks, data).then(function(compiled) {
+      res.type(type).send(compiled);
+      if (metadata.cache) Cache.set(file.path, compiled);
+    }).catch(function(err) {
       if (/not found/i.test(err.message)) res.status(404);
       next(err);
     });
@@ -171,7 +180,7 @@ function addFile(router, route, file, type) {
 
   var metadata = extractMetadata(file, type),
       compiler = createCompiler(file, type),
-      handler  = createHandler(type, compiler, metadata);
+      handler  = createHandler(file, type, compiler, metadata);
 
   // Add routes to router
   Utils.makeRoutes(route, file, { type : type, params : metadata.params }).forEach(function(r) {
