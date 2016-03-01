@@ -41,8 +41,8 @@ var Metadata = module.exports = {};
 
 Metadata.extract = function(str) {
 
-  var names = ["DATA", "PARAMS", "COOKIES", "SESSION"],
-      re    = new RegExp("(\\b(?:" + names.join("|") + ")\\=[^\\n\\r]+)", "g"),
+  var names = ["DATA", "PARAMS", "COOKIES", "SESSION", "CACHE"],
+      re    = new RegExp("(\\b(?:" + names.join("|") + ")(\\=[^\\n\\r]+)?)", "g"),
       meta  = {};
 
   Utils.getRegExpMatches(str, re, 1).map(Metadata.parse).forEach(function(metadata) {
@@ -55,6 +55,10 @@ Metadata.extract = function(str) {
     }
 
   });
+
+  // Default to caching unless has data query
+  if ("undefined" === typeof meta.data && "undefined" == typeof meta.cache)
+    meta.cache = true;
 
   return meta;
 
@@ -88,6 +92,9 @@ Metadata.parse = function(str) {
       break;
     case "params":
       value = matches[0];
+      break;
+    case "cache":
+      value = /false/i.test(matches[0]) ? false : true;
       break;
     default:
       value = Metadata.parseQuery(matches.join("="));
