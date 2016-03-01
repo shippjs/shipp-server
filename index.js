@@ -18,6 +18,7 @@ module.exports = function(options) {
       compiler   = require("./compiler"),
       middleware = require("./middleware"),
       statics    = require("./statics"),
+      Utils      = require("./Utils"),
       PORT       = global.ports.server;
 
   // Helper function that handles middleware and returns error if blank
@@ -30,8 +31,9 @@ module.exports = function(options) {
   // Middleware injection
   use(middleware("beforeAll"));
 
-  // Set up sensible logging defaults, etc. These will change with production environments
-  use(require("morgan")("dev"));
+  // Set up sensible logging defaults, etc.
+  if (!Utils.isProduction()) use(require("morgan")("dev"));
+
   use(require("cookie-parser")());
   use(require("express-session")({ secret : "password123", resave : false, saveUninitialized : true }));
 
