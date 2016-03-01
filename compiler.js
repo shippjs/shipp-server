@@ -140,11 +140,7 @@ function createHandler(file, type, compiler, metadata) {
     // We are currently assuming a synchronous, non-shared cache. This should
     // help with performance.
     if (cache && (compiled = Cache.get(method + ":" + file.path))) {
-      try {
-        Utils.send(res, type, compiled, method);
-      } catch (err) {
-        next(err);
-      }
+      Utils.send(res, type, compiled, method);
       return;
     }
 
@@ -152,19 +148,17 @@ function createHandler(file, type, compiler, metadata) {
 
       var level;
 
-      function sendRaw() {
-        send(res, type, compiled);
-        if (cache) Cache.set(method + ":" + file.path, compiled);
-      }
+      // Cache raw results
+      if (cache) Cache.set("identity:" + file.path, compiled);
 
       // Uncompressed
-      if ("identity" === method) return sendRaw();
+      if ("identity" === method) return Utils.send(res, type, compiled);
 
       // Compressed
       Utils.compress(method, compiled, metadata.cache, function(err, compressed) {
 
         // Fall back on error
-        if (err) return sendRaw();
+        if (err) return Utils.send(res, type, compiled);
 
         // Send and cache results: should we cache original results too?
         Utils.send(res, type, compressed, method);
