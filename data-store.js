@@ -89,6 +89,10 @@ module.exports = function(options) {
         slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0],
         key;
 
+    // Ensure we are only processing JSON files
+    if (!/json$/i.test(file.path)) return;
+
+
     // If array, use file name as key. Otherwise, parse keys
     if (Array.isArray(json)) {
 
