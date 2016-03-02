@@ -85,13 +85,18 @@ module.exports = function(options) {
 
   Utils.mapFiles(options.path).forEach(function(file) {
 
-    var json = JSON.parse(fs.readFileSync(file.path, "utf8")),
-        slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0],
-        key;
+    var json, slug, key;
 
     // Ensure we are only processing JSON files
     if (!/json$/i.test(file.path)) return;
 
+    try {
+      json = JSON.parse(fs.readFileSync(file.path, "utf8"));
+      slug = Utils.makeRoutes(options.url, { folder : file.folder, name : "" })[0];
+    } catch (err) {
+      console.log("Your data located at", file.path, "has an error in it");
+      throw err;
+    }
 
     // If array, use file name as key. Otherwise, parse keys
     if (Array.isArray(json)) {
