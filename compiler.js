@@ -112,7 +112,7 @@ function createHandler(file, type, compiler, metadata) {
 
       // Data object will include locals, cookies, session, params, query, slug
       // and if applicable, database query results
-      data = Object.assign(data, global.locals);
+      data = Object.assign(data, global.locals, res.locals);
 
       // Attach special variables
       data.$cookies = req.cookies;
