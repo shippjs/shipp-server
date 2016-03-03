@@ -47,8 +47,9 @@ var Bundler = module.exports = function(options) {
 
   // Determine which extensions to look for. Our extensions come without the
   // preceeding "." that webpack needs: make sure to add them
-  var self = this,
-      exts = Utils.uniqueExtensions(path.join(options.entry, ".."))
+  var self   = this,
+      loader = path.join(__dirname, "..", "node_modules", "superloader"),
+      exts   = Utils.uniqueExtensions(path.join(options.entry, ".."))
                   .map(function(x) { return "." + x; })
                   .concat([""]);
 
@@ -63,7 +64,7 @@ var Bundler = module.exports = function(options) {
       filename : options.filename
     },
     module     : {
-      loaders  : [ { test: /.+/, loader: "superloader" } ]
+      loaders  : [ { test: /.+/, loader: loader } ]
     },
     resolve    : { extensions: exts }
   };
