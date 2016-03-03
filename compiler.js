@@ -77,6 +77,51 @@ function createCompiler(file, type) {
 
 /**
 
+  Pulls data from cookies, session, params, query, slug and metadata into
+  single data object.
+
+  @param {Request} req Express request
+  @param {Response} res Express response
+  @param {Object} metadata Metadata object as returns by metadata.js
+  @returns {Object} The data object
+
+**/
+
+function aggregateData(req, res, metadata) {
+
+  // Data object will include locals, cookies, session, params, query, slug
+  // and if applicable, database query results
+  var data = Object.assign({}, global.locals, res.locals);
+
+  // Attach special variables
+  data.$cookies = req.cookies;
+  data.$session = req.session;
+  data.$params  = req.params;
+  data.$query   = req.query;
+
+  // Special slug
+  if (metadata.isTemplate)
+    data.$slug = req.url.replace(req.route.path.split(":")[0], "");
+
+  // Set cookies
+  for (var key in metadata.cookies || {}) {
+    res.cookie(key, metadata.cookies[key]);
+    data.$cookies[key] = metadata.cookies[key];
+  }
+
+  // Set session
+  for (key in metadata.session || {}) {
+    req.session[key] = metadata.session[key];
+    data.$session[key] = metadata.session[key];
+  }
+
+  return data;
+
+}
+
+
+/**
+
   Creates a route handler for a file
 
   @param {File} file File information provided by Utils.parse
@@ -104,39 +149,9 @@ function createHandler(file, type, compiler, metadata) {
   return function(req, res, next) {
 
     // Note that the BrowserSync proxy always sets method to identity
-    var data = {},
-        compiled,
+    var compiled,
+        data = isHTML ? aggregateData(req, res, metadata) : {},
         method = req.acceptsEncodings(["gzip", "deflate", "identity"]) || "identity";
-
-    if (isHTML) {
-
-      // Data object will include locals, cookies, session, params, query, slug
-      // and if applicable, database query results
-      data = Object.assign(data, global.locals, res.locals);
-
-      // Attach special variables
-      data.$cookies = req.cookies;
-      data.$session = req.session;
-      data.$params  = req.params;
-      data.$query   = req.query;
-
-      // Special slug
-      if (metadata.isTemplate)
-        data.$slug = req.url.replace(req.route.path.split(":")[0], "");
-
-      // Set cookies
-      for (key in metadata.cookies || {}) {
-        res.cookie(key, metadata.cookies[key]);
-        data.$cookies[key] = metadata.cookies[key];
-      }
-
-      // Set session
-      for (key in metadata.session || {}) {
-        req.session[key] = metadata.session[key];
-        data.$session[key] = metadata.session[key];
-      }
-
-    }
 
     // We are currently assuming a synchronous, non-shared cache. This should
     // help with performance.
