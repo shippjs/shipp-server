@@ -90,7 +90,12 @@ var Bundler = module.exports = function(options) {
 
   // Optionally compile
   // TO DO: Address race conditions here
-  if (options.compile) this.compile();
+  if (options.compile) this.compile(function(err, stats) {
+    if (err) {
+      console.log(err);
+      console.log(stats.toString());
+    }
+  });
 
 };
 
