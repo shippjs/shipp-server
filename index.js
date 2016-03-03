@@ -19,8 +19,7 @@ module.exports = reorg(function(options, next) {
       compiler   = require("./compiler"),
       middleware = require("./middleware"),
       statics    = require("./statics"),
-      Utils      = require("./Utils"),
-      PORT       = global.ports.server;
+      Utils      = require("./Utils");
 
   // Helper function that handles middleware and returns error if blank
   function use(library) {
@@ -71,7 +70,12 @@ module.exports = reorg(function(options, next) {
   // Error handling: please see errors middleware for explanation of structure
   require("./errors")(server, middleware("errorHandler"));
 
-  // Listen (we will proxy with browser sync)
-  server.listen(PORT);
+  // Find open port
+  (function findPort(retries, next) {
+    server.listen(global.ports.server, next).on("error", function(err) {
+      global.ports.server++;
+      findPort(--retries, next);;
+    });
+  })(10, next);
 
 }, "object", ["function", function() {}]);
