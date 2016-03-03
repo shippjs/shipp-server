@@ -600,7 +600,7 @@ Utils.send = function(res, type, buf, enc, cache) {
 
   // Cache control
   if (undefined !== cache)
-    res.setHeader("Cache-Control", cache)
+    res.setHeader("Cache-Control", cache);
 
   // Raw versus compressed
   if ("identity" === enc || !enc) {

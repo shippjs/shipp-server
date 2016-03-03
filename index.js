@@ -5,6 +5,9 @@
   The backbone of the server module. In development, this runs proxied through
   BrowserSync server.
 
+  @param {Object} options Options passed on to "globals"
+  @param {Function} next Called when server successfully initialized
+
 **/
 
 var reorg = require("reorg");
@@ -74,7 +77,7 @@ module.exports = reorg(function(options, next) {
   (function findPort(retries, next) {
     server.listen(global.ports.server, next).on("error", function(err) {
       global.ports.server++;
-      findPort(--retries, next);;
+      findPort(--retries, next);
     });
   })(10, next);
 
