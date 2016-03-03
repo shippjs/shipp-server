@@ -7,10 +7,11 @@
 
 **/
 
-module.exports = function(options) {
+var reorg = require("reorg");
 
-  // Defaults
-  options = options || {};
+module.exports = reorg(function(options, next) {
+
+  // Globals
   require("./globals")(options);
 
   var path       = require("path"),
@@ -73,4 +74,4 @@ module.exports = function(options) {
   // Listen (we will proxy with browser sync)
   server.listen(PORT);
 
-};
+}, "object", ["function", function() {}]);
