@@ -34,7 +34,7 @@ module.exports = function(options) {
     global.ports = { server : 27182 };
     global.server = require("browser-sync").create();
   } else {
-    global.ports = { server : global.config.port || 3000 };
+    global.ports = { server : global.config.port || process.env.PORT || 3000 };
   }
 
   // Pipelines
