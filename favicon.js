@@ -5,6 +5,7 @@
 **/
 
 var fs = require("fs"),
+    favicon = require("serve-favicon"),
     Utils = require("./utils");
 
 
