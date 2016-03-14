@@ -25,9 +25,11 @@ module.exports = reorg(function(options, next) {
       Utils      = require("./Utils");
 
   // Helper function that handles middleware and returns error if blank
-  function use(library) {
-    if (!library || Array.isArray(library) && !library.length)
+  function use(library, skipCheck) {
+    if (!library || Array.isArray(library) && !library.length) {
+      if (skipCheck) return;
       return new Error("No middleware added");
+    }
     server.use(library);
   }
 
@@ -37,6 +39,7 @@ module.exports = reorg(function(options, next) {
   // Set up sensible logging defaults, etc.
   if (!Utils.isProduction()) use(require("morgan")("dev"));
 
+  use(require("./favicon")(), true);
   use(require("cookie-parser")());
   use(require("express-session")({ secret : "password123", resave : false, saveUninitialized : true }));
 
