@@ -153,9 +153,11 @@ function createHandler(file, type, compiler, metadata) {
         data = isHTML ? aggregateData(req, res, metadata) : {},
         method = req.acceptsEncodings(["gzip", "deflate", "identity"]) || "identity";
 
-    // We are currently assuming a synchronous, non-shared cache. This should
-    // help with performance.
-    if (cache && (compiled = Cache.get(method + ":" + file.path))) {
+    // We are currently assuming a synchronous, non-shared cache. Note that we are currently using
+    // req.url. We should eventually offer much more granular caching options. This will currently
+    // store multiple copies of the same object in the event that the underlying file served is the
+    // same but the path is different.
+
     if (cache && (compiled = Cache.get(method + ":" + req.url))) {
       Utils.send(res, type, compiled, method, CACHE_MS);
       return;
