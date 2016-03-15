@@ -42,7 +42,7 @@ module.exports = reorg(function(options, next) {
 
   ].forEach(function(library) {
     Utils.useMiddleware(server, library);
-  })
+  });
 
   // Error handling: please see errors middleware for explanation of structure
   require("./errors")(server, middleware("errorHandler"));

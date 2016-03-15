@@ -25,10 +25,10 @@ module.exports = function() {
   try {
     fs.lstatSync(file);
     router.use(favicon(faviconFile));
-  } catch (err) {};
+  } catch (err) {}
 
   // Cookie parsing
-  router.use(require("cookie-parser")())
+  router.use(require("cookie-parser")());
 
   // Express sessions
   router.use(require("express-session")({ secret : "password123", resave : false, saveUninitialized : true }));
