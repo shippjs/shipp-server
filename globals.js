@@ -25,6 +25,9 @@ module.exports = function(options) {
     global.db = dataStore(store);
   });
 
+  // Exposes express (for ease-of-use in user-defined routes)
+  global.express = require("express");
+
   // File system
   global.fs = new (require("memory-fs"))();
 
