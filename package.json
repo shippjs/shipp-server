@@ -1,0 +1,36 @@
+{
+  "name": "shipp-server",
+  "version": "0.10.0",
+  "description": "Dev server that quickly gets you up and running",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin"
+  },
+  "author": "Brandon Carl",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bluebird": "^3.2.1",
+    "chokidar": "^1.4.2",
+    "cookie-parser": "^1.4.1",
+    "desires": "^0.2.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "json-server": "^0.8.7",
+    "lodash": "^4.0.1",
+    "lowdb": "^0.12.2",
+    "memory-fs": "^0.3.0",
+    "morgan": "^1.7.0",
+    "reorg": "^1.0.0",
+    "serve-favicon": "^2.3.0",
+    "st": "^1.1.0",
+    "superloader": "^0.3.9",
+    "universql": "^0.1.1",
+    "universql-json": "^0.1.2",
+    "webpack": "^1.12.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brandoncarl/shipp.git"
+  }
+}
