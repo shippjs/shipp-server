@@ -1,7 +1,7 @@
 /**
 
-  Simple file to launch a server. This allows us to separate CLI-driven
-  development work from production-ready server.
+  Launches a shipp-server instance. This allows us to separate the server object
+  from the actual running of the server.
 
 **/
 
@@ -9,4 +9,4 @@
 // non-production environment, please use the CLI.
 process.env.NODE_ENV = "production";
 
-require("./server")();
+require("./lib/server")();

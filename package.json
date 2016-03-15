@@ -2,10 +2,10 @@
   "name": "shipp-server",
   "version": "0.10.0",
   "description": "Dev server that quickly gets you up and running",
-  "main": "./lib/server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./lib/"
+    "start": "node run.js"
   },
   "author": "Brandon Carl",
   "license": "Apache-2.0",
