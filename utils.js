@@ -612,3 +612,22 @@ Utils.send = function(res, type, buf, enc, cache) {
   }
 
 };
+
+
+/**
+
+  Attaches middleware to server, or ignores if blank.
+
+  @param {Express} server Server instance
+  @param {Middleware} library (req, res)-style middleware
+  @param {Boolean} [skipCheck] If true, ignores errors (defaults to false)
+
+**/
+
+Utils.useMiddleware = function(server, library, skipCheck) {
+  if (!library || Array.isArray(library) && !library.length) {
+    if (skipCheck) return;
+    return new Error("No middleware added");
+  }
+  server.use(library);
+};
