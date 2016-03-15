@@ -12,7 +12,6 @@
 
 var Bundler     = require("./bundler"),
     Cache       = require("./cache"),
-    express     = require("express"),
     Metadata    = require("./metadata"),
     Pipelines   = global.pipelines,
     Promise     = require("bluebird"),
@@ -294,7 +293,7 @@ function removeRoutes(router, routes) {
 
 module.exports = function(options) {
 
-  var router  = express(),
+  var router  = global.express.Router(),
       ignored = [],
       type    = Array.isArray(options.exts) ? options.exts[0] : options.exts;
 
