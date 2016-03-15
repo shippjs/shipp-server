@@ -9,4 +9,4 @@
 // non-production environment, please use the CLI.
 process.env.NODE_ENV = "production";
 
-require("./lib/server")();
+require("./lib/")();
