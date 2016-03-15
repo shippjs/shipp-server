@@ -19,12 +19,11 @@ var desires,
 
 **/
 
-var express = require("express");
 
 module.exports = function(key) {
 
   var middleware = global.config.middleware[key] || [],
-      router = express();
+      router = global.express.Router();
 
   // Handle strings (in the event of user error)
   if ("string" === typeof middleware) middleware = [middleware];
