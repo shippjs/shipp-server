@@ -1,3 +1,10 @@
+### v0.11.0
+*March 16, 2016*
+* Improved: global now exports framework, router, logger and log
+* Improved: production logs now reflect Apache-format
+* Added: useful logging during initialization
+* Added: now uses winston logging (over console)
+
 ### v0.10.4
 *March 16, 2016*
 * Fixes: favicon bugs
