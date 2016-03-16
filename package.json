@@ -19,6 +19,7 @@
     "json-server": "^0.8.7",
     "lodash": "^4.0.1",
     "lowdb": "^0.12.2",
+    "lru-cache": "^4.0.0",
     "memory-fs": "^0.3.0",
     "morgan": "^1.7.0",
     "reorg": "^1.0.0",
