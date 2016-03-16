@@ -1,3 +1,7 @@
+### v0.11.1
+*March 16, 2016*
+* Fixed: bad reference to utils.js
+
 ### v0.11.0
 *March 16, 2016*
 * Improved: global now exports framework, router, logger and log
