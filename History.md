@@ -1,3 +1,7 @@
+### v0.10.4
+*March 16, 2016*
+* Fixes: favicon bugs
+
 ### v0.10.3
 *March 16, 2016*
 * Fixes: bundler loader path resolution bug
