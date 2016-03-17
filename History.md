@@ -1,3 +1,8 @@
+### v0.11.2
+*March 16, 2016*
+* Improved: compiler functionality streamlined
+* Added: cache now least-recently-used
+
 ### v0.11.1
 *March 16, 2016*
 * Fixed: bad reference to utils.js
