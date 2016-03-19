@@ -1,3 +1,8 @@
+### v0.11.5
+*March 19, 2016*
+* Fixed: compiler now fails gracefully
+* Fixed: routing order issues
+
 ### v0.11.4
 *March 19, 2016*
 * Fixed: problems with superloader
