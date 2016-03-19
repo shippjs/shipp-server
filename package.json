@@ -25,7 +25,7 @@
     "reorg": "^1.0.0",
     "serve-favicon": "^2.3.0",
     "st": "^1.1.0",
-    "superloader": "^0.4.0",
+    "superloader": "^0.4.1",
     "universql": "^0.1.1",
     "universql-json": "^0.1.2",
     "webpack": "^1.12.12",
