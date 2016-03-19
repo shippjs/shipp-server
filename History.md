@@ -1,3 +1,8 @@
+### v0.11.3
+*March 19, 2016*
+* Improved: basic relative filename support in compilation
+* Fixed: caching bug
+
 ### v0.11.2
 *March 16, 2016*
 * Improved: compiler functionality streamlined
