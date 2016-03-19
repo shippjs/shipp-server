@@ -1,3 +1,7 @@
+### v0.11.4
+*March 19, 2016*
+* Fixed: problems with superloader
+
 ### v0.11.3
 *March 19, 2016*
 * Improved: basic relative filename support in compilation
