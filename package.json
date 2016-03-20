@@ -21,6 +21,7 @@
     "lowdb": "^0.12.2",
     "lru-cache": "^4.0.0",
     "memory-fs": "^0.3.0",
+    "minimatch": "^3.0.0",
     "morgan": "^1.7.0",
     "reorg": "^1.0.0",
     "serve-favicon": "^2.3.0",
