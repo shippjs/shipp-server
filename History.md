@@ -1,3 +1,7 @@
+### v0.11.6
+*March 19, 2016*
+* Improved: Universql now includes skip and != capabilities
+
 ### v0.11.5
 *March 19, 2016*
 * Fixed: compiler now fails gracefully
