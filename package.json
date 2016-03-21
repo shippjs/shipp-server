@@ -26,8 +26,8 @@
     "serve-favicon": "^2.3.0",
     "st": "^1.1.0",
     "superloader": "^0.4.1",
-    "universql": "^0.1.1",
-    "universql-json": "^0.1.2",
+    "universql": "^0.1.3",
+    "universql-json": "^0.1.4",
     "webpack": "^1.12.12",
     "winston": "^2.2.0"
   },
