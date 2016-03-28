@@ -1,3 +1,10 @@
+### v0.12.0
+*March 28, 2016*
+* Added #keys and #reset methods for cache
+* Added cache invalidation with globbing
+* Added cache warming
+* Improved routing methodology
+
 ### v0.11.7
 *March 27, 2016*
 * Improved: Universql now includes element match capabilities
