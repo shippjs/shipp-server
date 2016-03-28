@@ -29,6 +29,7 @@
     "superloader": "^0.4.1",
     "universql": "^0.1.4",
     "universql-json": "^0.1.5",
+    "uuid": "^2.0.1",
     "webpack": "^1.12.12",
     "winston": "^2.2.0"
   },
