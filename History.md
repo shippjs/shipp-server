@@ -1,3 +1,8 @@
+### v0.12.1
+*March 31, 2016*
+* Fix query string bug in compiler's handlers
+* Add strict routing
+
 ### v0.12.0
 *March 28, 2016*
 * Added #keys and #reset methods for cache
