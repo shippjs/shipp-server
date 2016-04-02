@@ -1,3 +1,8 @@
+### v0.12.5
+*April 2, 2016*
+* Add global variable with asset tracking for templating/CDN
+* Fix subdirectory bug in Utils#makeRoutes
+
 ### v0.12.4
 *April 2, 2016*
 * Modify config to use existing environment variables when available
