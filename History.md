@@ -1,3 +1,7 @@
+### v0.12.3
+*April 2, 2016*
+* Fix minimatch bug in cache invalidation
+
 ### v0.12.2
 *April 2, 2016*
 * Improve polymorphism in cache warming
