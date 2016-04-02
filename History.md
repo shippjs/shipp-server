@@ -1,3 +1,7 @@
+### v0.12.4
+*April 2, 2016*
+* Modify config to use existing environment variables when available
+
 ### v0.12.3
 *April 2, 2016*
 * Fix minimatch bug in cache invalidation
