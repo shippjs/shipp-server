@@ -1,3 +1,7 @@
+### v0.12.2
+*April 2, 2016*
+* Improve polymorphism in cache warming
+
 ### v0.12.1
 *March 31, 2016*
 * Fix query string bug in compiler's handlers
