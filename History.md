@@ -1,3 +1,8 @@
+### v0.12.6
+*April 5, 2016*
+* No longer compiles routes for "template" and "templates" directories
+* Include URL when reporting 404 errors
+
 ### v0.12.5
 *April 2, 2016*
 * Add global variable with asset tracking for templating/CDN
