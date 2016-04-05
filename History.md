@@ -1,3 +1,7 @@
+### v0.12.7
+*April 5, 2016*
+* Hot fix to repair files named "template"
+
 ### v0.12.6
 *April 5, 2016*
 * No longer compiles routes for "template" and "templates" directories
