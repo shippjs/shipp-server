@@ -1,3 +1,9 @@
+### v0.13.0
+*April 10, 2016*
+* Expose internal requests via global.shipp.request
+* Add ability to pause/resume/cool cache warming
+* Add warming queue to cache
+
 ### v0.12.7
 *April 5, 2016*
 * Hot fix to repair files named "template"
