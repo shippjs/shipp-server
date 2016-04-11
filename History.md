@@ -1,3 +1,7 @@
+### v0.13.1
+*April 11, 2016*
+* Fix query-string routing issues
+
 ### v0.13.0
 *April 10, 2016*
 * Expose internal requests via global.shipp.request
