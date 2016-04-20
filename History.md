@@ -1,3 +1,7 @@
+### v0.13.3
+*April 20, 2016*
+* Update repo location
+
 ### v0.13.2
 *April 20, 2016*
 * Update superloader to v0.5.0 to support wildcard templates
