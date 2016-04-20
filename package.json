@@ -35,6 +35,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/brandoncarl/shipp-server.git"
+    "url": "git://github.com/shippjs/shipp-server.git"
   }
 }
