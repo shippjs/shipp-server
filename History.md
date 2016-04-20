@@ -1,3 +1,7 @@
+### v0.13.2
+*April 20, 2016*
+* Update superloader to v0.5.0 to support wildcard templates
+
 ### v0.13.1
 *April 11, 2016*
 * Fix query-string routing issues
