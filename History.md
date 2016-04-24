@@ -1,3 +1,17 @@
+### v0.14.0
+*April 24, 2016*
+This version includes a breaking change. Please see not on our semver policy.
+* Breaking change: removes jsonserver (no hot reload). Currently supports GET
+  API and will support additional methods in the future
+* Now supports real-time changes to file/data structure and directives
+* Separates responsibilities of data-store and data-api (refactored)
+* Exposes database querying via global.shipp.query
+* Replaces "file:reload" events with "route:refresh"
+* Adds method-override to default middleware
+* Improves log readability
+* Add multiple Util methods: addRouter, removeRouter, findDifferences
+* Disables Express' views as Shipp's compiler obviates the need for them
+
 ### v0.13.3
 *April 20, 2016*
 * Update repo location
