@@ -1,6 +1,6 @@
 ### v0.14.0
 *April 24, 2016*
-This version includes a breaking change. Please see not on our semver policy.
+This version includes a breaking change. Please see note on our semver policy.
 * Breaking change: removes jsonserver (no hot reload). Currently supports GET
   API and will support additional methods in the future
 * Now supports real-time changes to file/data structure and directives
