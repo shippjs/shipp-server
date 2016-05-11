@@ -1,3 +1,4 @@
+* Changes "DATA" directive to "QUERY"
 * Adds lib, util and utils to ignored directories
 
 ### v0.14.0
