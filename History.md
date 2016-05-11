@@ -1,3 +1,4 @@
+* Changes "route:refresh" events to emit object { route }
 * Changes "DATA" directive to "QUERY"
 * Adds lib, util and utils to ignored directories
 
