@@ -4,7 +4,6 @@ Our API is currently in flux but in process of stabilizing. Minor versions may b
 * Adds lib, util and utils to ignored directories
 * Adds request body to template context as $body
 * Changes "COOKIES" directive to "COOKIE" (to align with res.cookie in Express)
-* Changes "DATA" directive to "QUERY"
 * Changes "route:refresh" events to emit object { route }
 * Changes directive format to allow spaces, eliminate need for equal sign (Docker-style)
 * Exposes server via global.shipp.server
