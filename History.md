@@ -1,9 +1,16 @@
-* Exposes server via global.shipp.server
-* Changes "route:refresh" events to emit object { route }
-* Changes "DATA" directive to "QUERY"
-* No longer "key-ifies" assets (e.g. uses $assets["scripts/app.js"] instead of $assets["scripts:app-js"])
-* Adds request body to template context as $body
+### v0.15.0
+*May 11, 2016*
+Our API is currently in flux but in process of stabilizing. Minor versions may be breaking until we reach v1.0.0.
 * Adds lib, util and utils to ignored directories
+* Adds request body to template context as $body
+* Changes "COOKIES" directive to "COOKIE" (to align with res.cookie in Express)
+* Changes "DATA" directive to "QUERY"
+* Changes "route:refresh" events to emit object { route }
+* Changes directive format to allow spaces, eliminate need for equal sign (Docker-style)
+* Exposes server via global.shipp.server
+* No longer "key-ifies" assets (e.g. uses $assets["scripts/app.js"] instead of $assets["scripts:app-js"])
+* Refactors Metadata for better abstraction
+* Updates Utils#getRegExp to return array of matches
 
 ### v0.14.0
 *April 24, 2016*
