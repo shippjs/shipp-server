@@ -29,8 +29,8 @@
     "superloader": "^0.5.0",
     "universql": "^0.1.4",
     "universql-json": "^0.1.5",
-    "webpack": "^1.12.12",
     "uuid": "^2.0.2",
+    "webpack": "^1.13.0",
     "winston": "^2.2.0"
   },
   "repository": {
