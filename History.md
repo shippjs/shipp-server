@@ -1,6 +1,8 @@
 * Exposes server via global.shipp.server
 * Changes "route:refresh" events to emit object { route }
 * Changes "DATA" directive to "QUERY"
+* No longer "key-ifies" assets (e.g. uses $assets["scripts/app.js"] instead of $assets["scripts:app-js"])
+* Adds request body to template context as $body
 * Adds lib, util and utils to ignored directories
 
 ### v0.14.0
