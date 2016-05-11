@@ -1,3 +1,5 @@
+* Adds lib, util and utils to ignored directories
+
 ### v0.14.0
 *April 24, 2016*
 This version includes a breaking change. Please see note on our semver policy.
