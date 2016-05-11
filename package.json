@@ -10,9 +10,9 @@
   "author": "Brandon Carl",
   "license": "Apache-2.0",
   "dependencies": {
-    "chokidar": "^1.4.2",
     "bluebird": "^3.3.5",
     "body-parser": "^1.15.1",
+    "chokidar": "^1.5.0",
     "cookie-parser": "^1.4.1",
     "desires": "^0.2.1",
     "express": "^4.13.4",
