@@ -23,6 +23,7 @@
     "method-override": "^2.3.5",
     "minimatch": "^3.0.0",
     "morgan": "^1.7.0",
+    "npmwrap": "^0.4.1",
     "reorg": "^1.0.0",
     "serve-favicon": "^2.3.0",
     "st": "^1.1.0",
