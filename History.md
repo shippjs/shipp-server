@@ -1,3 +1,10 @@
+### v0.15.1
+*May 13, 2016*
+Adds a few alpha-features
+* Basic real-time bundle identification with route handling
+* Hot dependency installations within webpack
+* Very basic CRUD support via EXPOSE directive
+
 ### v0.15.0
 *May 11, 2016*
 Our API is currently in flux but in process of stabilizing. Minor versions may be breaking until we reach v1.0.0.
