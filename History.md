@@ -1,3 +1,7 @@
+### v0.15.3
+*May 13, 2016*
+* Fixes hot-reload bug
+
 ### v0.15.2
 *May 13, 2016*
 * Fixes bug where bundle re-compilation was occurring an increasing number of times
