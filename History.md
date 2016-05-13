@@ -1,3 +1,8 @@
+### v0.15.2
+*May 13, 2016*
+* Fixes bug where bundle re-compilation was occurring an increasing number of times
+* Fixes bug where bundles were being compiled multiple times on startup
+
 ### v0.15.1
 *May 13, 2016*
 Adds a few alpha-features
