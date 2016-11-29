@@ -1,3 +1,11 @@
+### v0.16.0
+*November 28, 2016*
+* Adds string handling in Universql
+* Updates superloader to most recent versions of templating libraries
+* Adds websockets functionality
+* Uses http.createServer and passes to express (to enable same port websockets)
+* Fixes bug in where bundler was bundling node_modules
+
 ### v0.15.3
 *May 13, 2016*
 * Fixes hot-reload bug
