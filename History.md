@@ -1,3 +1,7 @@
+### v0.16.3
+*April 29, 2017*
+* Updates universql-js to v0.3.8 (fixes filter errors)
+
 ### v0.16.2
 *April 29, 2017*
 * Updates universql-js to v0.3.7
