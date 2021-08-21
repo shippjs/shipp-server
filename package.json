@@ -1,6 +1,6 @@
 {
   "name": "shipp-server",
-  "version": "0.16.4",
+  "version": "0.17.0",
   "description": "Dev server that quickly gets you up and running",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "universql-json": "^0.1.5",
     "uuid": "^2.0.2",
     "webpack": "^1.13.0",
-    "winston": "^2.2.0"
+    "winston": "^3.3.3"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,6 @@
 ### v0.17.0
 *Aug 15, 2021*
+* Updates winston to 3.3.0
 * Adds basic development Dockerfile
 
 ### v0.16.4
