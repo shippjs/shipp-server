@@ -1,3 +1,7 @@
+### v0.17.0
+*Aug 15, 2021*
+* Adds basic development Dockerfile
+
 ### v0.16.4
 *May 29, 2017*
 * Updates universql-js to v0.3.8 (fixes variable parsing error)
