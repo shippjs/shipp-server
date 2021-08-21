@@ -1,3 +1,7 @@
+### v0.17.1
+*Aug 20, 2021*
+* Fixes logging bug
+
 ### v0.17.0
 *Aug 15, 2021*
 * Updates winston to 3.3.0
