@@ -1,6 +1,6 @@
 {
   "name": "shipp-server",
-  "version": "0.19.4",
+  "version": "0.19.5",
   "description": "Dev server that quickly gets you up and running",
   "main": "index.js",
   "scripts": {
