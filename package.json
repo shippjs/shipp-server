@@ -1,6 +1,6 @@
 {
   "name": "shipp-server",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "description": "Dev server that quickly gets you up and running",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "serve-favicon": "^2.3.0",
     "st": "^1.1.0",
     "superloader": "^0.6.0",
+    "toposort": "^2.0.2",
     "universql": "^0.3.9",
     "universql-json": "^0.1.5",
     "uuid": "^2.0.2",
