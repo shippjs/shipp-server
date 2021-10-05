@@ -1,4 +1,4 @@
-FROM sickp/alpine-node:6.14.0-r1
+FROM node:12.22.6-alpine
 
 USER root
 RUN apk add --no-cache bash
