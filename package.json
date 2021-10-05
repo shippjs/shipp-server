@@ -30,7 +30,7 @@
     "universql": "^0.3.9",
     "universql-json": "^0.1.5",
     "uuid": "^2.0.2",
-    "webpack": "^1.13.0",
+    "webpack": "^1.15.0",
     "winston": "^3.3.3"
   },
   "repository": {
