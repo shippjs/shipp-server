@@ -1,6 +1,6 @@
 {
   "name": "shipp-server",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "Dev server that quickly gets you up and running",
   "main": "index.js",
   "scripts": {
@@ -14,10 +14,11 @@
     "chokidar": "^3.5.2",
     "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
-    "express-session": "^1.13.0",
+    "express-session": "^1.17.2",
     "lodash": "^4.12.0",
     "lru-cache": "^4.0.1",
     "memory-fs": "^0.3.0",
+    "memorystore": "^1.6.6",
     "method-override": "^2.3.5",
     "minimatch": "^3.0.0",
     "morgan": "^1.7.0",
